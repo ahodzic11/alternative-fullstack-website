@@ -22,7 +22,7 @@ app.use("/api/projects", projectsRouter);
 
 app.post("/upload/:naslov", (req, res) => {
   const { image } = req.files;
-  const naslov = req.params.naslov;
+  const naslov = req.params.naslov.replace(/ /g, "");
   console.log(image);
   console.log(naslov);
   //if (!image) return res.sendStatus(400);
@@ -34,8 +34,11 @@ app.post("/upload/:naslov", (req, res) => {
   });
 
   //if (/^image/.test(image.mimetype)) return res.sendStatus(400);
-
-  image.mv(__dirname + "/newuploads/" + naslov + "/" + image.name);
+  if (image.length > 0) {
+    image.forEach((slika) => {
+      slika.mv(__dirname + "/newuploads/" + naslov + "/" + slika.name);
+    });
+  } else image.mv(__dirname + "/newuploads/" + naslov + "/" + image.name);
 
   res.sendStatus(200);
 });
