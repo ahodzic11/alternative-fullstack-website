@@ -63,7 +63,6 @@ function AddWorkshopPage() {
       oblastRadionice: inputs.oblastRadionice,
       naslovnaSlika: toCamelCase(inputs.naslov) + "0",
     });
-    console.log(inputs);
   };
 
   const handleFileEvent = (e) => {
@@ -81,16 +80,6 @@ function AddWorkshopPage() {
       }
       setUploadedFiles(uploaded);
     });
-  };
-
-  const uploadajFajlove = async () => {
-    console.log(uploadedFiles);
-    try {
-      const res = await axios.post(`http://localhost:5000/upload`, uploadedFiles);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
@@ -173,29 +162,16 @@ function AddWorkshopPage() {
               <Form.Label className="itemTitleElement">Opis radionice</Form.Label>
               <Form.Control name="opisRadionice" as="textarea" rows={4} onChange={handleChange} />
             </Form.Group>
-            <Form>
-              <Form.Group controlId="formFileMultiple" className="mb-3">
-                <Form.Label>Odaberite slike</Form.Label>
-                <Form.Control id="fileUpload" type="file" multiple accept="image/jpg" onChange={handleFileEvent} />
-                <Button onClick={uploadajFajlove}>Uploadaj</Button>
-              </Form.Group>
-            </Form>
+            <Row className="mb-3">
+              <form action={"http://localhost:5000/upload/" + inputs.naslov} method="POST" enctype="multipart/form-data">
+                <input type="file" name="image" multiple />
+                <button type="submit">Upload</button>
+              </form>
+            </Row>
             <div className="addStuffButton">
               <Button type="submit">Dodaj radionicu</Button>
             </div>
-            <form action="http://localhost:5000/upload" method="POST" enctype="multipart/form-data">
-              <input type="file" name="image" multiple />
-              <button type="submit">Upload</button>
-            </form>
           </Form>
-          <div className="testno">
-            <img src="./../../../backend/newuploads/tradeoffer.jpg" />
-          </div>
-          <div className="uploaded-files-list">
-            {uploadedFiles.map((file) => (
-              <div>{file.name}</div>
-            ))}
-          </div>
         </div>
       </div>
       <AdminLogout />

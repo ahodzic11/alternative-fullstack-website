@@ -10,6 +10,7 @@ const newsRouter = require("./api/news/newsRouter");
 const projectsRouter = require("./api/projects/projectRouter");
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
+const path = require("path");
 
 app.use(express.json());
 app.use(fileUpload());
@@ -19,14 +20,39 @@ app.use("/api/activities", ativitiesRouter);
 app.use("/api/news", newsRouter);
 app.use("/api/projects", projectsRouter);
 
-app.post("/upload", (req, res) => {
+app.post("/upload/:naslov", (req, res) => {
   const { image } = req.files;
+  const naslov = req.params.naslov;
   console.log(image);
+  console.log(naslov);
   //if (!image) return res.sendStatus(400);
+  fs.mkdir(path.join(__dirname + "/newuploads/", naslov), (err) => {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("Folder uspješno dodan");
+  });
 
   //if (/^image/.test(image.mimetype)) return res.sendStatus(400);
 
-  image.mv(__dirname + "/newuploads/" + image.name);
+  image.mv(__dirname + "/newuploads/" + naslov + "/" + image.name);
+
+  res.sendStatus(200);
+});
+
+app.post("/napraviFolder", (req, res) => {
+  const imeFoldera = req.body;
+  console.log(imeFoldera);
+  //if (!image) return res.sendStatus(400);
+  fs.mkdir(path.join(__dirname + "/newuploads/", imeFoldera.naslov), (err) => {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("Folder uspješno dodan");
+  });
+  //if (/^image/.test(image.mimetype)) return res.sendStatus(400);
+
+  //image.mv(__dirname + "/newuploads/" + image.name);
 
   res.sendStatus(200);
 });
@@ -34,9 +60,9 @@ app.post("/upload", (req, res) => {
 app.get("/:naslov", async (req, res) => {
   const naslov = req.params.naslov;
   console.log(naslov);
-  const testFolder = "https://www.nvo-alternative.org/images/radionice/" + naslov + "/";
+  //const testFolder = "https://www.nvo-alternative.org/images/radionice/" + naslov + "/";
   const testFolder2 = "./../uploads/radionice/" + naslov + "/";
-  const testFolder3 = "https://www.nvo-alternative.org/images/radionice/Prezentacijskevještine/";
+  //const testFolder3 = "https://www.nvo-alternative.org/images/radionice/Prezentacijskevještine/";
   try {
     const slike = fs.readdirSync(testFolder2);
     console.log(slike);
