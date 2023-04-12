@@ -1,0 +1,29 @@
+.detailedProjectHeadline {
+  color: rgb(182, 29, 34);
+  letter-spacing: 0.5x;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.detailedProjectContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  letter-spacing: 3px;
+  justify-content: center;
+  width: 100%;
+  padding: 100px;
+  background-color: #f1f1f1;
+}
+
+.detailedProjectText {
+  display: inline-block;
+  font-family: "Ubuntu", sans-serif;
+}
+
+span {
+  letter-spacing: 0.5x;
+  font-weight: 600;
+  font-size: 20px;
+  font-family: "Josefin Sans", sans-serif;
+}

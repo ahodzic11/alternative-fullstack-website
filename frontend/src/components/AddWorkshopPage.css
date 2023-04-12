@@ -1,0 +1,82 @@
+.addWorkshopContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f3f4;
+  height: 100%;
+}
+
+.addWorkshopForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  height: 100%;
+  background-color: #f1f3f4;
+  width: 50%;
+}
+
+.addStuffButton {
+  display: flex;
+  justify-content: right;
+  font-family: "Josefin Sans", sans-serif;
+  padding: 0;
+  margin-top: 40px;
+}
+
+.itemTitleElement {
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 570;
+}
+
+.currentLocationHeadline {
+  margin-top: 50px;
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 3px;
+  color: black;
+  display: flex;
+  font-size: 30px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.clickContainer {
+  margin: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+}
+
+.chooseImageElement {
+  width: 400px;
+  height: 200px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.chooseImageElement.selected {
+  border-color: red;
+}
+
+.selectedDiv {
+  display: flex;
+  justify-content: center;
+  font-family: "Oswald", sans-serif;
+  background-color: rgb(121, 171, 236);
+  color: white;
+  letter-spacing: 3px;
+}
+
+.selectedImage {
+  box-shadow: 0px 12px 22px 1px #333;
+}
+
+#saveSelectedImage {
+  padding-bottom: 80px;
+  margin-right: 85px;
+}

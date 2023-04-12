@@ -1,0 +1,73 @@
+.projectsIntroText {
+  font-family: "Josefin Sans", sans-serif;
+  letter-spacing: 1px;
+  font-size: 32px;
+  font-weight: 400;
+  width: 80%;
+  line-height: 51.2px;
+  text-size-adjust: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.projectsIntro {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.projectNumbers {
+  font-family: "Delicious Handrawn", cursive;
+  font-size: 80px;
+  color: #ed1d24;
+  font-weight: 600;
+}
+
+.projectDetailText {
+  color: #808285;
+  font-family: "Delicious Handrawn", cursive;
+  font-size: 22px;
+  text-align: center;
+}
+
+.projectInfo {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 60px;
+}
+
+.projects {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.donators {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.youth {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.projectsContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}

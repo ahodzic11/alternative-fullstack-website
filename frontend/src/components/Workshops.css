@@ -1,0 +1,16 @@
+.workshopsContainer {
+}
+
+.containerWorkshopItem {
+  height: 300px;
+  width: 300px;
+  background-color: yellow;
+  color: black;
+}
+
+.randomDiv {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-color: aqua;
+}

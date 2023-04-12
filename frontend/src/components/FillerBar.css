@@ -1,0 +1,50 @@
+#bwImage {
+  margin-top: 20px;
+  width: 100%;
+  height: 700px;
+}
+
+.bwCover {
+  height: 600px;
+  width: 100%;
+  background-image: url("./../assets/bwImage.jpg");
+  color: white;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.coverDetails {
+  font-size: 40px;
+  width: 50%;
+  line-height: 130%;
+  font-weight: 20;
+}
+
+.containerElement {
+  padding: 70px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 50px;
+}
+
+.coverText {
+  font-size: 70px;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.buttonJoin {
+  width: 200px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonText {
+  font-family: "Josefin Sans", sans-serif;
+  letter-spacing: 3px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}

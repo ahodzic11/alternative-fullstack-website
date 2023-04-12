@@ -1,0 +1,61 @@
+require("dotenv").config();
+var cors = require("cors");
+const express = require("express");
+const fileUpload = require("express-fileupload");
+const app = express();
+
+app.use(cors());
+
+const userRouter = require("./api/users/userRouter");
+const workshopRouter = require("./api/workshops/workshopRouter");
+const activityRouter = require("./api/activities/activityRouter");
+const projectRouter = require("./api/projects/projectRouter");
+const newsRouter = require("./api/news/newsRouter");
+const fs = require("fs");
+
+app.use(express.json());
+app.use("/api/users", userRouter);
+app.use("/api/workshops", workshopRouter);
+app.use("/api/activities", activityRouter);
+app.use("/api/projects", projectRouter);
+app.use("/api/news", newsRouter);
+
+app.use(express.static(__dirname + "./../uploads"));
+app.use(fileUpload());
+app.post("/upload", async (req, res) => {
+  const { image } = req.files;
+  console.log(image);
+  if (!image) return res.sendStatus(400);
+  if (/^slika/.test(image.mimetype)) return res.sendStatus(400);
+  fs.rename("./index.js", __dirname + "/newuploads/" + image.name, function (err) {
+    if (err) {
+      throw err;
+    } else {
+      console.log("Successfully moved the file!");
+    }
+  });
+
+  res.sendStatus(200);
+});
+
+function randomFunction() {}
+
+app.get("/:workshopName", async (req, res) => {
+  try {
+    const imeRadionice = req.params.workshopName;
+    console.log(imeRadionice);
+    const files = await fs.promises.readdir("./../uploads/radionice/" + imeRadionice, randomFunction);
+    res.status(200).json(files);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.listen(5000, () => {
+  console.log("Server up and running on port", 5000);
+});
+
+/*
+5000, () => {
+  console.log("Server up and running on port", 5000);
+}*/

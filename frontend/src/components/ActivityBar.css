@@ -1,0 +1,64 @@
+.activityContainer {
+  margin-top: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 940px;
+  width: 100%;
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 50px;
+}
+
+.joinActivityText {
+  margin-top: 50px;
+  font-size: 56px;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.activityImage {
+  width: 70px;
+  height: 70px;
+}
+
+.activities {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 70px;
+}
+
+.activityItem {
+  display: flex;
+  width: 500px;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 15px;
+  text-align: center;
+}
+
+.activityText {
+  color: #000000;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.activityButton {
+  margin-top: 20px;
+  width: 210x;
+  height: 42px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.activityDetailedText {
+  width: 400px;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.activityButtonText {
+  font-family: "Alkatra", cursive;
+}
