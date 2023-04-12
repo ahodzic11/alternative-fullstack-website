@@ -2,6 +2,7 @@ const pool = require("../../config/database");
 
 module.exports = {
   create: (data, callBack) => {
+    console.log("uslo u create");
     pool.query(
       `INSERT INTO workshops(naslov, mjesto, datum, trener, ucesnici, nazivDonatora, nazivProjekta, cilj, opisRadionice, oblastRadionice, naslovnaSlika) 
         values(?,?,?,?,?,?,?,?,?,?,?)`,

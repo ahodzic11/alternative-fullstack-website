@@ -22,26 +22,10 @@ function AddWorkshopPage() {
     });
   };
 
-  function toCamelCase(str) {
-    let newStr = "";
-    if (str) {
-      let wordArr = str.split(/[-_]/g);
-      for (let i in wordArr) {
-        if (i > 0) {
-          newStr += wordArr[i].charAt(0).toUpperCase() + wordArr[i].slice(1);
-        } else {
-          newStr += wordArr[i];
-        }
-      }
-    } else {
-      return newStr;
-    }
-    return newStr;
-  }
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(inputs.oblastRadionice);
     if (inputs.oblastRadionice == null) return;
-    console.log("uslo u handle submit");
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -49,6 +33,18 @@ function AddWorkshopPage() {
     }
     console.log(inputs);
     setValidated(true);
+
+    var uploadForm = document.getElementById("uploadForm");
+    var uploadFormData = new FormData(uploadForm);
+    //action={"http://localhost:5000/upload/" + inputs.naslov} method="POST"
+
+    try {
+      const response = await axios.post(`http://localhost:5000/upload/` + inputs.naslov, uploadFormData);
+      //console.log(response.data);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
 
     addWorkshop({
       naslov: inputs.naslov,
@@ -61,24 +57,7 @@ function AddWorkshopPage() {
       cilj: inputs.cilj,
       opisRadionice: inputs.opisRadionice,
       oblastRadionice: inputs.oblastRadionice,
-      naslovnaSlika: toCamelCase(inputs.naslov) + "0",
-    });
-  };
-
-  const handleFileEvent = (e) => {
-    e.preventDefault();
-    const chosenFiles = Array.prototype.slice.call(e.target.files);
-    console.log(chosenFiles);
-    handleUploadFiles(chosenFiles);
-  };
-
-  const handleUploadFiles = (files) => {
-    const uploaded = [...uploadedFiles];
-    files.some((file) => {
-      if (uploaded.findIndex((f) => f.name === file.name) === -1) {
-        uploaded.push(file);
-      }
-      setUploadedFiles(uploaded);
+      naslovnaSlika: inputs.naslov.replace(/ /g, "") + "0.jpg",
     });
   };
 
@@ -158,16 +137,16 @@ function AddWorkshopPage() {
                 </Form.Select>
               </Form.Group>
             </Row>
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Slike</Form.Label>
+              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
+                <input className="uploadImagesInput" type="file" name="image" multiple />
+              </form>
+            </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis radionice</Form.Label>
               <Form.Control name="opisRadionice" as="textarea" rows={4} onChange={handleChange} />
             </Form.Group>
-            <Row className="mb-3">
-              <form action={"http://localhost:5000/upload/" + inputs.naslov} method="POST" enctype="multipart/form-data">
-                <input type="file" name="image" multiple />
-                <button type="submit">Upload</button>
-              </form>
-            </Row>
             <div className="addStuffButton">
               <Button type="submit">Dodaj radionicu</Button>
             </div>

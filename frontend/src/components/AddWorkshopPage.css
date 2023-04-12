@@ -80,3 +80,23 @@
   padding-bottom: 80px;
   margin-right: 85px;
 }
+
+.imageUploadForm {
+  display: flex;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.uploadImagesButton {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+}
+
+.buttonDivUpload {
+  display: flex;
+  justify-content: right;
+}
+
+.uploadImagesInput {
+  width: 90%;
+}

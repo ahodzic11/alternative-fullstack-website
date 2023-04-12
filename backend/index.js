@@ -12,6 +12,7 @@ const fs = require("fs");
 const fileUpload = require("express-fileupload");
 const path = require("path");
 
+app.use(express.static(__dirname));
 app.use(express.json());
 app.use(fileUpload());
 app.use("/api/users", userRouter);
@@ -46,28 +47,11 @@ app.post("/upload/:naslov", (req, res) => {
   res.sendStatus(200);
 });
 
-app.post("/napraviFolder", (req, res) => {
-  const imeFoldera = req.body;
-  console.log(imeFoldera);
-  //if (!image) return res.sendStatus(400);
-  fs.mkdir(path.join(__dirname + "/newuploads/", imeFoldera.naslov), (err) => {
-    if (err) {
-      return console.log(err);
-    }
-    console.log("Folder uspješno dodan");
-  });
-  //if (/^image/.test(image.mimetype)) return res.sendStatus(400);
-
-  //image.mv(__dirname + "/newuploads/" + image.name);
-
-  res.sendStatus(200);
-});
-
 app.get("/:naslov", async (req, res) => {
   const naslov = req.params.naslov;
   console.log(naslov);
   //const testFolder = "https://www.nvo-alternative.org/images/radionice/" + naslov + "/";
-  const testFolder2 = "./../uploads/radionice/" + naslov + "/";
+  const testFolder2 = "./../backend/newuploads/" + naslov + "/";
   //const testFolder3 = "https://www.nvo-alternative.org/images/radionice/Prezentacijskevještine/";
   try {
     const slike = fs.readdirSync(testFolder2);

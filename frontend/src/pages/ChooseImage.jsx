@@ -13,10 +13,12 @@ function ChooseImage() {
   const [images, setImages] = useState([]);
   const [selected, setSelected] = useState({});
   let { name } = useParams();
-  const path = "https://www.nvo-alternative.org/images/radionice/" + name.replace(/ /g, "") + "/";
+  //const path = "https://www.nvo-alternative.org/images/radionice/" + name.replace(/ /g, "") + "/";
+  const path = "http://localhost:5000/newUploads/" + name.replace(/ /g, "") + "/";
 
   useEffect(() => {
     const getSlike = async () => {
+      console.log(path);
       try {
         const response = await axios.get(`http://localhost:5000/` + name.replace(/ /g, ""));
         //console.log(response.data);
@@ -70,7 +72,10 @@ function ChooseImage() {
   const selectedImage = (e) => {
     e.preventDefault();
     const slika = document.getElementById(e.target.id);
+    console.log(slika.id);
     setSelected(slika.id);
+    console.log(slika);
+    console.log(images);
   };
 
   return (
