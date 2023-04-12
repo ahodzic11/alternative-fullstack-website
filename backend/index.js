@@ -35,8 +35,11 @@ app.post("/upload/:naslov", (req, res) => {
 
   //if (/^image/.test(image.mimetype)) return res.sendStatus(400);
   if (image.length > 0) {
+    let imageNumber = 0;
     image.forEach((slika) => {
-      slika.mv(__dirname + "/newuploads/" + naslov + "/" + slika.name);
+      let slikaName = naslov.replace(/ /g, "") + imageNumber + ".jpg";
+      slika.mv(__dirname + "/newuploads/" + naslov + "/" + slikaName);
+      imageNumber++;
     });
   } else image.mv(__dirname + "/newuploads/" + naslov + "/" + image.name);
 
