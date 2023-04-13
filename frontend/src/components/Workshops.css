@@ -14,3 +14,35 @@
   height: 30px;
   background-color: aqua;
 }
+
+.workshopsMainWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f3f4;
+}
+
+.workshopsMainTitle {
+  padding: 20px;
+  font-size: 48px;
+  font-weight: 600;
+  font-family: "Josefin Sans", sans-serif;
+  letter-spacing: 4px;
+}
+
+.workshopsIntro {
+  padding-bottom: 20px;
+  font-size: 20px;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+}
+
+.workshopsAreasContainer {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  letter-spacing: 3px;
+  padding: 50px;
+}

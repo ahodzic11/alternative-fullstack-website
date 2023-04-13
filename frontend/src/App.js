@@ -18,6 +18,7 @@ import Workshops from "./pages/Workshops";
 import ChooseImage from "./pages/ChooseImage";
 import ReadWorkshops from "./pages/ReadWorkshops";
 import EditWorkshops from "./pages/EditWorkshops";
+import WorkshopList from "./pages/WorkshopList";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="/chooseimage/:name" element={<ChooseImage />} />
           <Route path="/readworkshops" element={<ReadWorkshops />} />
           <Route path="/editworkshop/:name" element={<EditWorkshops />} />
+          <Route path="/workshops/:area" element={<WorkshopList />} />
         </Routes>
       </BrowserRouter>
     </>

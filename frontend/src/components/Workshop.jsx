@@ -1,7 +1,11 @@
 import "./../components/Workshops.css";
 
 const Workshop = ({ item }) => {
-  return <div className="containerWorkshopItem">{item.naslov}</div>;
+  return (
+    <div className="containerWorkshopItem">
+      <div className="workshopImageContainer"></div>
+    </div>
+  );
 };
 
 export default Workshop;

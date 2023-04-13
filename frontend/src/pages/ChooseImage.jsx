@@ -82,6 +82,7 @@ function ChooseImage() {
     <>
       <AdminNavigation />
       <div className="currentLocationHeadline">Odabir naslovne slike</div>
+      <div className="currentLocationHeadline2">{workshop.naslov}</div>
       <div className="clickContainer">
         {images.length == 0 ? (
           <div className="nemaSlikaContainer">NEMATE UNESENIH</div>
