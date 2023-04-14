@@ -48,3 +48,53 @@
   letter-spacing: 3px;
   padding: 50px;
 }
+
+.allWorkshopsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 60px;
+  padding-left: 30px;
+  padding-right: 30px;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.filtersContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding-left: 60px;
+  width: 100%;
+  justify-content: left;
+  padding-bottom: 30px;
+}
+
+.filtersHeadline {
+  font-size: 20px;
+  font-family: "Oswald", sans-serif;
+}
+
+.filtersSection {
+  display: flex;
+  flex-direction: row;
+  font-size: 15px;
+  column-gap: 20px;
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 1px;
+}
+
+.filteringInputs {
+  display: flex;
+  flex-direction: row;
+  column-gap: 50px;
+}
+
+.sortingContainer {
+  width: 370px;
+}
+
+.filterAndSortingSection {
+  display: flex;
+  flex-direction: row;
+}

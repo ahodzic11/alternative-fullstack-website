@@ -1,8 +1,9 @@
-const { createWorkshop, getWorkshops, getWorkshopByName, updateWorkshop, deleteWorkshop, getWorkshopImagesByName, updateNaslovnuSliku, getSelectedImage } = require("./workshopController");
+const { createWorkshop, getWorkshops, getWorkshopByName, updateWorkshop, deleteWorkshop, getWorkshopImagesByName, updateNaslovnuSliku, getSelectedImage, getWorkshopsByArea } = require("./workshopController");
 const router = require("express").Router();
 
 router.post("/", createWorkshop);
 router.get("/", getWorkshops);
+router.get("/area/:area", getWorkshopsByArea);
 router.get("/:name", getWorkshopByName);
 router.get("/selectedImage/:id", getSelectedImage);
 router.patch("/", updateWorkshop);

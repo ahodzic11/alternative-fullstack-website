@@ -1,7 +1,5 @@
 import "./App.css";
 import Home from "./pages/Home";
-import Navigation from "./components/Navigation";
-import Footer from "./components/Footer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AboutUs from "./pages/AboutUs";
 import Projects from "./pages/Projects";
@@ -19,6 +17,9 @@ import ChooseImage from "./pages/ChooseImage";
 import ReadWorkshops from "./pages/ReadWorkshops";
 import EditWorkshops from "./pages/EditWorkshops";
 import WorkshopList from "./pages/WorkshopList";
+import WorkshopDetailed from "./components/WorkshopDetailed";
+import AllWorkshops from "./pages/AllWorkshops";
+import WorkshopInformation from "./components/WorkshopInformation";
 
 function App() {
   return (
@@ -42,6 +43,9 @@ function App() {
           <Route path="/readworkshops" element={<ReadWorkshops />} />
           <Route path="/editworkshop/:name" element={<EditWorkshops />} />
           <Route path="/workshops/:area" element={<WorkshopList />} />
+          <Route path="/workshops/details/:name" element={<WorkshopDetailed />} />
+          <Route path="/workshops/workshopdetails/:name" element={<WorkshopInformation />} />
+          <Route path="/allworkshops" element={<AllWorkshops />} />
         </Routes>
       </BrowserRouter>
     </>

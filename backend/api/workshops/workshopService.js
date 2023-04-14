@@ -26,11 +26,20 @@ module.exports = {
   },
 
   getWorkshopByName: (name, callBack) => {
-    pool.query(`SELECT * FROM workshops WHERE naslov = ?`, [name], (error, results, fields) => {
+    pool.query(`SELECT * FROM workshops WHERE naslov=?`, [name], (error, results, fields) => {
       if (error) {
         return callBack(error);
       }
       return callBack(null, results[0]);
+    });
+  },
+
+  getWorkshopsByArea: (area, callBack) => {
+    pool.query(`SELECT * FROM workshops WHERE oblastRadionice=?`, [area], (error, results, fields) => {
+      if (error) {
+        return callBack(error);
+      }
+      return callBack(null, results);
     });
   },
 

@@ -124,16 +124,16 @@ function AddWorkshopPage() {
                 <Form.Label className="itemTitleElement">Oblast radionice</Form.Label>
                 <Form.Select name="oblastRadionice" aria-label="Default select example" onClick={handleChange}>
                   <option>Oblast radionice</option>
-                  <option value="civilnoDrustvo">Civilno društvo</option>
-                  <option value="izgradnjaSamopostovanjaISamopouzdanja">Izgradnja samopoštovanja i samopouzdanja</option>
-                  <option value="ekologijaIZdravlje">Ekologija i zdravlje</option>
-                  <option value="djecjeKreativneRadionice">Dječje kreativne radionice</option>
-                  <option value="izgradnjaMira">Izgradnja mira</option>
-                  <option value="kultiraIObrazovanje">Kultura i obrazovanje</option>
-                  <option value="ljudskaPrava">Ljudska prava</option>
-                  <option value="prevencijaRodnoZasnovanogNasilja">Prevencija rodno zasnovanog nasilja</option>
-                  <option value="prevencijaBolestiOvisnosti">Prevencija bolesti ovisnosti</option>
-                  <option value="jacanjeKompetencijaMladih">Jačanje kompetencija mladih</option>
+                  <option value="Civilno društvo">Civilno društvo</option>
+                  <option value="Izgradnja samopoštovanja i samopouzdanja">Izgradnja samopoštovanja i samopouzdanja</option>
+                  <option value="Ekologija i zdravlje">Ekologija i zdravlje</option>
+                  <option value="Dječje kreativne radionice">Dječje kreativne radionice</option>
+                  <option value="Izgradnja mira">Izgradnja mira</option>
+                  <option value="Kultura i obrazovanje">Kultura i obrazovanje</option>
+                  <option value="Ljudska prava">Ljudska prava</option>
+                  <option value="Prevencija rodno zasnovanog nasilja">Prevencija rodno zasnovanog nasilja</option>
+                  <option value="Prevencija bolesti ovisnosti">Prevencija bolesti ovisnosti</option>
+                  <option value="Jačanje kompetencija mladih">Jačanje kompetencija mladih</option>
                 </Form.Select>
               </Form.Group>
             </Row>

@@ -24,9 +24,6 @@ app.use("/api/projects", projectsRouter);
 app.post("/upload/:naslov", (req, res) => {
   const { image } = req.files;
   const naslov = req.params.naslov.replace(/ /g, "");
-  console.log(image);
-  console.log(naslov);
-  //if (!image) return res.sendStatus(400);
   fs.mkdir(path.join(__dirname + "/newuploads/", naslov), (err) => {
     if (err) {
       return console.log(err);
@@ -34,7 +31,6 @@ app.post("/upload/:naslov", (req, res) => {
     console.log("Folder uspješno dodan");
   });
 
-  //if (/^image/.test(image.mimetype)) return res.sendStatus(400);
   if (image.length > 0) {
     let imageNumber = 0;
     image.forEach((slika) => {

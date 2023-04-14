@@ -1,4 +1,4 @@
-const { create, getWorkshopByName, getWorkshops, updateWorkshop, deleteWorkshop, getWorkshopImagesByName, updateNaslovnuSliku, getSelectedImage } = require("./workshopService");
+const { create, getWorkshopByName, getWorkshops, updateWorkshop, deleteWorkshop, getWorkshopImagesByName, updateNaslovnuSliku, getSelectedImage, getWorkshopsByArea } = require("./workshopService");
 
 module.exports = {
   createWorkshop: (req, res) => {
@@ -43,6 +43,26 @@ module.exports = {
       if (err) {
         console.log(err);
         return;
+      }
+      return res.json({
+        success: 1,
+        data: results,
+      });
+    });
+  },
+
+  getWorkshopsByArea: (req, res) => {
+    const area = req.params.area;
+    getWorkshopsByArea(area, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Tražena radionica nije pronađena",
+        });
       }
       return res.json({
         success: 1,
