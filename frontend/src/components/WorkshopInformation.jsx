@@ -7,7 +7,9 @@ import { useParams } from "react-router-dom";
 
 function WorkshopInformation() {
   const [workshop, setWorkshop] = useState([]);
+  const [images, setImages] = useState([]);
   const { name } = useParams();
+  const path = "http://localhost:5000/newUploads/" + name.replace(/ /g, "") + "/";
 
   useEffect(() => {
     const getWorkshop = async () => {
@@ -20,7 +22,19 @@ function WorkshopInformation() {
       }
     };
 
+    const getSlike = async () => {
+      console.log(path);
+      try {
+        const response = await axios.get(`http://localhost:5000/` + name.replace(/ /g, ""));
+        //console.log(response.data);
+        setImages(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     getWorkshop();
+    getSlike();
   }, []);
 
   const handleClick = (e) => {
@@ -60,6 +74,14 @@ function WorkshopInformation() {
         <div className="workshopInformationProject informationalText">
           <span>Projekat: </span>
           {workshop.nazivProjekta}
+        </div>
+        <div className="workshopImagesHeadline">
+          <span>Slike:</span>{" "}
+        </div>
+        <div className="workshopImages">
+          {images.map((image) => (
+            <img id={image} className="workshopInformationImageElement" src={path + image} alt="slikaSRadionice" />
+          ))}
         </div>
       </div>
       <Footer />

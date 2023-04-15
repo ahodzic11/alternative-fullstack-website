@@ -36,6 +36,11 @@ function Workshops() {
           U udruženju Alternative kakanj uspješno se oblikuju radionice za djecu i odrasle i koriste priručnici sa dobro razvijenim trening materijalima. Za nove teme kao npr. Prevencija rodno zasnovanog nasilja, Različite uloge vijećnika i dr. Uz razvijanje materijal organizujemo trening za trenere kako bismo na najbolji mogući način odgovorili na potrebe u zajednici. Osim radionica u okviru
           naših projekata i aktivnosti pružamo i trenerske usluge za druge projekte i organizacije.
         </div>
+        <div className="allWorkshops">
+          <Button className="viewAllWorkshops" variant="danger" onClick={handleClickAllWorkshops}>
+            <p className="buttonText">SVE RADIONICE</p>
+          </Button>
+        </div>
         <div className="workshopsAreasContainer">
           {workshopArea.map((area) => (
             <div className="workshopAreaSingleItem" onClick={handleClick}>
@@ -43,11 +48,6 @@ function Workshops() {
             </div>
           ))}
         </div>
-      </div>
-      <div className="allWorkshops">
-        <Button className="viewAllWorkshops" variant="danger" onClick={handleClickAllWorkshops}>
-          <p className="buttonText">SVE RADIONICE</p>
-        </Button>
       </div>
       <Footer />
     </>

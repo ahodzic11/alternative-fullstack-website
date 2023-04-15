@@ -1,9 +1,7 @@
 import React from "react";
 import "./Footer.css";
 import logo from "../assets/logo.png";
-import facebookLogo from "../assets/facebook.jpg";
-import instagramLogo from "../assets/instagram.jpg";
-import youtubeLogo from "../assets/youtube.jpg";
+import GoogleMapReact from "google-map-react";
 
 function Footer() {
   return (
