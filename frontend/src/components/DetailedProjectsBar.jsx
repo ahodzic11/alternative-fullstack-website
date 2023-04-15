@@ -3,9 +3,17 @@ import bosniaBeyond from "./../assets/bosniabeyond.jpg";
 import kick from "./../assets/kick.jpg";
 import enetrgetskaTranzicija from "./../assets/energetskatranzicija.jpg";
 import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
 import "./../css/DetailedProjectsBar.css";
 
 function DetailedProjectsBar() {
+  const navigate = useNavigate();
+
+  const goToAllProjects = (e) => {
+    e.preventDefault();
+    navigate("/projekti");
+  };
+
   return (
     <div className="detailedProjectsContainer">
       <div className="projectsTitle">Projekti</div>
@@ -28,7 +36,7 @@ function DetailedProjectsBar() {
           <div className="projectText">Budućnost Kaknja: prema pravednoj energetskoj transformaciji</div>
         </div>
       </div>
-      <Button className="projectsButton" variant="outline-dark">
+      <Button className="projectsButton" variant="outline-dark" onClick={goToAllProjects}>
         <div className="projectsButtonText">PROJEKTI</div>
       </Button>
     </div>

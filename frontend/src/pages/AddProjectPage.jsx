@@ -8,6 +8,7 @@ import { addProject } from "../redux/apiCalls";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
+import axios from "axios";
 import "./../css/AddWorkshopPage.css";
 
 function AddProjectPage() {
@@ -20,13 +21,20 @@ function AddProjectPage() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
     setValidated(true);
+
+    var uploadForm = document.getElementById("uploadForm");
+    var uploadFormData = new FormData(uploadForm);
+
+    try {
+      const response = await axios.post(`http://localhost:5000/upload/` + inputs.naziv, uploadFormData);
+    } catch (err) {}
 
     addProject({
       naziv: inputs.naziv,
@@ -38,7 +46,7 @@ function AddProjectPage() {
       ciljnaGrupa: inputs.ciljnaGrupa,
       cilj: inputs.cilj,
       opisProjekta: inputs.opisProjekta,
-      naslovnaSlika: inputs.naziv.replace(/ /g, "") + "0,jpg",
+      naslovnaSlika: inputs.naziv.replace(/ /g, "") + "0.jpg",
     });
   };
 

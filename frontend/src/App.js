@@ -1,7 +1,7 @@
 import Home from "./pages/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AboutUs from "./pages/AboutUs";
-import Projects from "./pages/Projects";
+import Projects from "./pages/AllProjects";
 import Statut from "./pages/Statut";
 import RealAboutUs from "./pages/RealAboutUs";
 import OthersAboutUs from "./pages/OthersAboutUs";
@@ -21,9 +21,11 @@ import AllWorkshops from "./pages/AllWorkshops";
 import WorkshopInformation from "./components/WorkshopInformation";
 import Treneri from "./components/Treneri";
 import ProjectsMainPage from "./pages/ProjectsMainPage";
-import "./App.css";
-import ReadProjects from "./pages/ReadProjects";
 import EditProjects from "./pages/EditProjects";
+import ReadProjects from "./pages/ReadProjects";
+import "./App.css";
+import ProjectDetailed from "./components/ProjectDetailed";
+import ProjectInformation from "./components/ProjectInformation";
 
 function App() {
   return (
@@ -51,7 +53,9 @@ function App() {
           <Route path="/editproject/:name" element={<EditProjects />} />
           <Route path="/workshops/:area" element={<WorkshopList />} />
           <Route path="/workshops/details/:name" element={<WorkshopDetailed />} />
+          <Route path="/projects/details/:name" element={<ProjectDetailed />} />
           <Route path="/workshops/workshopdetails/:name" element={<WorkshopInformation />} />
+          <Route path="/projects/projectdetails/:name" element={<ProjectInformation />} />
           <Route path="/allworkshops" element={<AllWorkshops />} />
           <Route path="/treneri" element={<Treneri />} />
         </Routes>

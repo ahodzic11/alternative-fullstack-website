@@ -31,14 +31,14 @@ app.post("/upload/:naslov", (req, res) => {
     console.log("Folder uspješno dodan");
   });
 
-  if (image.length > 0) {
+  if (image.length > 1) {
     let imageNumber = 0;
     image.forEach((slika) => {
       let slikaName = naslov.replace(/ /g, "") + imageNumber + ".jpg";
       slika.mv(__dirname + "/newuploads/" + naslov + "/" + slikaName);
       imageNumber++;
     });
-  } else image.mv(__dirname + "/newuploads/" + naslov + "/" + image.name);
+  } else image.mv(__dirname + "/newuploads/" + naslov + "/" + naslov.replace(/ /g, "") + "0.jpg");
 
   res.sendStatus(200);
 });
