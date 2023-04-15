@@ -1,5 +1,4 @@
 import React from "react";
-import "./../components/AddWorkshopPage.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -9,6 +8,7 @@ import { addProject } from "../redux/apiCalls";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
+import "./../css/AddWorkshopPage.css";
 
 function AddProjectPage() {
   const [inputs, setInputs] = useState({});
@@ -26,7 +26,6 @@ function AddProjectPage() {
       event.preventDefault();
       event.stopPropagation();
     }
-    console.log(inputs);
     setValidated(true);
 
     addProject({

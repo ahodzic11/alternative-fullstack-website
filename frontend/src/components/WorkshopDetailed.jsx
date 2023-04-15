@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
-import "./../components/WorkshopInformation.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "./../css/WorkshopInformation.css";
 
 function WorkshopDetailed() {
   const [workshop, setWorkshop] = useState([]);
   const { name } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getWorkshop = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/workshops/` + name);
         setWorkshop(res.data.data);
-        console.log(res.data.data);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
 
     getWorkshop();
   }, []);
 
   const handleClick = (e) => {
-    console.log(name);
-    window.location.replace("http://localhost:3000/workshops/workshopdetails/" + name);
+    navigate("/workshops/workshopdetails/" + name);
   };
 
   return (
@@ -43,7 +41,7 @@ function WorkshopDetailed() {
             </div>
           </div>
           <div className="secondWrapper">
-            <img className="workshopImageElement" src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + workshop.naslovnaSlika} />
+            <img className="workshopImageElement" src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + workshop.naslovnaSlika} alt="workshopImageElement" />
           </div>
         </div>
       </div>

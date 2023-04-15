@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
-import "./../components/AllWorkshops.css";
 import axios from "axios";
 import Workshop from "../components/Workshop";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
+import "./../css/AllWorkshops.css";
 
 function AllWorkshops() {
   const [workshopList, setWorkshops] = useState([]);
@@ -15,6 +16,7 @@ function AllWorkshops() {
   const [sort, setSort] = useState("newest");
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("allyears");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getWorkshops = async () => {
@@ -70,7 +72,6 @@ function AllWorkshops() {
 
   function getWorkshopYears() {
     var allYears = [];
-    console.log(filteredWorkshops);
     filteredWorkshops.forEach((workshop) => {
       var date = workshop.datum.split("-");
       var fullDate = new Date(date[0], date[1] - 1, date[2]);
@@ -85,7 +86,7 @@ function AllWorkshops() {
   }, [workshopList, sort, filteredWorkshops]);
 
   const handleClick = (e) => {
-    window.location.replace("http://localhost:3000/workshops/details/" + e.target.id);
+    navigate("/workshops/details/" + e.target.id);
   };
 
   useEffect(() => {
@@ -94,7 +95,6 @@ function AllWorkshops() {
   }, [naslovFilter, trenerFilter]);
 
   function handleChange() {
-    //console.log(years);
     setSort(sort);
     if (naslovFilter && trenerFilter) {
       let newFilteredWorkshops = [];

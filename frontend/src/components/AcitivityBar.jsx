@@ -1,11 +1,11 @@
 import React from "react";
-import "./ActivityBar.css";
 import itLogo from "./../assets/it.png";
 import kidsCreative from "./../assets/kids.png";
 import englishWorkshop from "./../assets/english.png";
 import birthdayLogo from "./../assets/gift.png";
 import robotLogo from "./../assets/robot.png";
 import Button from "react-bootstrap/Button";
+import "./../css/ActivityBar.css";
 
 function AcitivityBar() {
   return (

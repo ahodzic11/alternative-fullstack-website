@@ -1,5 +1,5 @@
 import React from "react";
-import "./ProjectsBar.css";
+import "./../css/ProjectsBar.css";
 
 function ProjectsBar() {
   return (

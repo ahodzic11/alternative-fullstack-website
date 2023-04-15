@@ -3,11 +3,12 @@ import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import Button from "react-bootstrap/Button";
 import WorkshopArea from "../components/WorkshopArea";
-import "./../components/Workshops.css";
+import { useNavigate } from "react-router-dom";
+import "./../css/Workshops.css";
 
 function Workshops() {
   const [workshopArea, setWorkshopArea] = useState([]);
-  let image = "https://images.freeimages.com/images/previews/ac9/railway-hdr-1361893.jpg";
+  const navigate = useNavigate();
 
   useEffect(() => {
     // PREUREDIT DA RADI SA BAZOM PODATAKA
@@ -20,11 +21,11 @@ function Workshops() {
   }, []);
 
   const handleClick = (e) => {
-    window.location.replace("http://localhost:3000/workshops/" + e.target.id);
+    navigate("/workshops/" + e.target.id);
   };
 
   const handleClickAllWorkshops = (e) => {
-    window.location.replace("http://localhost:3000/allworkshops/");
+    navigate("/allworkshops/");
   };
 
   return (
@@ -44,7 +45,7 @@ function Workshops() {
         <div className="workshopsAreasContainer">
           {workshopArea.map((area) => (
             <div className="workshopAreaSingleItem" onClick={handleClick}>
-              <WorkshopArea item={area} image={image} />
+              <WorkshopArea item={area} />
             </div>
           ))}
         </div>

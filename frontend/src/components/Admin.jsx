@@ -1,17 +1,17 @@
 import Button from "react-bootstrap/Button";
 import React, { useState } from "react";
-import "./Admin.css";
 import Form from "react-bootstrap/Form";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "./../css/Admin.css";
 
 function Admin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const login = (e) => {
-    console.log("uslo ovdje");
     e.preventDefault();
-    window.location.replace("http://localhost:3000/adminpanel");
+    navigate("/adminpanel");
   };
 
   return (

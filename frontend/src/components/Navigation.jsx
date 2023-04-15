@@ -2,9 +2,14 @@ import React from "react";
 import Nav from "react-bootstrap/Nav";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../assets/logo.png";
-import "./Navigation.css";
+import "./../css/Navigation.css";
 
 function Navigation() {
+  function contactUs() {
+    const element = document.getElementById("footerContactUsPoint");
+    element.scrollIntoView();
+  }
+
   return (
     <div className="navigation">
       <div className="logoSocialMediaContainer">
@@ -62,7 +67,10 @@ function Navigation() {
         <LinkContainer to="/workshops">
           <Nav.Item>RADIONICE</Nav.Item>
         </LinkContainer>
-        <Nav.Item href="#link">KONTAKT</Nav.Item>
+        <LinkContainer to="/treneri">
+          <Nav.Item>TRENERI</Nav.Item>
+        </LinkContainer>
+        <Nav.Item onClick={contactUs}>KONTAKT</Nav.Item>
       </Nav>
       <div className="yearsBanner">
         <div className="yearsBannerText">25 GODINA POSTOJANJA</div>

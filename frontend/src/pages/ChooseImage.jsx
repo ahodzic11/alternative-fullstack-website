@@ -1,31 +1,26 @@
 import React, { useEffect } from "react";
-import "./../components/AddWorkshopPage.css";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import "./../css/AddWorkshopPage.css";
 
 function ChooseImage() {
   const [workshop, setWorkshop] = useState({});
   const [images, setImages] = useState([]);
   const [selected, setSelected] = useState({});
   let { name } = useParams();
-  //const path = "https://www.nvo-alternative.org/images/radionice/" + name.replace(/ /g, "") + "/";
   const path = "http://localhost:5000/newUploads/" + name.replace(/ /g, "") + "/";
 
   useEffect(() => {
     const getSlike = async () => {
-      console.log(path);
       try {
         const response = await axios.get(`http://localhost:5000/` + name.replace(/ /g, ""));
-        //console.log(response.data);
         setImages(response.data);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
 
     const getWorkshop = async () => {
@@ -33,22 +28,14 @@ function ChooseImage() {
         const res = await axios.get(`http://localhost:5000/api/workshops/` + name);
         const dummyWorkshop = res.data.data;
         setWorkshop(dummyWorkshop);
-        console.log(dummyWorkshop);
         setSelected(dummyWorkshop.naslovnaSlika);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
 
     const getSelected = async () => {
       try {
-        console.log(name);
         const res = await axios.get(`http://localhost:5000/api/workshops/selectedImage/` + workshop.id);
-        //console.log(res);
-        //setSelected(dummyWorkshop);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
 
     getWorkshop();
@@ -63,19 +50,13 @@ function ChooseImage() {
         naslovnaSlika: selected,
       };
       const res = await axios.patch(`http://localhost:5000/api/workshops/updateImage`, updatedWorkshop);
-      console.log(res.data.data);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const selectedImage = (e) => {
     e.preventDefault();
     const slika = document.getElementById(e.target.id);
-    console.log(slika.id);
     setSelected(slika.id);
-    console.log(slika);
-    console.log(images);
   };
 
   return (
@@ -114,8 +95,3 @@ function ChooseImage() {
 }
 
 export default ChooseImage;
-
-/*
-<img src={path} alt="slikaSRadionice" />;
-          <div className="slikice">PROBA</div>;
-*/

@@ -1,6 +1,7 @@
 import React from "react";
-import "./Others.css";
+import "./../css/Others.css";
 
+//preuredit da radi sa bazom
 function Others() {
   return (
     <div className="othersWrapper">

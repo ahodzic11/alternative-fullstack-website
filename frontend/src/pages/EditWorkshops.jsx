@@ -1,19 +1,15 @@
 import React, { useEffect } from "react";
-import "./../components/ReadWorkshops.css";
 import { useState } from "react";
-import { addActivity } from "../redux/apiCalls";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
-import editIcon from "./../assets/editIcon.png";
-import changePictureIcon from "./../assets/changePicture.png";
-import deleteIcon from "./../assets/deleteIcon.png";
 import { useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import "./../css/ReadWorkshops.css";
 
 function EditWorkshops() {
   const [workshop, setWorkshop] = useState([]);
@@ -22,7 +18,6 @@ function EditWorkshops() {
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event) => {
-    console.log(workshop.oblastRadionice[0]);
     event.preventDefault();
     const formData = new FormData(event.target),
       formDataObj = Object.fromEntries(formData.entries());
@@ -32,7 +27,6 @@ function EditWorkshops() {
       event.stopPropagation();
     }
     setValidated(true);
-    console.log(workshop);
     updateWorkshop(formDataObj);
   };
 
@@ -51,31 +45,18 @@ function EditWorkshops() {
         opisRadionice: formDataObj.opisRadionice,
         oblastRadionice: formDataObj.oblastRadionice,
       };
-      console.log(updatedWorkshop);
       const res = await axios.patch(`http://localhost:5000/api/workshops/`, updatedWorkshop);
-      //setWorkshop(res.data.data);
-
-      console.log(res.data.data);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {
-    console.log(workshop);
     const getWorkshop = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/workshops/` + name);
         const dummyWorkshop = res.data.data;
-        //let arrayWorkshop = [];
-        //arrayWorkshop.push(dummyWorkshop.oblastRadionice);
-        //dummyWorkshop.oblastRadionice = arrayWorkshop;
         setOblast(dummyWorkshop.oblastRadionice);
         setWorkshop(dummyWorkshop);
-        console.log(dummyWorkshop);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
     getWorkshop();
   }, []);

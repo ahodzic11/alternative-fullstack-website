@@ -1,14 +1,17 @@
 import React from "react";
-import "./AdminGoBack.css";
+import { useNavigate } from "react-router-dom";
+import "./../css/AdminGoBack.css";
 
 function AdminGoBack() {
-  const logout = (e) => {
+  const navigate = useNavigate();
+
+  const goToAdminPanel = (e) => {
     e.preventDefault();
-    window.location.replace("http://localhost:3000/adminpanel");
+    navigate("/adminpanel");
   };
 
   return (
-    <div className="adminGoBackButton" onClick={logout}>
+    <div className="adminGoBackButton" onClick={goToAdminPanel}>
       <div className="adminGoBackText">VRATI SE</div>
     </div>
   );

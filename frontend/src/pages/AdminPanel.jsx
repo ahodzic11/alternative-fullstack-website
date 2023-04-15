@@ -1,38 +1,40 @@
 import React from "react";
-import Admin from "../components/Admin";
-import "./../components/AdminPanel.css";
 import AdminLogout from "../components/AdminLogout";
 import AdminNavigation from "../components/AdminNavigation";
+import { useNavigate } from "react-router-dom";
+import "./../css/AdminPanel.css";
 
 function AdminPanel() {
+  const navigate = useNavigate();
+
   const addWorkshop = (e) => {
     e.preventDefault();
-    window.location.replace("http://localhost:3000/dodajradionicu");
+    navigate("/dodajradionicu");
   };
 
   const addProject = (e) => {
     e.preventDefault();
-    window.location.replace("http://localhost:3000/dodajprojekat");
+    navigate("/dodajprojekat");
   };
 
   const addActivity = (e) => {
     e.preventDefault();
-    window.location.replace("http://localhost:3000/dodajaktivnost");
+    navigate("/dodajaktivnost");
   };
 
   const addNews = (e) => {
     e.preventDefault();
-    window.location.replace("http://localhost:3000/dodajvijest");
+    navigate("/dodajvijest");
   };
 
   const chooseImage = (e) => {
     e.preventDefault();
-    window.location.replace("http://localhost:3000/odaberinaslovnu");
+    navigate("/odaberinaslovnu");
   };
 
   const pogledajRadionice = (e) => {
     e.preventDefault();
-    window.location.replace("http://localhost:3000/readworkshops");
+    navigate("/readworkshops");
   };
 
   return (

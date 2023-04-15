@@ -1,5 +1,5 @@
 import React from "react";
-import "./ProjectKick.css";
+import "./../css/ProjectKick.css";
 
 function ProjectKick() {
   return (

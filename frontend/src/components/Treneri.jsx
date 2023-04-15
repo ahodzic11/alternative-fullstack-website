@@ -24,15 +24,17 @@ import adisImage from "./../assets/adisImage.jpg";
 import eminImage from "./../assets/eminImage.jpg";
 import amelImage from "./../assets/amelImage.jpg";
 import enaSikiraImage from "./../assets/enaSikiraImage.jpg";
+import Navigation from "./Navigation";
+import Footer from "./Footer";
 import "./../css/OurTeam.css";
 
-//preuredit da radi sa bazom
-function OurTeam() {
+function Treneri() {
   return (
     <>
+      <Navigation />
       <div className="outterContainer">
         <div class="responsive-container-block container">
-          <p class="text-blk team-head-text">Naš tim</p>
+          <p class="text-blk team-head-text">Treneri</p>
           <div class="responsive-container-block">
             <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
               <div class="card">
@@ -307,8 +309,9 @@ function OurTeam() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
 
-export default OurTeam;
+export default Treneri;

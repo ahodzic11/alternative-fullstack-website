@@ -1,9 +1,9 @@
 import React from "react";
-import "./DetailedProjectsBar.css";
 import bosniaBeyond from "./../assets/bosniabeyond.jpg";
 import kick from "./../assets/kick.jpg";
 import enetrgetskaTranzicija from "./../assets/energetskatranzicija.jpg";
 import Button from "react-bootstrap/Button";
+import "./../css/DetailedProjectsBar.css";
 
 function DetailedProjectsBar() {
   return (

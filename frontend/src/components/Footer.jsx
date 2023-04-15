@@ -1,5 +1,5 @@
 import React from "react";
-import "./Footer.css";
+import "./../css/Footer.css";
 import logo from "../assets/logo.png";
 import GoogleMapReact from "google-map-react";
 
@@ -20,6 +20,7 @@ function Footer() {
           </div>
         </div>
         <div className="emptyDiv2"></div>
+        <div id="footerContactUsPoint"></div>
         <div className="references">
           <div className="title">POVEZNICE</div>
           <a href="/onama">

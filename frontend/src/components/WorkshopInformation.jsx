@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Navigation from "./Navigation";
-import "./../components/WorkshopDetailed.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import "./../css/WorkshopDetailed.css";
 
 function WorkshopInformation() {
   const [workshop, setWorkshop] = useState([]);
@@ -16,31 +16,20 @@ function WorkshopInformation() {
       try {
         const res = await axios.get(`http://localhost:5000/api/workshops/` + name);
         setWorkshop(res.data.data);
-        console.log(res.data.data);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
 
     const getSlike = async () => {
       console.log(path);
       try {
         const response = await axios.get(`http://localhost:5000/` + name.replace(/ /g, ""));
-        //console.log(response.data);
         setImages(response.data);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
 
     getWorkshop();
     getSlike();
   }, []);
-
-  const handleClick = (e) => {
-    console.log(name);
-    //window.location.replace("http://localhost:3000/workshops/details/" + e.target.id);
-  };
 
   return (
     <>
@@ -48,7 +37,7 @@ function WorkshopInformation() {
       <div className="workshopInformationContainer">
         <div className="workshopInformationTitle">{name}</div>
         <div className="workshopInformationImage">
-          <img src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + workshop.naslovnaSlika} />
+          <img src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + workshop.naslovnaSlika} alt="naslovnaSlika" />
         </div>
         <div className="workshopInformationAbout">
           <span>Sadržaj radionice: </span>

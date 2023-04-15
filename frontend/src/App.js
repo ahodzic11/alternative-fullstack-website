@@ -20,6 +20,7 @@ import WorkshopList from "./pages/WorkshopList";
 import WorkshopDetailed from "./components/WorkshopDetailed";
 import AllWorkshops from "./pages/AllWorkshops";
 import WorkshopInformation from "./components/WorkshopInformation";
+import Treneri from "./components/Treneri";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path="/workshops/details/:name" element={<WorkshopDetailed />} />
           <Route path="/workshops/workshopdetails/:name" element={<WorkshopInformation />} />
           <Route path="/allworkshops" element={<AllWorkshops />} />
+          <Route path="/treneri" element={<Treneri />} />
         </Routes>
       </BrowserRouter>
     </>

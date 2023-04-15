@@ -1,10 +1,13 @@
 import React from "react";
-import "./AdminLogout.css";
+import { useNavigate } from "react-router-dom";
+import "./../css/AdminLogout.css";
 
 function AdminLogout() {
+  const navigate = useNavigate();
+
   const logout = (e) => {
     e.preventDefault();
-    window.location.replace("http://localhost:3000/");
+    navigate("/");
   };
 
   return (

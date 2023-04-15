@@ -1,10 +1,13 @@
 import React from "react";
-import "./Navigation.css";
+import { useNavigate } from "react-router-dom";
+import "./../css/Navigation.css";
 
 function AdminNavigation() {
+  const navigate = useNavigate();
+
   const goBack = (e) => {
     e.preventDefault();
-    window.location.replace("http://localhost:3000/adminpanel");
+    navigate("/adminpanel");
   };
 
   return (

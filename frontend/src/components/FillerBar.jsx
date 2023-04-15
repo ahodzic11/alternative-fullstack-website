@@ -1,13 +1,13 @@
 import Button from "react-bootstrap/Button";
 import React from "react";
-import bwImage from "../assets/bwImage.jpg";
-import "./FillerBar.css";
+import "./../css/FillerBar.css";
 
 function FillerBar() {
   function joinIn() {
     const element = document.getElementById("joinPlace");
     element.scrollIntoView();
   }
+
   return (
     <div className="bwCover">
       <div className="containerElement">

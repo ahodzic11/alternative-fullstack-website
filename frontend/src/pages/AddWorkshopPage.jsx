@@ -1,5 +1,4 @@
 import React from "react";
-import "./../components/AddWorkshopPage.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -10,11 +9,11 @@ import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
+import "./../css/AddWorkshopPage.css";
 
 function AddWorkshopPage() {
   const [inputs, setInputs] = useState({});
   const [validated, setValidated] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -24,27 +23,20 @@ function AddWorkshopPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(inputs.oblastRadionice);
     if (inputs.oblastRadionice == null) return;
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
-    console.log(inputs);
     setValidated(true);
 
     var uploadForm = document.getElementById("uploadForm");
     var uploadFormData = new FormData(uploadForm);
-    //action={"http://localhost:5000/upload/" + inputs.naslov} method="POST"
 
     try {
       const response = await axios.post(`http://localhost:5000/upload/` + inputs.naslov, uploadFormData);
-      //console.log(response.data);
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
 
     addWorkshop({
       naslov: inputs.naslov,
