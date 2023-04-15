@@ -1,4 +1,3 @@
-import "./App.css";
 import Home from "./pages/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AboutUs from "./pages/AboutUs";
@@ -21,6 +20,10 @@ import WorkshopDetailed from "./components/WorkshopDetailed";
 import AllWorkshops from "./pages/AllWorkshops";
 import WorkshopInformation from "./components/WorkshopInformation";
 import Treneri from "./components/Treneri";
+import ProjectsMainPage from "./pages/ProjectsMainPage";
+import "./App.css";
+import ReadProjects from "./pages/ReadProjects";
+import EditProjects from "./pages/EditProjects";
 
 function App() {
   return (
@@ -29,7 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/nastim" element={<AboutUs />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects" element={<ProjectsMainPage />} />
           <Route path="/statut" element={<Statut />} />
           <Route path="/onama" element={<RealAboutUs />} />
           <Route path="/drugionama" element={<OthersAboutUs />} />
@@ -40,9 +43,12 @@ function App() {
           <Route path="/dodajprojekat" element={<AddProjectPage />} />
           <Route path="/dodajvijest" element={<AddNewsPage />} />
           <Route path="/workshops" element={<Workshops />} />
-          <Route path="/chooseimage/:name" element={<ChooseImage />} />
+          <Route path="/projekti" element={<Projects />} />
+          <Route path="/chooseimage/:type/:name" element={<ChooseImage />} />
           <Route path="/readworkshops" element={<ReadWorkshops />} />
+          <Route path="/readprojects" element={<ReadProjects />} />
           <Route path="/editworkshop/:name" element={<EditWorkshops />} />
+          <Route path="/editproject/:name" element={<EditProjects />} />
           <Route path="/workshops/:area" element={<WorkshopList />} />
           <Route path="/workshops/details/:name" element={<WorkshopDetailed />} />
           <Route path="/workshops/workshopdetails/:name" element={<WorkshopInformation />} />

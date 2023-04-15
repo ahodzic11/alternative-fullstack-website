@@ -58,7 +58,9 @@ function Navigation() {
             </div>
           </div>
         </div>
-        <Nav.Item href="#link">PROJEKTI</Nav.Item>
+        <LinkContainer to="/projekti">
+          <Nav.Item>PROJEKTI</Nav.Item>
+        </LinkContainer>
         <Nav.Item href="#link">DONATORI</Nav.Item>
         <Nav.Item href="#link">VIJESTI</Nav.Item>
         <LinkContainer to="/drugionama">

@@ -32,9 +32,14 @@ function AdminPanel() {
     navigate("/odaberinaslovnu");
   };
 
-  const pogledajRadionice = (e) => {
+  const readWorkshops = (e) => {
     e.preventDefault();
     navigate("/readworkshops");
+  };
+
+  const readProjects = (e) => {
+    e.preventDefault();
+    navigate("/readprojects");
   };
 
   return (
@@ -46,24 +51,24 @@ function AdminPanel() {
             <div className="addWorkshopsContainer addingItem" onClick={addWorkshop}>
               DODAJ RADIONICU
             </div>
-            <div className="addActivitiesContainer addingItem" onClick={addActivity}>
-              DODAJ AKTIVNOST
+            <div className="viewWorkshopsContainer addingItem" onClick={readWorkshops}>
+              POGLEDAJ RADIONICE
             </div>
           </div>
           <div className="addingContainerRow">
-            <div className="addNewsContainer addingItem" onClick={addNews}>
-              DODAJ VIJEST
-            </div>
             <div className="addProjectContainer addingItem" onClick={addProject}>
               DODAJ PROJEKAT
             </div>
+            <div className="viewProjectsContainer addingItem" onClick={readProjects}>
+              POGLEDAJ PROJEKTE
+            </div>
           </div>
           <div className="addingContainerRow">
-            <div className="chooseImageContainer addingItem" onClick={chooseImage}>
-              ODABERI NASLOVNU
+            <div className="addActivityContainer addingItem" onClick={addActivity}>
+              DODAJ AKTIVNOST
             </div>
-            <div className="addProjectContainer addingItem" onClick={pogledajRadionice}>
-              POGLEDAJ RADIONICE
+            <div className="viewActivitiesContainer addingItem" onClick={addActivity}>
+              POGLEDAJ AKTIVNOSTI
             </div>
           </div>
         </div>

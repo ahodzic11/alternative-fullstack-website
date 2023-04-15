@@ -1,4 +1,4 @@
-const { create, getProjects, getProjectByName } = require("./projectService");
+const { create, getProjects, getProjectByName, updateProject, updateNaslovnuSliku, deleteProject } = require("./projectService");
 
 module.exports = {
   createProject: (req, res) => {
@@ -28,7 +28,7 @@ module.exports = {
       if (!results) {
         return res.json({
           success: 0,
-          message: "Tražena radionica nije pronađena",
+          message: "Traženi projekat nije pronađen",
         });
       }
       return res.json({
@@ -47,6 +47,52 @@ module.exports = {
       return res.json({
         success: 1,
         data: results,
+      });
+    });
+  },
+
+  updateProject: (req, res) => {
+    updateProject(req.body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      return res.json({
+        success: 1,
+        message: "Projekat uspješno update-ovan!",
+      });
+    });
+  },
+
+  updateNaslovnuSliku: (req, res) => {
+    updateNaslovnuSliku(req.body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      return res.json({
+        success: 1,
+        message: "Naslovna slika uspješno update-ovana!",
+      });
+    });
+  },
+
+  deleteProject: (req, res) => {
+    const data = req.params.id;
+    deleteProject(data, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Projekat nije pronađen",
+        });
+      }
+      return res.json({
+        success: 1,
+        message: "Projekat uspješno obrisan",
       });
     });
   },

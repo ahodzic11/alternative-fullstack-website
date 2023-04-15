@@ -9,10 +9,11 @@ import { useParams } from "react-router-dom";
 import "./../css/AddWorkshopPage.css";
 
 function ChooseImage() {
-  const [workshop, setWorkshop] = useState({});
+  //const [workshop, setWorkshop] = useState({});
+  const [currentItem, setCurrentItem] = useState({});
   const [images, setImages] = useState([]);
   const [selected, setSelected] = useState({});
-  let { name } = useParams();
+  let { name, type } = useParams();
   const path = "http://localhost:5000/newUploads/" + name.replace(/ /g, "") + "/";
 
   useEffect(() => {
@@ -23,33 +24,52 @@ function ChooseImage() {
       } catch (err) {}
     };
 
-    const getWorkshop = async () => {
+    const getCurrentItem = async () => {
+      try {
+        let res = {};
+        if (type == "workshop") {
+          res = await axios.get(`http://localhost:5000/api/workshops/` + name);
+        } else if (type == "project") {
+          res = await axios.get(`http://localhost:5000/api/projects/` + name);
+        }
+        const dummyWorkshop = res.data.data;
+        setCurrentItem(dummyWorkshop);
+        setSelected(dummyWorkshop.naslovnaSlika);
+      } catch (err) {}
+    };
+
+    /*const getWorkshop = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/workshops/` + name);
         const dummyWorkshop = res.data.data;
         setWorkshop(dummyWorkshop);
         setSelected(dummyWorkshop.naslovnaSlika);
       } catch (err) {}
-    };
+    };*/
 
     const getSelected = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/workshops/selectedImage/` + workshop.id);
+        let res = {};
+        if (type == "workshop") res = await axios.get(`http://localhost:5000/api/workshops/selectedImage/` + currentItem.id);
+        else if (type == "project") res = await axios.get(`http://localhost:5000/api/projects/selectedImage/` + currentItem.id);
       } catch (err) {}
     };
 
-    getWorkshop();
+    //getWorkshop();
     getSlike();
+    getCurrentItem();
     getSelected();
   }, []);
 
   const updateImage = async () => {
     try {
-      const updatedWorkshop = {
-        id: workshop.id,
+      const updatedItem = {
+        id: currentItem.id,
         naslovnaSlika: selected,
       };
-      const res = await axios.patch(`http://localhost:5000/api/workshops/updateImage`, updatedWorkshop);
+      let res = {};
+      if (type == "workshop") res = await axios.patch(`http://localhost:5000/api/workshops/updateImage`, updatedItem);
+      else if (type == "project") res = await axios.patch(`http://localhost:5000/api/projects/updateImage`, updatedItem);
     } catch (err) {}
   };
 
@@ -63,7 +83,7 @@ function ChooseImage() {
     <>
       <AdminNavigation />
       <div className="currentLocationHeadline">Odabir naslovne slike</div>
-      <div className="currentLocationHeadline2">{workshop.naslov}</div>
+      <div className="currentLocationHeadline2">{currentItem.naslov != null ? currentItem.naslov : currentItem.naziv}</div>
       <div className="clickContainer">
         {images.length == 0 ? (
           <div className="nemaSlikaContainer">NEMATE UNESENIH</div>
@@ -80,7 +100,6 @@ function ChooseImage() {
                   <img id={image} className="chooseImageElement" src={path + image} alt="slikaSRadionice" onClick={(e) => selectedImage(e)} />
                 )}
               </div>
-              //<img id={image} className="chooseImageElement" src={path + image} alt="slikaSRadionice" onClick={(e) => selectedImage(e)} />
             ))}
           </>
         )}

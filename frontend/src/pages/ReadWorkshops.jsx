@@ -31,7 +31,7 @@ function ReadWorkshops() {
 
   const chooseImage = (e, item) => {
     e.preventDefault();
-    navigate("/chooseimage/" + item.naslov);
+    navigate("/chooseimage/workshop/" + item.naslov);
   };
 
   async function deleteWorkshopItem(e, item) {
