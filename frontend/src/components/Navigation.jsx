@@ -61,6 +61,9 @@ function Navigation() {
         <LinkContainer to="/projekti">
           <Nav.Item>PROJEKTI</Nav.Item>
         </LinkContainer>
+        <LinkContainer to="/aktivnosti">
+          <Nav.Item>AKTIVNOSTI</Nav.Item>
+        </LinkContainer>
         <Nav.Item href="#link">DONATORI</Nav.Item>
         <Nav.Item href="#link">VIJESTI</Nav.Item>
         <LinkContainer to="/drugionama">

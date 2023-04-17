@@ -1,4 +1,4 @@
-const { create, getNews, getNewsByName } = require("./newsService");
+const { create, getNews, getNewsByName, updateNews, updateNaslovnuSliku, deleteNews } = require("./newsService");
 
 module.exports = {
   createNews: (req, res) => {
@@ -47,6 +47,52 @@ module.exports = {
       return res.json({
         success: 1,
         data: results,
+      });
+    });
+  },
+
+  updateNews: (req, res) => {
+    updateNews(req.body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      return res.json({
+        success: 1,
+        message: "Projekat uspješno update-ovan!",
+      });
+    });
+  },
+
+  updateNaslovnuSliku: (req, res) => {
+    updateNaslovnuSliku(req.body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      return res.json({
+        success: 1,
+        message: "Naslovna slika uspješno update-ovana!",
+      });
+    });
+  },
+
+  deleteNews: (req, res) => {
+    const data = req.params.id;
+    deleteNews(data, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Projekat nije pronađen",
+        });
+      }
+      return res.json({
+        success: 1,
+        message: "Projekat uspješno obrisan",
       });
     });
   },

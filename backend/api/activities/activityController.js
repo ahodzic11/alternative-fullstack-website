@@ -1,4 +1,4 @@
-const { create, getActivities, getActivityFromProject } = require("./activityService");
+const { create, getActivities, getActivityFromProject, updateActivity, updateNaslovnuSliku, deleteActivity } = require("./activityService");
 
 module.exports = {
   createActivity: (req, res) => {
@@ -47,6 +47,52 @@ module.exports = {
       return res.json({
         success: 1,
         data: results,
+      });
+    });
+  },
+
+  updateActivity: (req, res) => {
+    updateActivity(req.body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      return res.json({
+        success: 1,
+        message: "Aktivnost uspješno update-ovana!",
+      });
+    });
+  },
+
+  updateNaslovnuSliku: (req, res) => {
+    updateNaslovnuSliku(req.body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      return res.json({
+        success: 1,
+        message: "Naslovna slika uspješno update-ovana!",
+      });
+    });
+  },
+
+  deleteActivity: (req, res) => {
+    const data = req.params.id;
+    deleteActivity(data, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Aktivnost nije pronađena",
+        });
+      }
+      return res.json({
+        success: 1,
+        message: "Aktivnost uspješno obrisana",
       });
     });
   },

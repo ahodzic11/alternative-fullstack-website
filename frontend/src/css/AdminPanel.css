@@ -21,13 +21,14 @@
 }
 
 .addingItem {
-  width: 400px;
+  width: 305px;
   height: 200px;
   background-color: #f1f3f4;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Josefin Sans", sans-serif;
+  text-align: center;
   letter-spacing: 5px;
   font-size: 25px;
   font-weight: 500;

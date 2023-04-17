@@ -37,9 +37,19 @@ function AdminPanel() {
     navigate("/readworkshops");
   };
 
+  const readNews = (e) => {
+    e.preventDefault();
+    navigate("/readworkshops");
+  };
+
   const readProjects = (e) => {
     e.preventDefault();
     navigate("/readprojects");
+  };
+
+  const readActivities = (e) => {
+    e.preventDefault();
+    navigate("/readactivities");
   };
 
   return (
@@ -67,8 +77,16 @@ function AdminPanel() {
             <div className="addActivityContainer addingItem" onClick={addActivity}>
               DODAJ AKTIVNOST
             </div>
-            <div className="viewActivitiesContainer addingItem" onClick={addActivity}>
+            <div className="viewActivitiesContainer addingItem" onClick={readActivities}>
               POGLEDAJ AKTIVNOSTI
+            </div>
+          </div>
+          <div className="addingContainerRow">
+            <div className="addActivityContainer addingItem" onClick={addNews}>
+              DODAJ VIJEST
+            </div>
+            <div className="viewActivitiesContainer addingItem" onClick={readNews}>
+              POGLEDAJ VIJESTI
             </div>
           </div>
         </div>

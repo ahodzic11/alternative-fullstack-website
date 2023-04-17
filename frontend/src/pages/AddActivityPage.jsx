@@ -8,6 +8,7 @@ import { addActivity } from "../redux/apiCalls";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
+import axios from "axios";
 import "./../css/AddWorkshopPage.css";
 
 function AddActivityPage() {
@@ -20,7 +21,8 @@ function AddActivityPage() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -28,12 +30,30 @@ function AddActivityPage() {
     }
     setValidated(true);
 
-    addActivity({
+    var uploadForm = document.getElementById("uploadForm");
+    var uploadFormData = new FormData(uploadForm);
+
+    try {
+      const response = await axios.post(`http://localhost:5000/upload/` + inputs.naziv, uploadFormData);
+    } catch (err) {}
+
+    console.log({
+      naziv: inputs.naziv,
       mjesto: inputs.mjesto,
       datum: inputs.datum,
       nazivDonatora: inputs.nazivDonatora,
       nazivProjekta: inputs.nazivProjekta,
       opisAktivnosti: inputs.opisAktivnosti,
+      naslovnaSlika: inputs.naziv.replace(/ /g, "") + "0.jpg",
+    });
+    addActivity({
+      naziv: inputs.naziv,
+      mjesto: inputs.mjesto,
+      datum: inputs.datum,
+      nazivDonatora: inputs.nazivDonatora,
+      nazivProjekta: inputs.nazivProjekta,
+      opisAktivnosti: inputs.opisAktivnosti,
+      naslovnaSlika: inputs.naziv.replace(/ /g, "") + "0.jpg",
     });
   };
 
@@ -44,6 +64,13 @@ function AddActivityPage() {
         <div className="currentLocationHeadline">Dodavanje aktivnosti</div>
         <div className="addWorkshopForm">
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="validationCustom01">
+                <Form.Label className="itemTitleElement">Naziv aktivnosti</Form.Label>
+                <Form.Control name="naziv" required type="text" placeholder="Naziv aktivnosti" onChange={handleChange} />
+                <Form.Control.Feedback>Okej!</Form.Control.Feedback>
+              </Form.Group>
+            </Row>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom02">
                 <Form.Label className="itemTitleElement">Mjesto</Form.Label>
@@ -71,7 +98,12 @@ function AddActivityPage() {
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
-
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Slike</Form.Label>
+              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
+                <input className="uploadImagesInput" type="file" name="image" multiple />
+              </form>
+            </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis aktivnosti</Form.Label>
               <Form.Control name="opisAktivnosti" as="textarea" rows={4} onChange={handleChange} />
