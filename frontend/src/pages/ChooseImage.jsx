@@ -31,6 +31,10 @@ function ChooseImage() {
           res = await axios.get(`http://localhost:5000/api/workshops/` + name);
         } else if (type == "project") {
           res = await axios.get(`http://localhost:5000/api/projects/` + name);
+        } else if (type == "activity") {
+          res = await axios.get(`http://localhost:5000/api/activities/` + name);
+        } else if (type == "news") {
+          res = await axios.get(`http://localhost:5000/api/news/` + name);
         }
         const dummyWorkshop = res.data.data;
         setCurrentItem(dummyWorkshop);
@@ -52,6 +56,8 @@ function ChooseImage() {
         let res = {};
         if (type == "workshop") res = await axios.get(`http://localhost:5000/api/workshops/selectedImage/` + currentItem.id);
         else if (type == "project") res = await axios.get(`http://localhost:5000/api/projects/selectedImage/` + currentItem.id);
+        else if (type == "activity") res = await axios.get(`http://localhost:5000/api/activities/selectedImage/` + currentItem.id);
+        else if (type == "news") res = await axios.get(`http://localhost:5000/api/news/selectedImage/` + currentItem.id);
       } catch (err) {}
     };
 
@@ -70,6 +76,8 @@ function ChooseImage() {
       let res = {};
       if (type == "workshop") res = await axios.patch(`http://localhost:5000/api/workshops/updateImage`, updatedItem);
       else if (type == "project") res = await axios.patch(`http://localhost:5000/api/projects/updateImage`, updatedItem);
+      else if (type == "activity") res = await axios.patch(`http://localhost:5000/api/activities/updateImage`, updatedItem);
+      else if (type == "news") res = await axios.patch(`http://localhost:5000/api/news/updateImage`, updatedItem);
     } catch (err) {}
   };
 

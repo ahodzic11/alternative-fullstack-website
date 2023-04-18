@@ -1,4 +1,4 @@
-const { create, getActivities, getActivityFromProject, updateActivity, updateNaslovnuSliku, deleteActivity } = require("./activityService");
+const { create, getActivities, getActivityByName, updateActivity, updateNaslovnuSliku, deleteActivity } = require("./activityService");
 
 module.exports = {
   createActivity: (req, res) => {
@@ -18,9 +18,9 @@ module.exports = {
     });
   },
 
-  getActivityFromProject: (req, res) => {
+  getActivityByName: (req, res) => {
     const name = req.params.name;
-    getActivityFromProject(name, (err, results) => {
+    getActivityByName(name, (err, results) => {
       if (err) {
         console.log(err);
         return;

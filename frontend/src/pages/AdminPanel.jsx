@@ -39,7 +39,7 @@ function AdminPanel() {
 
   const readNews = (e) => {
     e.preventDefault();
-    navigate("/readworkshops");
+    navigate("/readnews");
   };
 
   const readProjects = (e) => {

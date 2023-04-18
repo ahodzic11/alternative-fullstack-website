@@ -30,18 +30,20 @@ function ActivityDetailed() {
     <>
       <Navigation />
       <div className="randomAssDiv">
-        <div className="workshopDetailedMainWrapper">
-          <div className="firstWrapper">
-            <div className="workshopDetailedTitle">{activity.naziv}</div>
-            <div className="workshopDetailedGoal">{activity.opisAktivnosti}</div>
-            <div className="workshopDetailedGoal">
-              <p className="moreAboutWorkshopLink" onClick={handleClick}>
+        <div className="activityDetailedMainWrapper">
+          <div className="firstWrapperActivity">
+            <div className="activityDetailedTitle">{activity.naziv}</div>
+            <div className="activityDetailedGoal">
+              {activity.mjesto}, {activity.datum}
+            </div>
+            <div className="activityDetailedGoal">
+              <p className="moreAboutActivityLink" onClick={handleClick}>
                 Više o aktivnosti &gt;
               </p>
             </div>
           </div>
-          <div className="secondWrapper">
-            <img className="workshopImageElement" src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + activity.naslovnaSlika} alt="workshopImageElement" />
+          <div className="secondWrapperActivity">
+            <img className="activityImageElement" src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + activity.naslovnaSlika} alt="workshopImageElement" />
           </div>
         </div>
       </div>

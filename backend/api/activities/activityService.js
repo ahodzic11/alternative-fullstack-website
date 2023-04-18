@@ -24,8 +24,8 @@ module.exports = {
     });
   },
 
-  getActivityFromProject: (name, callBack) => {
-    pool.query(`SELECT * FROM activities WHERE nazivProjekta = ?`, [name], (error, results, fields) => {
+  getActivityByName: (name, callBack) => {
+    pool.query(`SELECT * FROM activities WHERE naziv = ?`, [name], (error, results, fields) => {
       if (error) {
         return callBack(error);
       }
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   updateActivity: (data, callBack) => {
-    pool.query(`UPDATE activities SET naziv=?, mjesto=?, datum=?, nazivDonatora=?, nazivProjekta=?, ciljnaGrupa=?, opisAktivnosti=?, naslovnaSlika=? WHERE id=?`, [data.naziv, data.mjesto, data.datum, data.nazivDonatora, data.nazivProjekta, data.opisAktivnosti, data.naslovnaSlika, data.id], (error, results, fields) => {
+    pool.query(`UPDATE activities SET naziv=?, mjesto=?, datum=?, nazivDonatora=?, nazivProjekta=?, opisAktivnosti=? WHERE id=?`, [data.naziv, data.mjesto, data.datum, data.nazivDonatora, data.nazivProjekta, data.opisAktivnosti, data.id], (error, results, fields) => {
       if (error) {
         callBack(error);
       }

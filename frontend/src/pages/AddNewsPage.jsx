@@ -8,6 +8,7 @@ import { addNews } from "../redux/apiCalls";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
+import axios from "axios";
 import "./../css/AddWorkshopPage.css";
 
 function AddNewsPage() {
@@ -20,7 +21,7 @@ function AddNewsPage() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -28,11 +29,19 @@ function AddNewsPage() {
     }
     setValidated(true);
 
+    var uploadForm = document.getElementById("uploadForm");
+    var uploadFormData = new FormData(uploadForm);
+
+    try {
+      const response = await axios.post(`http://localhost:5000/upload/` + inputs.naziv, uploadFormData);
+    } catch (err) {}
+
     addNews({
       naziv: inputs.naziv,
       tema: inputs.tema,
       datum: inputs.datum,
       tekstVijesti: inputs.tekstVijesti,
+      naslovnaSlika: inputs.naziv.replace(/ /g, "") + "0.jpg",
     });
   };
 
@@ -44,25 +53,31 @@ function AddNewsPage() {
         <div className="addWorkshopForm">
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <Form.Group as={Col} md="4" controlId="validationCustom01">
+              <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naziv</Form.Label>
                 <Form.Control name="naziv" required type="text" placeholder="Naziv vijesti" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
-
-              <Form.Group as={Col} md="4" controlId="validationCustom02">
+            </Row>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="validationCustom02">
                 <Form.Label className="itemTitleElement">Tema</Form.Label>
                 <Form.Control name="tema" required type="text" placeholder="Tema vijesti" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
-              <div className="col-md-4">
+              <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Datum</Form.Label>
                   <Form.Control name="datum" type="date" placeholder="datum" onChange={handleChange} />
                 </Form.Group>
               </div>
             </Row>
-
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Slike</Form.Label>
+              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
+                <input className="uploadImagesInput" type="file" name="image" multiple />
+              </form>
+            </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Tekst vijesti</Form.Label>
               <Form.Control name="tekstVijesti" as="textarea" rows={4} onChange={handleChange} />

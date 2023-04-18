@@ -1,4 +1,4 @@
-.activityDetailedMainWrapper {
+.workshopDetailedMainWrapper {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -14,43 +14,43 @@
   padding: 30px;
 }
 
-.firstWrapperActivity {
+.firstWrapper {
   display: flex;
   flex-direction: column;
   row-gap: 40px;
   padding: 20px;
-  background-color: #a435f0;
+  background-color: #ffa600;
   color: white;
   height: inherit;
   width: 28%;
 }
 
-.secondWrapperActivity {
+.secondWrapper {
   height: inherit;
   width: 72%;
 }
 
-.activityImageElement {
+.workshopImageElement {
   object-fit: cover;
   height: 100%;
   width: 100%;
 }
 
-.activityDetailedTitle {
+.workshopDetailedTitle {
   font-size: 35px;
   font-family: "Righteous", cursive;
 }
 
-.activityDetailedGoal {
+.workshopDetailedGoal {
   font-family: "Oswald", sans-serif;
   letter-spacing: 1px;
 }
 
-.activityDetailedGoal p {
+.workshopDetailedGoal p {
   cursor: pointer;
 }
 
-.moreAboutActivityLink:hover {
+.moreAboutWorkshopLink:hover {
   transition: 0.2s ease;
   text-decoration: underline;
 }

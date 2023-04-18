@@ -4,41 +4,41 @@ import Navigation from "../components/Navigation";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
-import Activity from "../components/Activity";
-import "./../css/AllActivities.css";
+import News from "../components/News";
+import "./../css/AllProjects.css";
 
-function AllActivities() {
-  const [activityList, setActivities] = useState([]);
-  const [filteredActivities, setFilteredActivities] = useState([]);
+function AllNews() {
+  const [newsList, setNews] = useState([]);
+  const [filteredNews, setFilteredNews] = useState([]);
   const [nazivFilter, setNazivFilter] = useState("");
   const [sort, setSort] = useState("asc");
-  const [donators, setDonators] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [selectedDonator, setSelectedDonator] = useState("allDonators");
-  const [selectedProject, setSelectedProject] = useState("allProjects");
+  const [teme, setTeme] = useState([]);
+  const [years, setYears] = useState([]);
+  const [selectedTema, setSelectedTema] = useState("allTeme");
+  const [selectedYear, setSelectedYear] = useState("allYears");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getActivities = async () => {
+    const getNews = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/activities`);
-        setActivities(res.data.data);
-        setFilteredActivities(res.data.data);
+        const res = await axios.get(`http://localhost:5000/api/news`);
+        setNews(res.data.data);
+        setFilteredNews(res.data.data);
       } catch (err) {}
     };
-    getActivities();
+    getNews();
     setSort("asc");
   }, []);
 
   function sortiraj() {
     if (sort === "asc") {
-      setFilteredActivities((prev) =>
+      setFilteredNews((prev) =>
         [...prev].sort((a, b) => {
           return a.naziv < b.naziv ? -1 : 0;
         })
       );
     } else if (sort === "desc") {
-      setFilteredActivities((prev) =>
+      setFilteredNews((prev) =>
         [...prev].sort((a, b) => {
           return a.naziv > b.naziv ? -1 : 0;
         })
@@ -46,33 +46,39 @@ function AllActivities() {
     }
   }
 
-  function getDonators() {
-    var allDonators = [];
-    filteredActivities.forEach((activity) => {
-      if (!allDonators.includes(activity.nazivDonatora)) allDonators.push(activity.nazivDonatora);
+  function getTeme() {
+    var allTeme = [];
+    filteredNews.forEach((vijest) => {
+      if (!allTeme.includes(vijest.tema)) allTeme.push(vijest.tema);
     });
-    setDonators(allDonators);
-  }
-
-  function getProjects() {
-    var allProjects = [];
-    filteredActivities.forEach((activity) => {
-      if (!allProjects.includes(activity.nazivProjekta)) allProjects.push(activity.nazivProjekta);
-    });
-    setProjects(allProjects);
+    setTeme(allTeme);
   }
 
   useEffect(() => {
-    getDonators();
-    getProjects();
-  }, [activityList, sort, filteredActivities]);
+    getTeme();
+  }, [newsList, sort, filteredNews]);
 
   useEffect(() => {
     sortiraj();
-  }, [sort, nazivFilter, activityList]);
+  }, [sort, nazivFilter, newsList]);
+
+  function getNewsYears() {
+    var allYears = [];
+    filteredNews.forEach((newsArticle) => {
+      var date = newsArticle.datum.split("-");
+      var fullDate = new Date(date[0], date[1] - 1, date[2]);
+      let year = fullDate.getFullYear();
+      if (!allYears.includes(year)) allYears.push(year);
+    });
+    setYears(allYears);
+  }
+
+  useEffect(() => {
+    getNewsYears();
+  }, [newsList, sort, filteredNews]);
 
   const handleClick = (e) => {
-    navigate("/activities/details/" + e.target.id);
+    navigate("/news/details/" + e.target.id);
   };
 
   useEffect(() => {
@@ -81,8 +87,8 @@ function AllActivities() {
 
   function handleChange() {
     setSort(sort);
-    if (nazivFilter) setFilteredActivities(activityList.filter((item) => item.naziv.toUpperCase().includes(nazivFilter.toUpperCase())));
-    else setFilteredActivities(activityList);
+    if (nazivFilter) setFilteredNews(newsList.filter((item) => item.naziv.toUpperCase().includes(nazivFilter.toUpperCase())));
+    else setFilteredNews(newsList);
     sortiraj();
   }
 
@@ -105,7 +111,7 @@ function AllActivities() {
     <>
       <Navigation />
       <div className="workshopsMainWrapper">
-        <div className="workshopsMainTitle">Aktivnosti</div>
+        <div className="workshopsMainTitle">Vijesti</div>
         <div className="filterAndSortingSection">
           <div className="filtersContainer">
             <div className="filtersHeadline">Pretraži po</div>
@@ -115,41 +121,20 @@ function AllActivities() {
                 <input id="nazivInput" name="naziv" type="text" onChange={(e) => setNazivFilter(e.target.value)} />
               </div>
               <div className="filtersSection">
-                Donator:
+                Tema:
                 <Form.Group className="sortingContainer">
-                  <Form.Select id="donatorInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedDonator(e.target.value)}>
-                    <option value="allDonators">Svi donatori</option>
-                    {donators.length == 0 ? (
+                  <Form.Select id="temaInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedTema(e.target.value)}>
+                    <option value="allTeme">Sve teme</option>
+                    {teme.length == 0 ? (
                       <></>
                     ) : (
                       <>
-                        {donators
+                        {teme
                           .sort((a, b) => {
                             return a > b ? -1 : 0;
                           })
                           .map((donator) => (
                             <option value={donator}>{donator}</option>
-                          ))}
-                      </>
-                    )}
-                  </Form.Select>
-                </Form.Group>
-              </div>
-              <div className="filtersSection">
-                Projekat:
-                <Form.Group className="sortingContainer">
-                  <Form.Select id="projekatInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedProject(e.target.value)}>
-                    <option value="allProjects">Svi projekti</option>
-                    {projects.length == 0 ? (
-                      <></>
-                    ) : (
-                      <>
-                        {projects
-                          .sort((a, b) => {
-                            return a > b ? -1 : 0;
-                          })
-                          .map((project) => (
-                            <option value={project}>{project}</option>
                           ))}
                       </>
                     )}
@@ -166,31 +151,55 @@ function AllActivities() {
                   </Form.Select>
                 </Form.Group>
               </div>
+              <div className="filtersSection">
+                Godina:
+                <Form.Group className="sortingContainer">
+                  <Form.Select id="yearInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedYear(e.target.value)}>
+                    <option value="allYears">Sve godine</option>
+                    {years.length == 0 ? (
+                      <></>
+                    ) : (
+                      <>
+                        {years
+                          .sort((a, b) => {
+                            return a > b ? -1 : 0;
+                          })
+                          .map((year) => (
+                            <option value={year}>{year}</option>
+                          ))}
+                      </>
+                    )}
+                  </Form.Select>
+                </Form.Group>
+              </div>
             </div>
           </div>
         </div>
         <div className="allWorkshopsContainer" onClick={handleClick}>
-          {donators.length == 0 ? (
+          {teme.length == 0 ? (
             <>
-              {filteredActivities.map((item) => (
-                <Activity item={item} />
+              {filteredNews.map((item) => (
+                <News item={item} />
               ))}
             </>
           ) : (
             <>
-              {filteredActivities
+              {filteredNews
                 .filter((item) => {
-                  return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+                  return item.tema == selectedTema || selectedTema == "allTeme";
                 })
                 .filter((item) => {
-                  return item.nazivProjekta == selectedProject || selectedProject == "allProjects";
+                  var date = item.datum.split("-");
+                  var fullDate = new Date(date[0], date[1] - 1, date[2]);
+                  let year = fullDate.getFullYear();
+                  return year == selectedYear || selectedYear == "allYears";
                 })
                 .filter((item) => {
                   if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
                   else return 1;
                 })
                 .map((item) => (
-                  <Activity item={item} />
+                  <News item={item} />
                 ))}
             </>
           )}
@@ -201,4 +210,4 @@ function AllActivities() {
   );
 }
 
-export default AllActivities;
+export default AllNews;
