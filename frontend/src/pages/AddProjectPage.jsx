@@ -10,6 +10,7 @@ import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
 import "./../css/AddWorkshopPage.css";
+import { formatPath } from "../js/namechange";
 
 function AddProjectPage() {
   const [inputs, setInputs] = useState({});
@@ -33,11 +34,12 @@ function AddProjectPage() {
     var uploadFormData = new FormData(uploadForm);
 
     try {
-      const response = await axios.post(`http://localhost:5000/upload/` + inputs.naziv, uploadFormData);
+      const response = await axios.post(`http://localhost:5000/upload/projekti/` + inputs.naziv, uploadFormData);
     } catch (err) {}
 
     addProject({
       naziv: inputs.naziv,
+      formatiranNaziv: formatPath(inputs.naziv),
       mjesto: inputs.mjesto,
       pocetakImplementacije: inputs.pocetakImplementacije,
       krajImplementacije: inputs.krajImplementacije,
@@ -46,7 +48,7 @@ function AddProjectPage() {
       ciljnaGrupa: inputs.ciljnaGrupa,
       cilj: inputs.cilj,
       opisProjekta: inputs.opisProjekta,
-      naslovnaSlika: inputs.naziv.replace(/ /g, "") + "0.jpg",
+      naslovnaSlika: formatPath(inputs.naziv) + "0.jpg",
     });
   };
 

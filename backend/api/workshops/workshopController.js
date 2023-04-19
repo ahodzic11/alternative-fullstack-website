@@ -132,8 +132,6 @@ module.exports = {
 
   deleteWorkshop: (req, res) => {
     const data = req.params.id;
-    console.log(data);
-    console.log("linija 70");
     deleteWorkshop(data, (err, results) => {
       if (err) {
         console.log(err);

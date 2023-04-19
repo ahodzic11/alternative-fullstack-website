@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import Project from "../components/Project";
 import "./../css/AllProjects.css";
+import { formatPath } from "../js/namechange";
 
 function AllProjects() {
   const [projectList, setProjects] = useState([]);
@@ -62,7 +63,7 @@ function AllProjects() {
   }, [sort, nazivFilter, projectList]);
 
   const handleClick = (e) => {
-    navigate("/projects/details/" + e.target.id);
+    navigate("/projects/details/" + formatPath(e.target.id));
   };
 
   useEffect(() => {
@@ -95,7 +96,7 @@ function AllProjects() {
     <>
       <Navigation />
       <div className="workshopsMainWrapper">
-        <div className="workshopsMainTitle">Aktuelni projekti</div>
+        <div className="workshopsMainTitle">Projekti</div>
         <div className="filterAndSortingSection">
           <div className="filtersContainer">
             <div className="filtersHeadline">Pretraži po</div>

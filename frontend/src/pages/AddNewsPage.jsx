@@ -10,6 +10,7 @@ import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
 import "./../css/AddWorkshopPage.css";
+import { formatPath } from "../js/namechange";
 
 function AddNewsPage() {
   const [inputs, setInputs] = useState({});
@@ -33,7 +34,7 @@ function AddNewsPage() {
     var uploadFormData = new FormData(uploadForm);
 
     try {
-      const response = await axios.post(`http://localhost:5000/upload/` + inputs.naziv, uploadFormData);
+      const response = await axios.post(`http://localhost:5000/upload/vijesti/` + inputs.naziv, uploadFormData);
     } catch (err) {}
 
     addNews({
@@ -41,7 +42,7 @@ function AddNewsPage() {
       tema: inputs.tema,
       datum: inputs.datum,
       tekstVijesti: inputs.tekstVijesti,
-      naslovnaSlika: inputs.naziv.replace(/ /g, "") + "0.jpg",
+      naslovnaSlika: formatPath(inputs.naziv) + "0.jpg",
     });
   };
 

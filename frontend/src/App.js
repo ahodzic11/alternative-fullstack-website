@@ -25,7 +25,6 @@ import EditProjects from "./pages/EditProjects";
 import ReadProjects from "./pages/ReadProjects";
 import ProjectDetailed from "./components/ProjectDetailed";
 import ProjectInformation from "./components/ProjectInformation";
-import "./App.css";
 import AllActivities from "./pages/AllActivities";
 import ActivityDetailed from "./components/ActivityDetailed";
 import ActivityInformation from "./components/ActivityInformation";
@@ -37,6 +36,10 @@ import EditActivities from "./pages/EditActivities";
 import ReadNews from "./pages/ReadNews";
 import EditNews from "./pages/EditNews";
 import Historijat from "./pages/Historijat";
+import AddDonatorPage from "./pages/AddDonatorPage";
+import "./App.css";
+import ReadDonators from "./pages/ReadDonators";
+import EditDonators from "./pages/EditDonators";
 
 function App() {
   return (
@@ -55,6 +58,7 @@ function App() {
           <Route path="/dodajaktivnost" element={<AddActivityPage />} />
           <Route path="/dodajprojekat" element={<AddProjectPage />} />
           <Route path="/dodajvijest" element={<AddNewsPage />} />
+          <Route path="/dodajdonatora" element={<AddDonatorPage />} />
           <Route path="/workshops" element={<Workshops />} />
           <Route path="/projekti" element={<Projects />} />
           <Route path="/aktivnosti" element={<AllActivities />} />
@@ -64,10 +68,12 @@ function App() {
           <Route path="/readprojects" element={<ReadProjects />} />
           <Route path="/readactivities" element={<ReadActivities />} />
           <Route path="/readnews" element={<ReadNews />} />
+          <Route path="/readdonators" element={<ReadDonators />} />
           <Route path="/editworkshop/:name" element={<EditWorkshops />} />
           <Route path="/editproject/:name" element={<EditProjects />} />
           <Route path="/editactivity/:name" element={<EditActivities />} />
           <Route path="/editnews/:name" element={<EditNews />} />
+          <Route path="/editdonator/:name" element={<EditDonators />} />
           <Route path="/workshops/:area" element={<WorkshopList />} />
           <Route path="/workshops/details/:name" element={<WorkshopDetailed />} />
           <Route path="/projects/details/:name" element={<ProjectDetailed />} />

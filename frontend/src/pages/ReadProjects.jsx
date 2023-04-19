@@ -9,6 +9,7 @@ import changePictureIcon from "./../assets/changePicture.png";
 import deleteIcon from "./../assets/deleteIcon.png";
 import { useNavigate } from "react-router-dom";
 import "./../css/ReadProjects.css";
+import { formatPath } from "../js/namechange";
 
 function ReadProjects() {
   const [projects, setProjects] = useState([]);
@@ -26,12 +27,12 @@ function ReadProjects() {
 
   const editProject = (e, item) => {
     e.preventDefault();
-    navigate("/editproject/" + item.naziv);
+    navigate("/editproject/" + formatPath(item.naziv));
   };
 
   const chooseImage = (e, item) => {
     e.preventDefault();
-    navigate("/chooseimage/project/" + item.naziv);
+    navigate("/chooseimage/project/" + formatPath(item.naziv));
   };
 
   async function deleteProjectItem(e, item) {

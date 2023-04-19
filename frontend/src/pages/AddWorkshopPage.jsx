@@ -10,6 +10,7 @@ import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
 import "./../css/AddWorkshopPage.css";
+import { formatPath } from "../js/namechange";
 
 function AddWorkshopPage() {
   const [inputs, setInputs] = useState({});
@@ -22,7 +23,7 @@ function AddWorkshopPage() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     if (inputs.oblastRadionice == null) return;
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -35,12 +36,13 @@ function AddWorkshopPage() {
     var uploadFormData = new FormData(uploadForm);
 
     try {
-      const response = await axios.post(`http://localhost:5000/upload/` + inputs.naslov, uploadFormData);
+      const response = await axios.post(`http://localhost:5000/upload/radionice/` + inputs.naslov, uploadFormData);
     } catch (err) {}
 
     addWorkshop({
       naslov: inputs.naslov,
       mjesto: inputs.mjesto,
+      formatiranNaslov: formatPath(inputs.naslov),
       datum: inputs.datum,
       trener: inputs.trener,
       ucesnici: inputs.ucesnici,
@@ -49,7 +51,7 @@ function AddWorkshopPage() {
       cilj: inputs.cilj,
       opisRadionice: inputs.opisRadionice,
       oblastRadionice: inputs.oblastRadionice,
-      naslovnaSlika: inputs.naslov.replace(/ /g, "") + "0.jpg",
+      naslovnaSlika: formatPath(inputs.naslov) + "0.jpg",
     });
   };
 

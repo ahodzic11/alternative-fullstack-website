@@ -27,19 +27,24 @@ function AdminPanel() {
     navigate("/dodajvijest");
   };
 
-  const chooseImage = (e) => {
+  const readNews = (e) => {
     e.preventDefault();
-    navigate("/odaberinaslovnu");
+    navigate("/readnews");
+  };
+
+  const addDonator = (e) => {
+    e.preventDefault();
+    navigate("/dodajdonatora");
+  };
+
+  const readDonators = (e) => {
+    e.preventDefault();
+    navigate("/readdonators");
   };
 
   const readWorkshops = (e) => {
     e.preventDefault();
     navigate("/readworkshops");
-  };
-
-  const readNews = (e) => {
-    e.preventDefault();
-    navigate("/readnews");
   };
 
   const readProjects = (e) => {
@@ -87,6 +92,14 @@ function AdminPanel() {
             </div>
             <div className="viewActivitiesContainer addingItem" onClick={readNews}>
               POGLEDAJ VIJESTI
+            </div>
+          </div>
+          <div className="addingContainerRow">
+            <div className="addActivityContainer addingItem" onClick={addDonator}>
+              DODAJ DONATORA
+            </div>
+            <div className="viewActivitiesContainer addingItem" onClick={readDonators}>
+              POGLEDAJ DONATORE
             </div>
           </div>
         </div>

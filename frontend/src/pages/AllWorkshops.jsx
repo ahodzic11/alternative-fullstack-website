@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import "./../css/AllWorkshops.css";
+import { formatPath } from "../js/namechange";
 
 function AllWorkshops() {
   const [workshopList, setWorkshops] = useState([]);
@@ -86,7 +87,7 @@ function AllWorkshops() {
   }, [workshopList, sort, filteredWorkshops]);
 
   const handleClick = (e) => {
-    navigate("/workshops/details/" + e.target.id);
+    navigate("/workshops/details/" + formatPath(e.target.id));
   };
 
   useEffect(() => {

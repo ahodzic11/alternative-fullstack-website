@@ -4,12 +4,13 @@ import Navigation from "./Navigation";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./../css/WorkshopDetailed.css";
+import { formatPath } from "../js/namechange";
 
 function ActivityInformation() {
   const [activity, setActivity] = useState([]);
   const [images, setImages] = useState([]);
   const { name } = useParams();
-  const path = "http://localhost:5000/newUploads/" + name.replace(/ /g, "") + "/";
+  const path = "http://localhost:5000/newUploads/aktivnosti/" + formatPath(name) + "/";
 
   useEffect(() => {
     const getActivity = async () => {
@@ -22,7 +23,7 @@ function ActivityInformation() {
     const getSlike = async () => {
       console.log(path);
       try {
-        const response = await axios.get(`http://localhost:5000/` + name.replace(/ /g, ""));
+        const response = await axios.get(`http://localhost:5000/aktivnosti/` + formatPath(name));
         setImages(response.data);
       } catch (err) {}
     };
@@ -37,7 +38,7 @@ function ActivityInformation() {
       <div className="workshopInformationContainer">
         <div className="workshopInformationTitle">{name}</div>
         <div className="workshopInformationImage">
-          <img src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + activity.naslovnaSlika} alt="naslovnaSlika" />
+          <img src={"http://localhost:5000/newuploads/aktivnosti/" + formatPath(name) + "/" + activity.naslovnaSlika} alt="naslovnaSlika" />
         </div>
         <div className="workshopInformationAbout">
           <span>Sadržaj aktivnosti: </span>

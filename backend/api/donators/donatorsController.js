@@ -1,7 +1,7 @@
-const { create, getProjects, getProjectByName, updateProject, updateNaslovnuSliku, deleteProject, getSelectedImage } = require("./projectService");
+const { create, getDonators, getDonatorByName, updateDonator, updateLogoDonatora, deleteDonator, getSelectedImage } = require("./donatorsService");
 
 module.exports = {
-  createProject: (req, res) => {
+  createDonator: (req, res) => {
     const body = req.body;
     create(body, (err, results) => {
       if (err) {
@@ -18,9 +18,9 @@ module.exports = {
     });
   },
 
-  getProjectByName: (req, res) => {
+  getDonatorByName: (req, res) => {
     const name = req.params.name;
-    getProjectByName(name, (err, results) => {
+    getDonatorByName(name, (err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -28,7 +28,7 @@ module.exports = {
       if (!results) {
         return res.json({
           success: 0,
-          message: "Traženi projekat nije pronađen",
+          message: "Traženi donator nije pronađen",
         });
       }
       return res.json({
@@ -38,8 +38,8 @@ module.exports = {
     });
   },
 
-  getProjects: (req, res) => {
-    getProjects((err, results) => {
+  getDonators: (req, res) => {
+    getDonators((err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -51,35 +51,35 @@ module.exports = {
     });
   },
 
-  updateProject: (req, res) => {
-    updateProject(req.body, (err, results) => {
+  updateDonator: (req, res) => {
+    updateDonator(req.body, (err, results) => {
       if (err) {
         console.log(err);
         return;
       }
       return res.json({
         success: 1,
-        message: "Projekat uspješno update-ovan!",
+        message: "Donator uspješno update-ovan!",
       });
     });
   },
 
-  updateNaslovnuSliku: (req, res) => {
-    updateNaslovnuSliku(req.body, (err, results) => {
+  updateLogoDonatora: (req, res) => {
+    updateLogoDonatora(req.body, (err, results) => {
       if (err) {
         console.log(err);
         return;
       }
       return res.json({
         success: 1,
-        message: "Naslovna slika uspješno update-ovana!",
+        message: "Logo donatora uspješno update-ovan!",
       });
     });
   },
 
-  deleteProject: (req, res) => {
+  deleteDonator: (req, res) => {
     const data = req.params.id;
-    deleteProject(data, (err, results) => {
+    deleteDonator(data, (err, results) => {
       if (err) {
         console.log(err);
         return;
@@ -87,12 +87,12 @@ module.exports = {
       if (!results) {
         return res.json({
           success: 0,
-          message: "Projekat nije pronađen",
+          message: "Donator nije pronađen",
         });
       }
       return res.json({
         success: 1,
-        message: "Projekat uspješno obrisan",
+        message: "Donator uspješno obrisan",
       });
     });
   },

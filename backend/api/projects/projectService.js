@@ -3,9 +3,9 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callBack) => {
     pool.query(
-      `INSERT INTO projects(naziv, mjesto, pocetakImplementacije, krajImplementacije, nazivDonatora, projektniGrant, ciljnaGrupa, cilj, opisProjekta, naslovnaSlika) 
-        values(?,?,?,?,?,?,?,?,?,?)`,
-      [data.naziv, data.mjesto, data.pocetakImplementacije, data.krajImplementacije, data.nazivDonatora, data.projektniGrant, data.ciljnaGrupa, data.cilj, data.opisProjekta, data.naslovnaSlika],
+      `INSERT INTO projects(naziv, formatiranNaziv, mjesto, pocetakImplementacije, krajImplementacije, nazivDonatora, projektniGrant, ciljnaGrupa, cilj, opisProjekta, naslovnaSlika) 
+        values(?,?,?,?,?,?,?,?,?,?,?)`,
+      [data.naziv, data.formatiranNaziv, data.mjesto, data.pocetakImplementacije, data.krajImplementacije, data.nazivDonatora, data.projektniGrant, data.ciljnaGrupa, data.cilj, data.opisProjekta, data.naslovnaSlika],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -25,7 +25,7 @@ module.exports = {
   },
 
   getProjectByName: (name, callBack) => {
-    pool.query(`SELECT * FROM projects WHERE naziv = ?`, [name], (error, results, fields) => {
+    pool.query(`SELECT * FROM projects WHERE formatiranNaziv = ?`, [name], (error, results, fields) => {
       if (error) {
         return callBack(error);
       }
@@ -34,12 +34,16 @@ module.exports = {
   },
 
   updateProject: (data, callBack) => {
-    pool.query(`UPDATE projects SET naziv=?, mjesto=?, pocetakImplementacije=?, krajImplementacije=?, nazivDonatora=?, projektniGrant=?, ciljnaGrupa=?, cilj=?, opisProjekta=? WHERE id=?`, [data.naziv, data.mjesto, data.pocetakImplementacije, data.krajImplementacije, data.nazivDonatora, data.projektniGrant, data.ciljnaGrupa, data.cilj, data.opisProjekta, data.id], (error, results, fields) => {
-      if (error) {
-        callBack(error);
+    pool.query(
+      `UPDATE projects SET naziv=?, formatiranNaziv=?, mjesto=?, pocetakImplementacije=?, krajImplementacije=?, nazivDonatora=?, projektniGrant=?, ciljnaGrupa=?, cilj=?, opisProjekta=? WHERE id=?`,
+      [data.naziv, data.formatiranNaziv, data.mjesto, data.pocetakImplementacije, data.krajImplementacije, data.nazivDonatora, data.projektniGrant, data.ciljnaGrupa, data.cilj, data.opisProjekta, data.id],
+      (error, results, fields) => {
+        if (error) {
+          callBack(error);
+        }
+        return callBack(null, results[0]);
       }
-      return callBack(null, results[0]);
-    });
+    );
   },
 
   updateNaslovnuSliku: (data, callBack) => {
@@ -55,6 +59,16 @@ module.exports = {
     pool.query(`DELETE FROM projects WHERE id=?`, [id], (error, results, fields) => {
       if (error) {
         callBack(error);
+      }
+      return callBack(null, results[0]);
+    });
+  },
+
+  getSelectedImage: (id, callBack) => {
+    console.log(id);
+    pool.query(`SELECT naslovnaSlika FROM projects WHERE id=?`, [id], (error, results, fields) => {
+      if (error) {
+        return callBack(error);
       }
       return callBack(null, results[0]);
     });

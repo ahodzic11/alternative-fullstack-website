@@ -1,4 +1,4 @@
-.workshopDetailedMainWrapper {
+.newsDetailedMainWrapper {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -14,7 +14,7 @@
   padding: 30px;
 }
 
-.firstWrapper {
+.firstWrapperNews {
   display: flex;
   flex-direction: column;
   row-gap: 40px;
@@ -25,37 +25,37 @@
   width: 28%;
 }
 
-.secondWrapper {
+.secondWrapperNews {
   height: inherit;
   width: 72%;
 }
 
-.workshopImageElement {
+.newsImageElement {
   object-fit: cover;
   height: 100%;
   width: 100%;
 }
 
-.workshopDetailedTitle {
+.newsDetailedTitle {
   font-size: 35px;
   font-family: "Righteous", cursive;
 }
 
-.workshopDetailedGoal {
+.newsDetailedGoal {
   font-family: "Oswald", sans-serif;
   letter-spacing: 1px;
 }
 
-.workshopDetailedGoal p {
+.newsDetailedGoal p {
   cursor: pointer;
 }
 
-.moreAboutWorkshopLink:hover {
+.moreAboutNewsLink:hover {
   transition: 0.2s ease;
   text-decoration: underline;
 }
 
-.workshopImages {
+.newsImages {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,7 +63,7 @@
   gap: 50px;
 }
 
-.workshopInformationImageElement {
+.newsInformationImageElement {
   object-fit: cover;
   height: 200px;
   width: 370px;

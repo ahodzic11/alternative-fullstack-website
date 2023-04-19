@@ -4,9 +4,9 @@ module.exports = {
   create: (data, callBack) => {
     console.log("uslo u create");
     pool.query(
-      `INSERT INTO workshops(naslov, mjesto, datum, trener, ucesnici, nazivDonatora, nazivProjekta, cilj, opisRadionice, oblastRadionice, naslovnaSlika) 
-        values(?,?,?,?,?,?,?,?,?,?,?)`,
-      [data.naslov, data.mjesto, data.datum, data.trener, data.ucesnici, data.nazivDonatora, data.nazivProjekta, data.cilj, data.opisRadionice, data.oblastRadionice, data.naslovnaSlika],
+      `INSERT INTO workshops(naslov, formatiranNaslov, mjesto, datum, trener, ucesnici, nazivDonatora, nazivProjekta, cilj, opisRadionice, oblastRadionice, naslovnaSlika) 
+        values(?,?,?,?,?,?,?,?,?,?,?,?)`,
+      [data.naslov, data.formatiranNaslov, data.mjesto, data.datum, data.trener, data.ucesnici, data.nazivDonatora, data.nazivProjekta, data.cilj, data.opisRadionice, data.oblastRadionice, data.naslovnaSlika],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -26,7 +26,7 @@ module.exports = {
   },
 
   getWorkshopByName: (name, callBack) => {
-    pool.query(`SELECT * FROM workshops WHERE naslov=?`, [name], (error, results, fields) => {
+    pool.query(`SELECT * FROM workshops WHERE formatiranNaslov=?`, [name], (error, results, fields) => {
       if (error) {
         return callBack(error);
       }
@@ -54,12 +54,16 @@ module.exports = {
   },
 
   updateWorkshop: (data, callBack) => {
-    pool.query(`UPDATE workshops SET naslov=?, mjesto=?, datum=?, trener=?, ucesnici=?, nazivDonatora=?, nazivProjekta=?, cilj=?, opisRadionice=?, oblastRadionice=? WHERE id=?`, [data.naslov, data.mjesto, data.datum, data.trener, data.ucesnici, data.nazivDonatora, data.nazivProjekta, data.cilj, data.opisRadionice, data.oblastRadionice, data.id], (error, results, fields) => {
-      if (error) {
-        callBack(error);
+    pool.query(
+      `UPDATE workshops SET naslov=?, formatiranNaslov, mjesto=?, datum=?, trener=?, ucesnici=?, nazivDonatora=?, nazivProjekta=?, cilj=?, opisRadionice=?, oblastRadionice=? WHERE id=?`,
+      [data.naslov, data.formatiranNaslov, data.mjesto, data.datum, data.trener, data.ucesnici, data.nazivDonatora, data.nazivProjekta, data.cilj, data.opisRadionice, data.oblastRadionice, data.id],
+      (error, results, fields) => {
+        if (error) {
+          callBack(error);
+        }
+        return callBack(null, results[0]);
       }
-      return callBack(null, results[0]);
-    });
+    );
   },
 
   updateNaslovnuSliku: (data, callBack) => {
@@ -72,23 +76,11 @@ module.exports = {
   },
 
   deleteWorkshop: (id, callBack) => {
-    console.log(id);
-    console.log("unutar servisa");
     pool.query(`DELETE FROM workshops WHERE id=?`, [id], (error, results, fields) => {
       if (error) {
         callBack(error);
       }
       return callBack(null, results[0]);
-    });
-  },
-
-  getWorkshopImagesByName: (name, callBack) => {
-    console.log("USLO U DAJ SLIKE");
-    const testFolder = "./../../../uploads/radionice/8/";
-    const fs = require("fs");
-
-    fs.readdirSync(testFolder).forEach((file) => {
-      console.log(file);
     });
   },
 };

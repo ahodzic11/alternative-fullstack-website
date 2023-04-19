@@ -8,6 +8,7 @@ const workshopRouter = require("./api/workshops/workshopRouter");
 const ativitiesRouter = require("./api/activities/activityRouter");
 const newsRouter = require("./api/news/newsRouter");
 const projectsRouter = require("./api/projects/projectRouter");
+const donatorsRouter = require("./api/donators/donatorsRouter");
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
 const path = require("path");
@@ -20,11 +21,19 @@ app.use("/api/workshops", workshopRouter);
 app.use("/api/activities", ativitiesRouter);
 app.use("/api/news", newsRouter);
 app.use("/api/projects", projectsRouter);
+app.use("/api/donators", donatorsRouter);
 
-app.post("/upload/:naslov", (req, res) => {
+function formatPath(str) {
+  var newString = str.toLowerCase();
+  newString = newString.replace(/ć|č/g, "c").replace(/š/g, "s").replace(/đ/g, "d").replace(/ž/g, "z").replace(/:|-|,/g, "").replace(/ /g, "-").replace(".", "");
+  return newString;
+}
+
+app.post("/upload/:tipobjave/:naslov", (req, res) => {
   const { image } = req.files;
-  const naslov = req.params.naslov.replace(/ /g, "");
-  fs.mkdir(path.join(__dirname + "/newuploads/", naslov), (err) => {
+  const naslov = formatPath(req.params.naslov);
+  const tipObjave = req.params.tipobjave;
+  fs.mkdir(path.join(__dirname + "/newuploads/" + tipObjave + "/", naslov), (err) => {
     if (err) {
       return console.log(err);
     }
@@ -34,35 +43,25 @@ app.post("/upload/:naslov", (req, res) => {
   if (image.length > 1) {
     let imageNumber = 0;
     image.forEach((slika) => {
-      let slikaName = naslov.replace(/ /g, "") + imageNumber + ".jpg";
-      slika.mv(__dirname + "/newuploads/" + naslov + "/" + slikaName);
+      let slikaName = naslov + imageNumber + ".jpg";
+      slika.mv(__dirname + "/newuploads/" + tipObjave + "/" + naslov + "/" + slikaName);
       imageNumber++;
     });
-  } else image.mv(__dirname + "/newuploads/" + naslov + "/" + naslov.replace(/ /g, "") + "0.jpg");
+  } else image.mv(__dirname + "/newuploads/" + tipObjave + "/" + naslov + "/" + naslov + "0.jpg");
 
   res.sendStatus(200);
 });
 
-app.get("/:naslov", async (req, res) => {
+app.get("/:nazivFoldera/:naslov", async (req, res) => {
   const naslov = req.params.naslov;
-  console.log(naslov);
-  //const testFolder = "https://www.nvo-alternative.org/images/radionice/" + naslov + "/";
-  const testFolder2 = "./../backend/newuploads/" + naslov + "/";
-  //const testFolder3 = "https://www.nvo-alternative.org/images/radionice/Prezentacijskevještine/";
+  const nazivFoldera = req.params.nazivFoldera;
+  const testFolder2 = "./../backend/newuploads/" + nazivFoldera + "/" + naslov + "/";
   try {
     const slike = fs.readdirSync(testFolder2);
-    console.log(slike);
     res.json(slike);
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 });
 
 app.listen(5000, () => {
   console.log("Server up and running on port", 5000);
 });
-
-/*
-5000, () => {
-  console.log("Server up and running on port", 5000);
-}*/

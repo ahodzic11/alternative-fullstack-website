@@ -24,3 +24,10 @@
   width: 100%;
   object-fit: cover;
 }
+
+span {
+  letter-spacing: 0.5x;
+  font-weight: 600;
+  font-size: 20px;
+  font-family: "Josefin Sans", sans-serif;
+}

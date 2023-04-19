@@ -59,4 +59,14 @@ module.exports = {
       return callBack(null, results[0]);
     });
   },
+
+  getSelectedImage: (id, callBack) => {
+    console.log(id);
+    pool.query(`SELECT naslovnaSlika FROM news WHERE id=?`, [id], (error, results, fields) => {
+      if (error) {
+        return callBack(error);
+      }
+      return callBack(null, results[0]);
+    });
+  },
 };

@@ -67,7 +67,7 @@
 .imageFile {
   border-radius: 2%;
   height: 300px;
-  width: 300px;
+  width: 100px;
   object-fit: cover;
 }
 

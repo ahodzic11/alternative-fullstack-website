@@ -37,6 +37,15 @@ export const addNews = async (news) => {
   }
 };
 
+export const addDonator = async (donator) => {
+  try {
+    const res = await publicRequest.post(`/donators`, donator);
+  } catch (err) {
+    console.log(err);
+    alert("uslo");
+  }
+};
+
 export const getWorkshops = async () => {
   try {
     const res = await publicRequest.get(`/workshops`);

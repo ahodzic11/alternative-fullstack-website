@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./../css/ActivityDetailed.css";
+import { formatPath } from "../js/namechange";
 
 function ActivityDetailed() {
   const [activity, setActivity] = useState([]);
@@ -43,7 +44,7 @@ function ActivityDetailed() {
             </div>
           </div>
           <div className="secondWrapperActivity">
-            <img className="activityImageElement" src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + activity.naslovnaSlika} alt="workshopImageElement" />
+            <img className="activityImageElement" src={"http://localhost:5000/newuploads/aktivnosti/" + formatPath(name) + "/" + activity.naslovnaSlika} alt="workshopImageElement" />
           </div>
         </div>
       </div>

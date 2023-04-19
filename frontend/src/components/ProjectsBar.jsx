@@ -10,16 +10,16 @@ function ProjectsBar() {
 
       <div className="projectInfo">
         <div className="youth">
-          <div className="projectNumbers">520</div>
+          <div className="projectNumbers projectNumbersKICK"></div>
           <div className="projectDetailText">mladih je koristilo usluge KICK-a</div>
         </div>
         <div className="projects">
-          <div className="projectNumbers">120</div>
+          <div className="projectNumbers projectNumbersPROJECT"></div>
           <div className="projectDetailText">implementiranih projekata kroz 25 godina postojanja</div>
         </div>
 
         <div className="donators">
-          <div className="projectNumbers">52</div>
+          <div className="projectNumbers projectNumbersDONATORS"></div>
           <div className="projectDetailText">donatora su podržala naše projekte</div>
         </div>
       </div>

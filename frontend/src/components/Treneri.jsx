@@ -32,7 +32,11 @@ function Treneri() {
   return (
     <>
       <Navigation />
-      <div className="outterContainer">
+      <Footer />
+    </>
+  );
+}
+/*<div className="outterContainer">
         <div class="responsive-container-block container">
           <p class="text-blk team-head-text">Treneri</p>
           <div class="responsive-container-block">
@@ -308,10 +312,6 @@ function Treneri() {
             </div>
           </div>
         </div>
-      </div>
-      <Footer />
-    </>
-  );
-}
+      </div>*/
 
 export default Treneri;

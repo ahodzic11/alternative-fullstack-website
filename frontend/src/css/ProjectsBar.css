@@ -71,3 +71,61 @@
   flex-direction: column;
   margin: 20px;
 }
+
+@property --youth {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.projectNumbersKICK {
+  animation: counter 5s infinite alternate ease-in-out;
+  counter-reset: youth var(--youth);
+  padding: 2rem;
+}
+.projectNumbersKICK::after {
+  content: counter(youth);
+}
+
+@property --projects {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.projectNumbersPROJECT {
+  animation: counter 5s infinite alternate ease-in-out;
+  counter-reset: projects var(--projects);
+  padding: 2rem;
+}
+.projectNumbersPROJECT::after {
+  content: counter(projects);
+}
+
+@property --donators {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.projectNumbersDONATORS {
+  animation: counter 5s infinite alternate ease-in-out;
+  counter-reset: donators var(--donators);
+  padding: 2rem;
+}
+.projectNumbersDONATORS::after {
+  content: counter(donators);
+}
+
+@keyframes counter {
+  from {
+    --youth: 0;
+    --projects: 0;
+    --donators: 0;
+  }
+  to {
+    --youth: 520;
+    --projects: 120;
+    --donators: 52;
+  }
+}

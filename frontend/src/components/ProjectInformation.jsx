@@ -4,12 +4,13 @@ import Navigation from "./Navigation";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./../css/WorkshopDetailed.css";
+import { formatPath } from "../js/namechange";
 
 function ProjectInformation() {
   const [project, setProject] = useState([]);
   const [images, setImages] = useState([]);
   const { name } = useParams();
-  const path = "http://localhost:5000/newUploads/" + name.replace(/ /g, "") + "/";
+  const path = "http://localhost:5000/newuploads/projekti/" + name + "/";
 
   useEffect(() => {
     const getProject = async () => {
@@ -22,7 +23,7 @@ function ProjectInformation() {
     const getSlike = async () => {
       console.log(path);
       try {
-        const response = await axios.get(`http://localhost:5000/` + name.replace(/ /g, ""));
+        const response = await axios.get(`http://localhost:5000/projekti/` + name);
         setImages(response.data);
       } catch (err) {}
     };
@@ -35,9 +36,9 @@ function ProjectInformation() {
     <>
       <Navigation />
       <div className="workshopInformationContainer">
-        <div className="workshopInformationTitle">{name}</div>
+        <div className="workshopInformationTitle">{project.naziv}</div>
         <div className="workshopInformationImage">
-          <img src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + project.naslovnaSlika} alt="naslovnaSlika" />
+          <img src={"http://localhost:5000/newuploads/projekti/" + name + "/" + project.naslovnaSlika} alt="naslovnaSlika" />
         </div>
         <div className="workshopInformationAbout">
           <span>Sadržaj projekta: </span>

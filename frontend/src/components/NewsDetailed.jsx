@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./../css/NewsDetailed.css";
+import { formatPath } from "../js/namechange";
 
 function NewsDetailed() {
   const [news, setNews] = useState([]);
@@ -30,18 +31,18 @@ function NewsDetailed() {
     <>
       <Navigation />
       <div className="randomAssDiv">
-        <div className="workshopDetailedMainWrapper">
-          <div className="firstWrapper">
-            <div className="workshopDetailedTitle">{news.naziv}</div>
-            <div className="workshopDetailedGoal">{news.tema}</div>
-            <div className="workshopDetailedGoal">
-              <p className="moreAboutWorkshopLink" onClick={handleClick}>
+        <div className="newsDetailedMainWrapper">
+          <div className="firstWrapperNews">
+            <div className="newsDetailedTitle">{news.naziv}</div>
+            <div className="newsDetailedGoal">{news.tema}</div>
+            <div className="newsDetailedGoal">
+              <p className="moreAboutNewsLink" onClick={handleClick}>
                 Više o vijesti &gt;
               </p>
             </div>
           </div>
-          <div className="secondWrapper">
-            <img className="workshopImageElement" src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + news.naslovnaSlika} alt="workshopImageElement" />
+          <div className="secondWrapperNews">
+            <img className="newsImageElement" src={"http://localhost:5000/newuploads/vijesti/" + formatPath(name) + "/" + news.naslovnaSlika} alt="workshopImageElement" />
           </div>
         </div>
       </div>

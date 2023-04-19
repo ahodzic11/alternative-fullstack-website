@@ -5,6 +5,7 @@ import axios from "axios";
 import Workshop from "../components/Workshop";
 import { useParams, useNavigate } from "react-router-dom";
 import "./../css/WorkshopList.css";
+import { formatPath } from "../js/namechange";
 
 function WorkshopList() {
   const [workshopList, setWorkshops] = useState([]);
@@ -23,7 +24,7 @@ function WorkshopList() {
   }, []);
 
   const handleClick = (e) => {
-    navigate("/workshops/details/" + e.target.id);
+    navigate("/workshops/details/" + formatPath(e.target.id));
   };
 
   return (

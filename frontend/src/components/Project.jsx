@@ -1,7 +1,8 @@
+import { formatPath } from "../js/namechange";
 import "./../css/Project.css";
 
 const Project = ({ item }) => {
-  const path = "http://localhost:5000/newuploads/" + item.naziv.replace(/ /g, "") + "/" + item.naslovnaSlika;
+  const path = "http://localhost:5000/newuploads/projekti/" + formatPath(item.naziv) + "/" + item.naslovnaSlika;
 
   return (
     <div className="workshopAreaContainer">

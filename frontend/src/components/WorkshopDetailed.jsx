@@ -41,7 +41,7 @@ function WorkshopDetailed() {
             </div>
           </div>
           <div className="secondWrapper">
-            <img className="workshopImageElement" src={"http://localhost:5000/newuploads/" + name.replace(/ /g, "") + "/" + workshop.naslovnaSlika} alt="workshopImageElement" />
+            <img className="workshopImageElement" src={"http://localhost:5000/newuploads/radionice/" + name + "/" + workshop.naslovnaSlika} alt="workshopImageElement" />
           </div>
         </div>
       </div>

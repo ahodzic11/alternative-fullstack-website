@@ -1,6 +1,9 @@
 .navigation {
   text-align: center;
   font-family: "Oswald", sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 .randomEmptyDiv {
@@ -104,8 +107,8 @@
 .yearsBanner {
   font-family: "Alkatra", cursive;
   font-weight: 700;
-  padding: 3px;
   padding-top: 10px;
+  padding-bottom: 10px;
   margin: 0;
   margin-top: 3px;
   font-size: 15px;
@@ -122,6 +125,7 @@
 .wrapper {
   display: inline-flex;
   justify-content: right;
+  padding-right: 10px;
   width: 33%;
 }
 .wrapper .icon {

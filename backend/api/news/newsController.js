@@ -1,4 +1,4 @@
-const { create, getNews, getNewsByName, updateNews, updateNaslovnuSliku, deleteNews } = require("./newsService");
+const { create, getNews, getNewsByName, updateNews, updateNaslovnuSliku, deleteNews, getSelectedImage } = require("./newsService");
 
 module.exports = {
   createNews: (req, res) => {
@@ -93,6 +93,26 @@ module.exports = {
       return res.json({
         success: 1,
         message: "Projekat uspješno obrisan",
+      });
+    });
+  },
+
+  getSelectedImage: (req, res) => {
+    const id = req.params.id;
+    getSelectedImage(id, (err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (!results) {
+        return res.json({
+          success: 0,
+          message: "Tražena slika nije pronađena",
+        });
+      }
+      return res.json({
+        success: 1,
+        data: results,
       });
     });
   },

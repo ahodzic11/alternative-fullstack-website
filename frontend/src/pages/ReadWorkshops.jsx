@@ -9,6 +9,7 @@ import changePictureIcon from "./../assets/changePicture.png";
 import deleteIcon from "./../assets/deleteIcon.png";
 import { useNavigate } from "react-router-dom";
 import "./../css/ReadWorkshops.css";
+import { formatPath } from "../js/namechange";
 
 function ReadWorkshops() {
   const [workshops, setWorkshops] = useState([]);
@@ -26,12 +27,12 @@ function ReadWorkshops() {
 
   const editWorkshop = (e, item) => {
     e.preventDefault();
-    navigate("/editworkshop/" + item.naslov);
+    navigate("/editworkshop/" + formatPath(item.naslov));
   };
 
   const chooseImage = (e, item) => {
     e.preventDefault();
-    navigate("/chooseimage/workshop/" + item.naslov);
+    navigate("/chooseimage/workshop/" + formatPath(item.naslov));
   };
 
   async function deleteWorkshopItem(e, item) {
