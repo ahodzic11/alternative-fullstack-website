@@ -4,13 +4,12 @@ import Navigation from "./Navigation";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./../css/WorkshopDetailed.css";
-import { formatPath } from "../js/namechange";
 
 function ActivityInformation() {
   const [activity, setActivity] = useState([]);
   const [images, setImages] = useState([]);
   const { name } = useParams();
-  const path = "http://localhost:5000/newUploads/aktivnosti/" + formatPath(name) + "/";
+  const path = "http://localhost:5000/newUploads/aktivnosti/" + name + "/";
 
   useEffect(() => {
     const getActivity = async () => {
@@ -23,7 +22,7 @@ function ActivityInformation() {
     const getSlike = async () => {
       console.log(path);
       try {
-        const response = await axios.get(`http://localhost:5000/aktivnosti/` + formatPath(name));
+        const response = await axios.get(`http://localhost:5000/aktivnosti/` + name);
         setImages(response.data);
       } catch (err) {}
     };
@@ -36,9 +35,9 @@ function ActivityInformation() {
     <>
       <Navigation />
       <div className="workshopInformationContainer">
-        <div className="workshopInformationTitle">{name}</div>
+        <div className="workshopInformationTitle">{activity.naziv}</div>
         <div className="workshopInformationImage">
-          <img src={"http://localhost:5000/newuploads/aktivnosti/" + formatPath(name) + "/" + activity.naslovnaSlika} alt="naslovnaSlika" />
+          <img src={"http://localhost:5000/newuploads/aktivnosti/" + name + "/" + activity.naslovnaSlika} alt="naslovnaSlika" />
         </div>
         <div className="workshopInformationAbout">
           <span>Sadržaj aktivnosti: </span>
@@ -54,10 +53,14 @@ function ActivityInformation() {
           <span>Donator: </span>
           {activity.nazivDonatora}
         </div>
-        <div className="workshopInformationProject informationalText">
-          <span>Projekat: </span>
-          {activity.nazivProjekta}
-        </div>
+        {activity.nazivProjekta ? (
+          <div className="workshopInformationProject informationalText">
+            <span>Projekat: </span>
+            {activity.nazivProjekta}
+          </div>
+        ) : (
+          <></>
+        )}
         <div className="workshopImagesHeadline">
           <span>Slike:</span>{" "}
         </div>

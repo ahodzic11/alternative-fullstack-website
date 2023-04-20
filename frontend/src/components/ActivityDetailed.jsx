@@ -44,7 +44,7 @@ function ActivityDetailed() {
             </div>
           </div>
           <div className="secondWrapperActivity">
-            <img className="activityImageElement" src={"http://localhost:5000/newuploads/aktivnosti/" + formatPath(name) + "/" + activity.naslovnaSlika} alt="workshopImageElement" />
+            <img className="activityImageElement" src={"http://localhost:5000/newuploads/aktivnosti/" + name + "/" + activity.naslovnaSlika} alt="workshopImageElement" />
           </div>
         </div>
       </div>

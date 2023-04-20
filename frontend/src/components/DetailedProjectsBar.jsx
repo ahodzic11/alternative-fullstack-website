@@ -31,21 +31,21 @@ function DetailedProjectsBar() {
             Bosnia: Beyond the emergency
           </div>
         </div>
-        <div id="Kreativni%20inovacijski%20centar%20Kakanj%20-%20KICK" className="kick projectItem" onClick={handleClick}>
-          <img id="Kreativni%20inovacijski%20centar%20Kakanj%20-%20KICK" className="projectLogo" src={kick} alt="kick" />
-          <div id="Kreativni%20inovacijski%20centar%20Kakanj%20-%20KICK" className="projectHeadline">
+        <div id="kreativni-inovacijski-centar-kakanj--kick" className="kick projectItem" onClick={handleClick}>
+          <img id="kreativni-inovacijski-centar-kakanj--kick" className="projectLogo" src={kick} alt="kick" />
+          <div id="kreativni-inovacijski-centar-kakanj--kick" className="projectHeadline">
             Program podrške mladima
           </div>
-          <div id="Kreativni%20inovacijski%20centar%20Kakanj%20-%20KICK" className="projectText">
+          <div id="kreativni-inovacijski-centar-kakanj--kick" className="projectText">
             Kreativni inovacijski centar - KICK
           </div>
         </div>
-        <div id="Budućnost%20Kaknja%20prema%20pravednoj%20energetskoj%20tranziciji" className="kakanjFuture projectItem" onClick={handleClick}>
-          <img id="Budućnost%20Kaknja%20prema%20pravednoj%20energetskoj%20tranziciji" className="projectLogo" src={enetrgetskaTranzicija} alt="enetrgetskaTranzicija" />
-          <div id="Budućnost%20Kaknja%20prema%20pravednoj%20energetskoj%20tranziciji" className="projectHeadline">
+        <div id="buducnost-kaknja-prema-pravednoj-energetskoj-tranziciji" className="kakanjFuture projectItem" onClick={handleClick}>
+          <img id="buducnost-kaknja-prema-pravednoj-energetskoj-tranziciji" className="projectLogo" src={enetrgetskaTranzicija} alt="enetrgetskaTranzicija" />
+          <div id="buducnost-kaknja-prema-pravednoj-energetskoj-tranziciji" className="projectHeadline">
             Stop aerozagađenju
           </div>
-          <div id="Budućnost%20Kaknja%20prema%20pravednoj%20energetskoj%20tranziciji" className="projectText">
+          <div id="buducnost-kaknja-prema-pravednoj-energetskoj-tranziciji" className="projectText">
             Budućnost Kaknja: prema pravednoj energetskoj transformaciji
           </div>
         </div>

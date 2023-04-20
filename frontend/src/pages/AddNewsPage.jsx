@@ -23,6 +23,7 @@ function AddNewsPage() {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -39,6 +40,7 @@ function AddNewsPage() {
 
     addNews({
       naziv: inputs.naziv,
+      formatiranNaziv: formatPath(inputs.naziv),
       tema: inputs.tema,
       datum: inputs.datum,
       tekstVijesti: inputs.tekstVijesti,

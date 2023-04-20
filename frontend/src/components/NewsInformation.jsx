@@ -10,7 +10,7 @@ function NewsInformation() {
   const [news, setNews] = useState([]);
   const [images, setImages] = useState([]);
   const { name } = useParams();
-  const path = "http://localhost:5000/newUploads/vijesti/" + formatPath(name) + "/";
+  const path = "http://localhost:5000/newUploads/vijesti/" + name + "/";
 
   useEffect(() => {
     const getNews = async () => {
@@ -23,7 +23,7 @@ function NewsInformation() {
     const getSlike = async () => {
       console.log(path);
       try {
-        const response = await axios.get(`http://localhost:5000/vijesti/` + formatPath(name));
+        const response = await axios.get(`http://localhost:5000/vijesti/` + name);
         setImages(response.data);
       } catch (err) {}
     };
@@ -36,9 +36,9 @@ function NewsInformation() {
     <>
       <Navigation />
       <div className="workshopInformationContainer">
-        <div className="workshopInformationTitle">{name}</div>
+        <div className="workshopInformationTitle">{news.naziv}</div>
         <div className="workshopInformationImage">
-          <img src={"http://localhost:5000/newuploads/vijesti/" + formatPath(name) + "/" + news.naslovnaSlika} alt="naslovnaSlika" />
+          <img src={"http://localhost:5000/newuploads/vijesti/" + name + "/" + news.naslovnaSlika} alt="naslovnaSlika" />
         </div>
         <div className="workshopInformationAbout">
           <span>Sadržaj vijesti: </span>

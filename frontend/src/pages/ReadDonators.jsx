@@ -9,6 +9,7 @@ import changePictureIcon from "./../assets/changePicture.png";
 import deleteIcon from "./../assets/deleteIcon.png";
 import { useNavigate } from "react-router-dom";
 import "./../css/ReadWorkshops.css";
+import { formatPath } from "../js/namechange";
 
 function ReadDonators() {
   const [donators, setDonators] = useState([]);
@@ -26,12 +27,12 @@ function ReadDonators() {
 
   const editDonator = (e, item) => {
     e.preventDefault();
-    navigate("/editdonator/" + item.naziv);
+    navigate("/editdonator/" + formatPath(item.naziv));
   };
 
   const chooseImage = (e, item) => {
     e.preventDefault();
-    navigate("/chooseimage/donator/" + item.naziv);
+    navigate("/chooseimage/donator/" + formatPath(item.naziv));
   };
 
   async function deleteDonatorItem(e, item) {

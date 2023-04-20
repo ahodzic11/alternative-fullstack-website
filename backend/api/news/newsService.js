@@ -3,9 +3,9 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callBack) => {
     pool.query(
-      `INSERT INTO news(naziv, tema, datum, tekstVijesti, naslovnaSlika) 
-        values(?,?,?,?,?)`,
-      [data.naziv, data.tema, data.datum, data.tekstVijesti, data.naslovnaSlika],
+      `INSERT INTO news(naziv, formatiranNaziv, tema, datum, tekstVijesti, naslovnaSlika) 
+        values(?,?,?,?,?,?)`,
+      [data.naziv, data.formatiranNaziv, data.tema, data.datum, data.tekstVijesti, data.naslovnaSlika],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -25,7 +25,7 @@ module.exports = {
   },
 
   getNewsByName: (name, callBack) => {
-    pool.query(`SELECT * FROM news WHERE naziv = ?`, [name], (error, results, fields) => {
+    pool.query(`SELECT * FROM news WHERE formatiranNaziv = ?`, [name], (error, results, fields) => {
       if (error) {
         return callBack(error);
       }
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   updateNews: (data, callBack) => {
-    pool.query(`UPDATE news SET naziv=?, tema=?, datum=?, tekstVijesti=? WHERE id=?`, [data.naziv, data.tema, data.datum, data.tekstVijesti, data.id], (error, results, fields) => {
+    pool.query(`UPDATE news SET naziv=?, formatiranNaziv=?, tema=?, datum=?, tekstVijesti=? WHERE id=?`, [data.naziv, data.formatiranNaziv, data.tema, data.datum, data.tekstVijesti, data.id], (error, results, fields) => {
       if (error) {
         callBack(error);
       }

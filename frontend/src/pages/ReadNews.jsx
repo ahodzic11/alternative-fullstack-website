@@ -9,6 +9,7 @@ import changePictureIcon from "./../assets/changePicture.png";
 import deleteIcon from "./../assets/deleteIcon.png";
 import { useNavigate } from "react-router-dom";
 import "./../css/ReadProjects.css";
+import { formatPath } from "../js/namechange";
 
 function ReadNews() {
   const [news, setNews] = useState([]);
@@ -26,12 +27,12 @@ function ReadNews() {
 
   const editNews = (e, item) => {
     e.preventDefault();
-    navigate("/editnews/" + item.naziv);
+    navigate("/editnews/" + formatPath(item.naziv));
   };
 
   const chooseImage = (e, item) => {
     e.preventDefault();
-    navigate("/chooseimage/news/" + item.naziv);
+    navigate("/chooseimage/news/" + formatPath(item.naziv));
   };
 
   async function deleteNewsItem(e, item) {

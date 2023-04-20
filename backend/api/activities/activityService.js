@@ -3,9 +3,9 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callBack) => {
     pool.query(
-      `INSERT INTO activities(naziv, mjesto, datum, nazivDonatora, nazivProjekta, opisAktivnosti, naslovnaSlika) 
-        values(?,?,?,?,?,?,?)`,
-      [data.naziv, data.mjesto, data.datum, data.nazivDonatora, data.nazivProjekta, data.opisAktivnosti, data.naslovnaSlika],
+      `INSERT INTO activities(naziv, formatiranNaziv, mjesto, datum, nazivDonatora, nazivProjekta, opisAktivnosti, naslovnaSlika) 
+        values(?,?,?,?,?,?,?,?)`,
+      [data.naziv, data.formatiranNaziv, data.mjesto, data.datum, data.nazivDonatora, data.nazivProjekta, data.opisAktivnosti, data.naslovnaSlika],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -25,7 +25,7 @@ module.exports = {
   },
 
   getActivityByName: (name, callBack) => {
-    pool.query(`SELECT * FROM activities WHERE naziv = ?`, [name], (error, results, fields) => {
+    pool.query(`SELECT * FROM activities WHERE formatiranNaziv = ?`, [name], (error, results, fields) => {
       if (error) {
         return callBack(error);
       }
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   updateActivity: (data, callBack) => {
-    pool.query(`UPDATE activities SET naziv=?, mjesto=?, datum=?, nazivDonatora=?, nazivProjekta=?, opisAktivnosti=? WHERE id=?`, [data.naziv, data.mjesto, data.datum, data.nazivDonatora, data.nazivProjekta, data.opisAktivnosti, data.id], (error, results, fields) => {
+    pool.query(`UPDATE activities SET naziv=?, formatiranNaziv=?, mjesto=?, datum=?, nazivDonatora=?, nazivProjekta=?, opisAktivnosti=? WHERE id=?`, [data.naziv, data.formatiranNaziv, data.mjesto, data.datum, data.nazivDonatora, data.nazivProjekta, data.opisAktivnosti, data.id], (error, results, fields) => {
       if (error) {
         callBack(error);
       }

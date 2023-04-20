@@ -3,9 +3,9 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callBack) => {
     pool.query(
-      `INSERT INTO donators(naziv, link, pocetakPodrske, krajPodrske, naslovnaSlika) 
-        values(?,?,?,?,?)`,
-      [data.naziv, data.link, data.pocetakPodrske, data.krajPodrske, data.naslovnaSlika],
+      `INSERT INTO donators(naziv, formatiranNaziv, link, pocetakPodrske, krajPodrske, naslovnaSlika) 
+        values(?,?,?,?,?,?)`,
+      [data.naziv, data.formatiranNaziv, data.link, data.pocetakPodrske, data.krajPodrske, data.naslovnaSlika],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -25,7 +25,7 @@ module.exports = {
   },
 
   getDonatorByName: (name, callBack) => {
-    pool.query(`SELECT * FROM donators WHERE naziv = ?`, [name], (error, results, fields) => {
+    pool.query(`SELECT * FROM donators WHERE formatiranNaziv = ?`, [name], (error, results, fields) => {
       if (error) {
         return callBack(error);
       }
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   updateDonator: (data, callBack) => {
-    pool.query(`UPDATE donators SET naziv=?, link=?, pocetakPodrske=?, krajPodrske=? WHERE id=?`, [data.naziv, data.link, data.pocetakPodrske, data.krajPodrske, data.id], (error, results, fields) => {
+    pool.query(`UPDATE donators SET naziv=?, formatiranNaziv=?, link=?, pocetakPodrske=?, krajPodrske=? WHERE id=?`, [data.naziv, data.formatiranNaziv, data.link, data.pocetakPodrske, data.krajPodrske, data.id], (error, results, fields) => {
       if (error) {
         callBack(error);
       }

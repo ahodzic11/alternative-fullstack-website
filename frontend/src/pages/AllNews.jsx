@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import News from "../components/News";
 import "./../css/AllProjects.css";
+import { formatPath } from "../js/namechange";
 
 function AllNews() {
   const [newsList, setNews] = useState([]);
@@ -78,7 +79,7 @@ function AllNews() {
   }, [newsList, sort, filteredNews]);
 
   const handleClick = (e) => {
-    navigate("/news/details/" + e.target.id);
+    navigate("/news/details/" + formatPath(e.target.id));
   };
 
   useEffect(() => {

@@ -95,7 +95,7 @@ function AddProjectPage() {
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Grant</Form.Label>
-                <Form.Control name="projektniGrant" required type="text" placeholder="Grant" onChange={handleChange} />
+                <Form.Control name="projektniGrant" required type="text" placeholder="U KM" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} controlId="validationCustom02">

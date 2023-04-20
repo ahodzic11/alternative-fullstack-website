@@ -40,6 +40,7 @@ import AddDonatorPage from "./pages/AddDonatorPage";
 import "./App.css";
 import ReadDonators from "./pages/ReadDonators";
 import EditDonators from "./pages/EditDonators";
+import AllDonators from "./pages/AllDonators";
 
 function App() {
   return (
@@ -84,6 +85,7 @@ function App() {
           <Route path="/activities/activitydetails/:name" element={<ActivityInformation />} />
           <Route path="/news/newsdetails/:name" element={<NewsInformation />} />
           <Route path="/allworkshops" element={<AllWorkshops />} />
+          <Route path="/donatori" element={<AllDonators />} />
           <Route path="/treneri" element={<Treneri />} />
           <Route path="/historijat" element={<Historijat />} />
         </Routes>

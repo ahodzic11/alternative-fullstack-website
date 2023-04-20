@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import Activity from "../components/Activity";
 import "./../css/AllActivities.css";
+import { formatPath } from "../js/namechange";
 
 function AllActivities() {
   const [activityList, setActivities] = useState([]);
@@ -72,7 +73,7 @@ function AllActivities() {
   }, [sort, nazivFilter, activityList]);
 
   const handleClick = (e) => {
-    navigate("/activities/details/" + e.target.id);
+    navigate("/activities/details/" + formatPath(e.target.id));
   };
 
   useEffect(() => {

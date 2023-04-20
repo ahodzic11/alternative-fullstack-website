@@ -40,6 +40,7 @@ function AddActivityPage() {
 
     addActivity({
       naziv: inputs.naziv,
+      formatiranNaziv: formatPath(inputs.naziv),
       mjesto: inputs.mjesto,
       datum: inputs.datum,
       nazivDonatora: inputs.nazivDonatora,

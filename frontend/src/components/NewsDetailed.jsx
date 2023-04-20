@@ -42,7 +42,7 @@ function NewsDetailed() {
             </div>
           </div>
           <div className="secondWrapperNews">
-            <img className="newsImageElement" src={"http://localhost:5000/newuploads/vijesti/" + formatPath(name) + "/" + news.naslovnaSlika} alt="workshopImageElement" />
+            <img className="newsImageElement" src={"http://localhost:5000/newuploads/vijesti/" + name + "/" + news.naslovnaSlika} alt="workshopImageElement" />
           </div>
         </div>
       </div>

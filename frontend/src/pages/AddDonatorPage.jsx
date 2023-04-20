@@ -23,7 +23,6 @@ function AddDonatorPage() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -40,6 +39,7 @@ function AddDonatorPage() {
 
     addDonator({
       naziv: inputs.naziv,
+      formatiranNaziv: formatPath(inputs.naziv),
       link: inputs.link,
       pocetakPodrske: inputs.pocetakPodrske,
       krajPodrske: inputs.krajPodrske,
@@ -47,17 +47,11 @@ function AddDonatorPage() {
     });
   };
 
-  function handleFixName() {
-    console.log(formatPath(".,-ĆČĐŠŽBudućnost Kaknja: prema pravednoj energetskoj tranziciji"));
-  }
-
   return (
     <>
       <AdminNavigation />
       <div className="addWorkshopContainer">
-        <div className="currentLocationHeadline" onClick={handleFixName}>
-          Dodavanje donatora
-        </div>
+        <div className="currentLocationHeadline">Dodavanje donatora</div>
         <div className="addWorkshopForm">
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
