@@ -149,6 +149,9 @@ function AllActivities() {
                           .sort((a, b) => {
                             return a > b ? -1 : 0;
                           })
+                          .filter((project) => {
+                            return project.length > 0 ? -1 : 0;
+                          })
                           .map((project) => (
                             <option value={project}>{project}</option>
                           ))}

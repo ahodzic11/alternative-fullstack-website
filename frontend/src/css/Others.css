@@ -2,11 +2,11 @@
   padding-top: 30px;
   padding-bottom: 30px;
   display: flex;
-  flex-direction: column;
-  row-gap: 40px;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
   background-color: #f1f3f4;
-  width: 60%;
+  width: 100%;
 }
 
 .othersWrapper {
@@ -15,6 +15,7 @@
   justify-content: space-between;
   padding-bottom: 20px;
   height: 100%;
+  width: 100%;
   background-color: #f1f3f4;
 }
 
@@ -22,7 +23,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 50%;
+  width: 30%;
   padding: 20px 40px 20px 40px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

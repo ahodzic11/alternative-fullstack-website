@@ -13,7 +13,13 @@ const Donator = ({ item }) => {
         <div className="donatorSecondWrapper">
           <div className="donatorAreaTitle">{item.naziv.toUpperCase()}</div>
           <div className="donatorPeriod">
-            {item.pocetakPodrske}. - {item.krajPodrske}. godina{" "}
+            {item.pocetakPodrske == item.krajPodrske ? (
+              <div>{item.pocetakPodrske}. godina</div>
+            ) : (
+              <div>
+                {item.pocetakPodrske}. - {item.krajPodrske}. godina{" "}
+              </div>
+            )}
           </div>
           <div className="donatorLink">
             {item.link ? (

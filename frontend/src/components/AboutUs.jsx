@@ -104,8 +104,10 @@ function AboutUs() {
             <div className="aboutUsCustomEntity">
               <div className="detailedProjectText">
                 <span>Osoblje:</span> <br />
-                <span>Stalno i povremeno uposleni tokom 20 godina rada:</span>
+                <span>Stalno i povremeno uposleni tokom 20 godina rada:</span> <br />
                 <ul>
+                  {" "}
+                  <br />
                   <li>Andrijana Pavlović</li>
                   <li>Dražena Tubić</li>
                   <li>Dženan Šarić</li>

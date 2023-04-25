@@ -33,7 +33,7 @@ function Workshops() {
       <Navigation />
       <div className="workshopsMainWrapper">
         <div className="workshopsMainTitle">Radionice</div>
-        <div className="workshopsIntro">
+        <div className="workshopsIntroSmaller">
           U udruženju Alternative kakanj uspješno se oblikuju radionice za djecu i odrasle i koriste priručnici sa dobro razvijenim trening materijalima. Za nove teme kao npr. Prevencija rodno zasnovanog nasilja, Različite uloge vijećnika i dr. Uz razvijanje materijal organizujemo trening za trenere kako bismo na najbolji mogući način odgovorili na potrebe u zajednici. Osim radionica u okviru
           naših projekata i aktivnosti pružamo i trenerske usluge za druge projekte i organizacije.
         </div>

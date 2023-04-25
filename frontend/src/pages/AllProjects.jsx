@@ -95,91 +95,94 @@ function AllProjects() {
   return (
     <>
       <Navigation />
-      <div className="workshopsMainWrapper">
+      <div className="projectsMainWrapper">
         <div className="workshopsMainTitle">Projekti</div>
-        <div className="filterAndSortingSection">
-          <div className="filtersContainer">
-            <div className="filtersHeadline">Pretraži po</div>
-            <div className="filteringInputs">
-              <div className="filtersSection">
-                Naziv:
-                <input id="nazivInput" name="naziv" type="text" onChange={(e) => setNazivFilter(e.target.value)} />
-              </div>
-              <div className="filtersSection">
-                Donator:
-                <Form.Group className="sortingContainer">
-                  <Form.Select id="donatorInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedDonator(e.target.value)}>
-                    <option value="allDonators">Svi donatori</option>
-                    {donators.length == 0 ? (
-                      <></>
-                    ) : (
-                      <>
-                        {donators
-                          .sort((a, b) => {
-                            return a > b ? -1 : 0;
-                          })
-                          .map((donator) => (
-                            <option value={donator}>{donator}</option>
-                          ))}
-                      </>
-                    )}
-                  </Form.Select>
-                </Form.Group>
-              </div>
-              <div className="filtersSection">
-                Iznos sredstava:
-                <Form.Group className="sortingContainer">
-                  <Form.Select id="iznosSredstava" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedRange(e.target.value)}>
-                    <option value="allValues">Svi iznosi</option>
-                    <option value="0to10">0 KM do 10000 KM</option>
-                    <option value="10to50">10000 KM do 50000 KM</option>
-                    <option value="50to100">50000 KM do 100000 KM</option>
-                    <option value="over100">Preko 100000 KM</option>
-                  </Form.Select>
-                </Form.Group>
-              </div>
+        <div className="projectsSomeWrapper">
+          <div className="projectFilterAndSortingSection">
+            <div className="projectFiltersContainer">
+              <div className="projectFilteringInputs">
+                <div className="projectFiltersSection">
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Naziv</Form.Label>
+                    <Form.Control type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
+                  </Form.Group>
+                </div>
+                <div className="projectFiltersSection">
+                  <Form.Group className="sortingContainers">
+                    <Form.Label>Donator</Form.Label>
+                    <Form.Select id="donatorInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedDonator(e.target.value)}>
+                      <option value="allDonators">Svi donatori</option>
+                      {donators.length == 0 ? (
+                        <></>
+                      ) : (
+                        <>
+                          {donators
+                            .sort((a, b) => {
+                              return a > b ? -1 : 0;
+                            })
+                            .map((donator) => (
+                              <option value={donator}>{donator}</option>
+                            ))}
+                        </>
+                      )}
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="projectFiltersSection">
+                  <Form.Group className="sortingContainers">
+                    <Form.Label>Iznos sredstava</Form.Label>
+                    <Form.Select id="iznosSredstava" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedRange(e.target.value)}>
+                      <option value="allValues">Svi iznosi</option>
+                      <option value="0to10">0 KM do 10000 KM</option>
+                      <option value="10to50">10000 KM do 50000 KM</option>
+                      <option value="50to100">50000 KM do 100000 KM</option>
+                      <option value="over100">Preko 100000 KM</option>
+                    </Form.Select>
+                  </Form.Group>
+                </div>
 
-              <div className="filtersSection">
-                Sortiraj:
-                <Form.Group className="sortingContainer">
-                  <Form.Select id="sortInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSort(e.target.value)}>
-                    <option value="asc">A-Z</option>
-                    <option value="desc">Z-A</option>
-                  </Form.Select>
-                </Form.Group>
+                <div className="projectFiltersSection">
+                  <Form.Group className="sortingContainers">
+                    <Form.Label>Sortiraj</Form.Label>
+                    <Form.Select id="sortInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSort(e.target.value)}>
+                      <option value="asc">A-Z</option>
+                      <option value="desc">Z-A</option>
+                    </Form.Select>
+                  </Form.Group>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="allWorkshopsContainer" onClick={handleClick}>
-          {donators.length == 0 ? (
-            <>
-              {filteredProjects.map((item) => (
-                <Project item={item} />
-              ))}
-            </>
-          ) : (
-            <>
-              {filteredProjects
-                .filter((item) => {
-                  return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-                })
-                .filter((item) => {
-                  if (selectedRange == "allValues") return 1;
-                  else if (selectedRange == "0to10") return Number(item.projektniGrant) >= 0 && Number(item.projektniGrant) <= 10000;
-                  else if (selectedRange == "10to50") return Number(item.projektniGrant) >= 10000 && Number(item.projektniGrant) <= 50000;
-                  else if (selectedRange == "50to100") return Number(item.projektniGrant) >= 50000 && Number(item.projektniGrant) <= 100000;
-                  else if (selectedRange == "over100") return Number(item.projektniGrant) >= 100000;
-                })
-                .filter((item) => {
-                  if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-                  else return 1;
-                })
-                .map((item) => (
+          <div className="allProjectsContainer" onClick={handleClick}>
+            {donators.length == 0 ? (
+              <>
+                {filteredProjects.map((item) => (
                   <Project item={item} />
                 ))}
-            </>
-          )}
+              </>
+            ) : (
+              <>
+                {filteredProjects
+                  .filter((item) => {
+                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+                  })
+                  .filter((item) => {
+                    if (selectedRange == "allValues") return 1;
+                    else if (selectedRange == "0to10") return Number(item.projektniGrant) >= 0 && Number(item.projektniGrant) <= 10000;
+                    else if (selectedRange == "10to50") return Number(item.projektniGrant) >= 10000 && Number(item.projektniGrant) <= 50000;
+                    else if (selectedRange == "50to100") return Number(item.projektniGrant) >= 50000 && Number(item.projektniGrant) <= 100000;
+                    else if (selectedRange == "over100") return Number(item.projektniGrant) >= 100000;
+                  })
+                  .filter((item) => {
+                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+                    else return 1;
+                  })
+                  .map((item) => (
+                    <Project item={item} />
+                  ))}
+              </>
+            )}
+          </div>
         </div>
       </div>
       <Footer />
@@ -191,8 +194,8 @@ export default AllProjects;
 
 /*
 <div className="filtersSection">
-                <Button className="resetFilters" variant="danger" onClick={resetujFiltere}>
+<Button className="resetFilters" variant="danger" onClick={resetujFiltere}>
                   <p className="buttonText">RESETUJ FILTERE</p>
                 </Button>
-              </div>
-*/
+                </div>
+                */

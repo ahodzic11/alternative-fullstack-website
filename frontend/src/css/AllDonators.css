@@ -31,12 +31,13 @@
   letter-spacing: 4px;
 }
 
-.workshopsIntroSmaller {
+.workshopsIntro {
   padding-bottom: 20px;
   font-size: 20px;
   text-align: center;
   font-family: "Oswald", sans-serif;
-  width: 75%;
+  padding-left: 70px;
+  padding-right: 70px;
 }
 
 .workshopsAreasContainer {
@@ -48,14 +49,15 @@
   padding: 50px;
 }
 
-.allWorkshopsContainer {
+.allDonatorsContainer {
   display: flex;
+  flex-direction: column;
+  width: 100%;
   justify-content: center;
   align-items: center;
   padding-bottom: 60px;
   padding-left: 30px;
   padding-right: 30px;
-  flex-wrap: wrap;
   gap: 30px;
 }
 
@@ -86,6 +88,8 @@
 .filteringInputs {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   column-gap: 50px;
   height: 30px;
 }

@@ -5,63 +5,6 @@ import "./../css/Others.css";
 function Others() {
   return (
     <div className="othersWrapper">
-      <div className="firstPicturesDiv">
-        <div className="imageContainer">
-          <img className="firstImage imageFile" src="https://www.nvo-alternative.org/wp-content/uploads/2018/10/esmin_brodlija1-225x300.jpg" />
-          <div className="imageDescription">
-            <div className="imageName">ESMIN BRODLIJA</div>
-            <div className="imageTitle">dipl. psiholog i geštalt psihoterapeut</div>
-            <div className="imageStatement">
-              <a href="https://www.nvo-alternative.org/esmin-brodlija/">IZJAVA</a>
-            </div>
-          </div>
-        </div>
-
-        <div className="imageContainer">
-          <img className="firstImage imageFile" src="https://www.nvo-alternative.org/wp-content/uploads/2018/10/Ajla_Vehab_Hrusto-300x300.jpg" />
-          <div className="imageDescription">
-            <div className="imageName">AJLA VEHAB HRUSTO</div>
-            <div className="imageTitle">magistar pedagogije</div>
-            <div className="imageStatement">
-              <a href="https://www.nvo-alternative.org/ajla-vehab-hrusto/">IZJAVA</a>
-            </div>
-          </div>
-        </div>
-
-        <div className="imageContainer">
-          <img className="firstImage imageFile" src="https://www.nvo-alternative.org/wp-content/uploads/2018/10/Vildana_Neimarlija-225x300.jpg" />
-          <div className="imageDescription">
-            <div className="imageName">VILDANA NEIMARLIJA</div>
-            <div className="imageTitle">prof. pedagogije i psihologije</div>
-            <div className="imageStatement">
-              <a href="https://www.nvo-alternative.org/vildana-neimarlija/">IZJAVA</a>
-            </div>
-          </div>
-        </div>
-
-        <div className="imageContainer">
-          <img className="firstImage imageFile" src="https://www.nvo-alternative.org/wp-content/uploads/2018/10/jelena_rados1-298x300.jpg" />
-          <div className="imageDescription">
-            <div className="imageName">JELENA RADOŠ</div>
-            <div className="imageTitle">prof. engleskog jezika i književnosti</div>
-            <div className="imageStatement">
-              <a href="https://www.nvo-alternative.org/jelena-rados/">IZJAVA</a>
-            </div>
-          </div>
-        </div>
-
-        <div className="imageContainer">
-          <img className="firstImage imageFile" src="https://www.nvo-alternative.org/wp-content/uploads/2022/05/izjava-300x283.jpg" />
-          <div className="imageDescription">
-            <div className="imageName">DŽENAN ŠARIĆ</div>
-            <div className="imageTitle">magistar vladinih i nevladinih organizacija</div>
-            <div className="imageStatement">
-              <a href="https://www.nvo-alternative.org/izjava/">IZJAVA</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="othersContainer">
         <div className="othersInnerContainer">
           <div className="othersTitle">Posjeta ambasadora SAD-a i direktorice USAID-a nevladinoj organizaciji "Alternative" Kakanj</div>
@@ -78,7 +21,6 @@ function Others() {
           </div>
           <div className="othersDate">NTV IC Kakanj, 16.10.2019.</div>
         </div>
-        <div className="othersTitle mainTitle">KREATIVNI INOVACIJSKI CENTAR KAKANJ - KICK</div>
         <div className="othersInnerContainer">
           <div className="othersTitle">Adresa za mlade koji žele da nauče sve o procesu pokretanja i razvoja biznisa i društvenih inovacija</div>
           <div className="othersLink">
@@ -102,7 +44,6 @@ function Others() {
           <div className="othersDate">Zvanična i FB stranica Općine Kakanj, 29.10.2018.</div>
         </div>
 
-        <div className="othersTitle mainTitle">PREVENCIJA OVISNOSTI</div>
         <div className="othersInnerContainer">
           <div className="othersTitle">U Kaknju se implementira projekat "Književnost i pozorište u funkciji prevencije ovisnosti"</div>
           <div className="othersLink">
@@ -111,7 +52,6 @@ function Others() {
           <div className="othersDate">visoko.co.ba, 16.11.2018.</div>
         </div>
 
-        <div className="othersTitle mainTitle">PREVENCIJA RODNO ZASNOVANOG NASILJA</div>
         <div className="othersInnerContainer">
           <div className="othersTitle">NVO "Alternative" Kakanj: Održana radionica za adolescente, učenike gimnazije, na temu - OČEKIVANJA I ZAHTJEVI</div>
           <div className="othersLink">
@@ -136,7 +76,6 @@ function Others() {
           <div className="othersDate">Općina Kakanj, 8.12.2016.</div>
         </div>
 
-        <div className="othersTitle mainTitle">INKLUZIVNO OBRAZOVANJE</div>
         <div className="othersInnerContainer">
           <div className="othersTitle">Projekat UG "Alternative" Kakanj: Novi prozori i vrata za školu u Nažbilju</div>
           <div className="othersLink">
@@ -145,7 +84,6 @@ function Others() {
           <div className="othersDate">Kaportal, preuzela Općina Kakanj, 23.11.2017.</div>
         </div>
 
-        <div className="othersTitle mainTitle">RADIO DRAMA ALADIN - OBILJEŽAVANJE NOĆI TEATRA U KAKNJU</div>
         <div className="othersInnerContainer">
           <div className="othersTitle">FOTO: Publika oduševljena radio dramom "Aladin" Nenada Veličkovića - KaPortal.ba</div>
           <div className="othersLink">
@@ -178,7 +116,6 @@ function Others() {
           <div className="othersDate">KSC Kakanj, 7.11.2017.</div>
         </div>
 
-        <div className="othersTitle mainTitle">UPRAVLJANJE SEOSKIM VODOVODIMA</div>
         <div className="othersInnerContainer">
           <div className="othersTitle">UG "Alternative" realizira projekat "Odgovorono i održivo upravljanje seoskim vodovodima": Kakanj posjetila Jagoda Munić, koordinatorica projekta ETNAR</div>
           <div className="othersLink">
@@ -203,7 +140,6 @@ function Others() {
           <div className="othersDate">glas.ba, 25.10.2016.</div>
         </div>
 
-        <div className="othersTitle mainTitle">ŽENSKI POLITIČKI FORUM</div>
         <div className="othersInnerContainer">
           <div className="othersLink">
             <a href="https://radio.olovo.ba/blog/2015/10/17/ugalternative-kakanj-u-olovu-odrzali-forum-teatar-gdje-je-zena-u-bh-drustvu/">Radio Olovo</a>
@@ -235,7 +171,6 @@ function Others() {
           <div className="othersDate">Ban.ba Visoko, 21.4.2015.</div>
         </div>
 
-        <div className="othersTitle mainTitle">AKTIVNOSTI ZA DJECU</div>
         <div className="othersInnerContainer">
           <div className="othersTitle">Počeo novi ciklus kreativnih i edukativnih radionica</div>
           <div className="othersLink">
@@ -252,7 +187,6 @@ function Others() {
           <div className="othersDate">KSC Kakanj, 28.7.2017.</div>
         </div>
 
-        <div className="othersTitle mainTitle">DRUGE AKTIVNOSTI</div>
         <div className="othersInnerContainer">
           <div className="othersTitle">U Kaknju održane brojne aktivnosti tokom 16 dana aktivizma</div>
           <div className="othersLink">
@@ -275,51 +209,6 @@ function Others() {
             <a href="https://magazinplus.eu/uloga-lokalnih-zajednica-u-eu-integracijama/">Magazin Plus</a>
           </div>
           <div className="othersDate">Magazin Plus, 21.12.2012.</div>
-        </div>
-      </div>
-      <div className="secondPicturesDiv">
-        <div className="imageContainer">
-          <img className="secondImage imageFile" src="https://www.nvo-alternative.org/wp-content/uploads/2018/10/amila_brodlija-300x293.jpg" />
-          <div className="imageDescription">
-            <div className="imageName">AMILA BRODLIJA</div>
-            <div className="imageStatement">
-              <div className="imageTitle">socijalni radnik</div>
-              <a href="https://www.nvo-alternative.org/amila-brodlija/">IZJAVA</a>
-            </div>
-          </div>
-        </div>
-
-        <div className="imageContainer">
-          <img className="secondImage imageFile" src="https://www.nvo-alternative.org/wp-content/uploads/2018/10/Azem_Husika-175x300.png" />
-          <div className="imageDescription">
-            <div className="imageName">AZEM HUSIKA</div>
-            <div className="imageTitle">dipl. ing. saobr.</div>
-            <div className="imageStatement">
-              <a href="https://www.nvo-alternative.org/azem-husika/">IZJAVA</a>
-            </div>
-          </div>
-        </div>
-
-        <div className="imageContainer">
-          <img className="secondImage imageFile" src="https://www.nvo-alternative.org/wp-content/uploads/2018/10/admira_s-300x300.jpg" />
-          <div className="imageDescription">
-            <div className="imageName">ADMIRA ŠEPER</div>
-            <div className="imageTitle">prof. engleskog jezika i književnosti</div>
-            <div className="imageStatement">
-              <a href="https://www.nvo-alternative.org/admira-seper/">IZJAVA</a>
-            </div>
-          </div>
-        </div>
-
-        <div className="imageContainer">
-          <img className="secondImage imageFile" src="https://www.nvo-alternative.org/wp-content/uploads/2018/11/naida.jpg" />
-          <div className="imageDescription">
-            <div className="imageName">NAIDA BUKVIĆ</div>
-            <div className="imageTitle">dipl. pravnica</div>
-            <div className="imageStatement">
-              <a href="https://www.nvo-alternative.org/naida-bukvic/">IZJAVA</a>
-            </div>
-          </div>
         </div>
       </div>
     </div>

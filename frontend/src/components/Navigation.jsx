@@ -3,10 +3,18 @@ import Nav from "react-bootstrap/Nav";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../assets/logo.png";
 import "./../css/Navigation.css";
+import { useNavigate } from "react-router-dom";
 
 function Navigation() {
+  const navigate = useNavigate();
   function contactUs() {
     const element = document.getElementById("footerContactUsPoint");
+    element.scrollIntoView();
+  }
+
+  function othersAboutUs() {
+    navigate("/", {});
+    const element = document.getElementById("othersAboutUsPoint");
     element.scrollIntoView();
   }
 
@@ -68,11 +76,23 @@ function Navigation() {
           <Nav.Item>DONATORI</Nav.Item>
         </LinkContainer>
         <LinkContainer to="/vijesti">
-          <Nav.Item>VIJESTI</Nav.Item>
+          <Nav.Item>NOVOSTI</Nav.Item>
         </LinkContainer>
-        <LinkContainer to="/drugionama">
-          <Nav.Item>DRUGI O NAMA</Nav.Item>
-        </LinkContainer>
+        <div className="dropdown">
+          <div className="dropdown-headline">
+            <a className="aboutUsLink" href="/drugionama">
+              DRUGI O NAMA
+            </a>
+          </div>
+          <div className="dropdown-content">
+            <div className="dropdown-content-item" onClick={othersAboutUs}>
+              <a href="/izjave"> IZJAVE</a>
+            </div>
+            <div className="dropdown-content-item">
+              <a href="/clanci">ČLANCI</a>
+            </div>
+          </div>
+        </div>
         <LinkContainer to="/workshops">
           <Nav.Item>RADIONICE</Nav.Item>
         </LinkContainer>

@@ -8,22 +8,17 @@
   color: black;
 }
 
-.randomDiv {
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  background-color: aqua;
-}
-
-.workshopsMainWrapper {
+.projectsMainWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f1f3f4;
 }
 
 .workshopsMainTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
   font-size: 48px;
   font-weight: 600;
@@ -49,25 +44,12 @@
   padding: 50px;
 }
 
-.allWorkshopsContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 60px;
-  padding-left: 30px;
-  padding-right: 30px;
-  flex-wrap: wrap;
-  gap: 30px;
-}
-
-.filtersContainer {
+.projectFiltersContainer {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
-  padding-left: 60px;
   width: 100%;
   justify-content: left;
-  padding-bottom: 30px;
 }
 
 .filtersHeadline {
@@ -75,36 +57,32 @@
   font-family: "Oswald", sans-serif;
 }
 
-.filtersSection {
-  display: flex;
-  flex-direction: row;
-  font-size: 15px;
-  column-gap: 20px;
+.projectFiltersSection {
+  font-size: 17px;
   font-family: "Oswald", sans-serif;
   letter-spacing: 1px;
+  width: 80%;
 }
 
-.filteringInputs {
+.projectFilteringInputs {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  column-gap: 50px;
-  height: 30px;
+  row-gap: 20px;
 }
 
 .sortingContainer {
   width: 200px;
 }
 
-.filterAndSortingSection {
+.projectFilterAndSortingSection {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  column-gap: 50px;
-  padding: 10px;
-  width: 100%;
+  width: 15%;
+  border: 1px solid lightgray;
 }
 
 .resetFilters {
@@ -114,4 +92,32 @@
   align-items: center;
   height: fit-content;
   background-color: white;
+}
+
+.allProjectsContainer {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  margin: 0;
+  flex-wrap: wrap;
+  gap: 30px;
+  background-color: #f1f4f5;
+  border: 1px solid lightgray;
+}
+
+.projectsSomeWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+#iznosSredstava {
+  width: 100%;
+}
+
+.sortingContainer {
+  margin: 0;
 }

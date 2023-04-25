@@ -5,6 +5,7 @@ import FillerBar from "../components/FillerBar";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import ProjectsBar from "../components/ProjectsBar";
+import Statements from "../components/Statements";
 
 function Home() {
   return (
@@ -14,6 +15,7 @@ function Home() {
       <ProjectsBar />
       <AcitivityBar />
       <DetailedProjectsBar />
+      <Statements />
       <Footer />
     </div>
   );

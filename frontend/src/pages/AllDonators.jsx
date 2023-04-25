@@ -4,16 +4,17 @@ import Navigation from "../components/Navigation";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
-import "./../css/AllProjects.css";
 import { formatPath } from "../js/namechange";
 import Donator from "../components/Donator";
+import "./../css/AllDonators.css";
 
 function AllDonators() {
   const [donatorList, setDonators] = useState([]);
   const [filteredDonators, setFilteredDonators] = useState([]);
   const [nazivFilter, setNazivFilter] = useState("");
   const [sort, setSort] = useState("asc");
-  const [selectedRange, setSelectedRange] = useState("allValues");
+  const [years, setYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState("allyears");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,6 +52,22 @@ function AllDonators() {
   const handleClick = (e) => {
     navigate("/projects/details/" + formatPath(e.target.id));
   };
+
+  function getWorkshopYears() {
+    var allYears = [];
+    filteredDonators.forEach((donator) => {
+      var pocetakPodrske = donator.pocetakPodrske;
+
+      var krajPodrske = donator.krajPodrske;
+      if (!allYears.includes(pocetakPodrske)) allYears.push(pocetakPodrske);
+      if (!allYears.includes(krajPodrske)) allYears.push(krajPodrske);
+    });
+    setYears(allYears);
+  }
+
+  useEffect(() => {
+    getWorkshopYears();
+  }, [donatorList, sort, filteredDonators]);
 
   useEffect(() => {
     handleChange();
@@ -92,14 +109,23 @@ function AllDonators() {
                 <input id="nazivInput" name="naziv" type="text" onChange={(e) => setNazivFilter(e.target.value)} />
               </div>
               <div className="filtersSection">
-                Iznos sredstava:
+                Godina:
                 <Form.Group className="sortingContainer">
-                  <Form.Select id="iznosSredstava" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedRange(e.target.value)}>
-                    <option value="allValues">Svi iznosi</option>
-                    <option value="0to10">0 KM do 10000 KM</option>
-                    <option value="10to50">10000 KM do 50000 KM</option>
-                    <option value="50to100">50000 KM do 100000 KM</option>
-                    <option value="over100">Preko 100000 KM</option>
+                  <Form.Select id="yearInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedYear(e.target.value)}>
+                    <option value="allyears">Sve godine</option>
+                    {years.length == 0 ? (
+                      <></>
+                    ) : (
+                      <>
+                        {years
+                          .sort((a, b) => {
+                            return a > b ? -1 : 0;
+                          })
+                          .map((year) => (
+                            <option value={year}>{year}</option>
+                          ))}
+                      </>
+                    )}
                   </Form.Select>
                 </Form.Group>
               </div>
@@ -116,10 +142,14 @@ function AllDonators() {
             </div>
           </div>
         </div>
-        <div className="allWorkshopsContainer" onClick={handleClick}>
-          {filteredDonators.map((donator) => (
-            <Donator item={donator} />
-          ))}
+        <div className="allDonatorsContainer">
+          {filteredDonators
+            .filter((donator) => {
+              return (selectedYear <= Number(donator.krajPodrske) && selectedYear >= Number(donator.pocetakPodrske)) || selectedYear == "allyears";
+            })
+            .map((donator) => (
+              <Donator item={donator} />
+            ))}
         </div>
       </div>
       <Footer />

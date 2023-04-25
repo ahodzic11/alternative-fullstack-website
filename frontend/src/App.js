@@ -41,6 +41,7 @@ import "./App.css";
 import ReadDonators from "./pages/ReadDonators";
 import EditDonators from "./pages/EditDonators";
 import AllDonators from "./pages/AllDonators";
+import Statements from "./pages/Statements";
 
 function App() {
   return (
@@ -88,6 +89,8 @@ function App() {
           <Route path="/donatori" element={<AllDonators />} />
           <Route path="/treneri" element={<Treneri />} />
           <Route path="/historijat" element={<Historijat />} />
+          <Route path="/izjave" element={<Statements />} />
+          <Route path="/clanci" element={<OthersAboutUs />} />
         </Routes>
       </BrowserRouter>
     </>
