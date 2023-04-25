@@ -112,7 +112,7 @@ function AllNews() {
     <>
       <Navigation />
       <div className="workshopsMainWrapper">
-        <div className="workshopsMainTitle">Vijesti</div>
+        <div className="workshopsMainTitle">Novosti</div>
         <div className="filterAndSortingSection">
           <div className="filtersContainer">
             <div className="filtersHeadline">Pretraži po</div>

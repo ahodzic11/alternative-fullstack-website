@@ -57,50 +57,56 @@ function AdminPanel() {
     navigate("/readactivities");
   };
 
+  const addOffer = (e) => {
+    e.preventDefault();
+    navigate("/dodajponudu");
+  };
+
+  const readOffers = (e) => {
+    e.preventDefault();
+    navigate("/readoffers");
+  };
+
   return (
     <>
       <AdminNavigation />
       <div className="adminPanelContainer">
         <div className="addingContainer">
-          <div className="addingContainerRow">
-            <div className="addWorkshopsContainer addingItem" onClick={addWorkshop}>
-              DODAJ RADIONICU
-            </div>
-            <div className="viewWorkshopsContainer addingItem" onClick={readWorkshops}>
-              POGLEDAJ RADIONICE
-            </div>
+          <div className="addWorkshopsContainer addingItem" onClick={addWorkshop}>
+            DODAJ RADIONICU
           </div>
-          <div className="addingContainerRow">
-            <div className="addProjectContainer addingItem" onClick={addProject}>
-              DODAJ PROJEKAT
-            </div>
-            <div className="viewProjectsContainer addingItem" onClick={readProjects}>
-              POGLEDAJ PROJEKTE
-            </div>
+          <div className="viewWorkshopsContainer addingItem" onClick={readWorkshops}>
+            POGLEDAJ RADIONICE
           </div>
-          <div className="addingContainerRow">
-            <div className="addActivityContainer addingItem" onClick={addActivity}>
-              DODAJ AKTIVNOST
-            </div>
-            <div className="viewActivitiesContainer addingItem" onClick={readActivities}>
-              POGLEDAJ AKTIVNOSTI
-            </div>
+          <div className="addProjectContainer addingItem" onClick={addProject}>
+            DODAJ PROJEKAT
           </div>
-          <div className="addingContainerRow">
-            <div className="addActivityContainer addingItem" onClick={addNews}>
-              DODAJ VIJEST
-            </div>
-            <div className="viewActivitiesContainer addingItem" onClick={readNews}>
-              POGLEDAJ VIJESTI
-            </div>
+          <div className="viewProjectsContainer addingItem" onClick={readProjects}>
+            POGLEDAJ PROJEKTE
           </div>
-          <div className="addingContainerRow">
-            <div className="addActivityContainer addingItem" onClick={addDonator}>
-              DODAJ DONATORA
-            </div>
-            <div className="viewActivitiesContainer addingItem" onClick={readDonators}>
-              POGLEDAJ DONATORE
-            </div>
+          <div className="addActivityContainer addingItem" onClick={addActivity}>
+            DODAJ AKTIVNOST
+          </div>
+          <div className="viewActivitiesContainer addingItem" onClick={readActivities}>
+            POGLEDAJ AKTIVNOSTI
+          </div>
+          <div className="addActivityContainer addingItem" onClick={addNews}>
+            DODAJ VIJEST
+          </div>
+          <div className="viewActivitiesContainer addingItem" onClick={readNews}>
+            POGLEDAJ VIJESTI
+          </div>
+          <div className="addActivityContainer addingItem" onClick={addDonator}>
+            DODAJ DONATORA
+          </div>
+          <div className="viewActivitiesContainer addingItem" onClick={readDonators}>
+            POGLEDAJ DONATORE
+          </div>
+          <div className="addActivityContainer addingItem" onClick={addOffer}>
+            DODAJ PONUDU
+          </div>
+          <div className="viewActivitiesContainer addingItem" onClick={readOffers}>
+            POGLEDAJ PONUDE
           </div>
         </div>
       </div>

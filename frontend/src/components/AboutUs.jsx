@@ -129,7 +129,7 @@ function AboutUs() {
           </div>
         </div>
 
-        <div className="administrativeBodiesImage parallexImage">ČLANSTVO U MREŽAMA</div>
+        <div className="networksImage parallexImage">ČLANSTVO U MREŽAMA</div>
         <div className="aboutUsMissionVisionContainer">
           <div className="aboutUsHeadline headline">ČLANSTVO U MREŽAMA</div>
           <div className="administrativeBodyDetails">

@@ -42,6 +42,9 @@ import ReadDonators from "./pages/ReadDonators";
 import EditDonators from "./pages/EditDonators";
 import AllDonators from "./pages/AllDonators";
 import Statements from "./pages/Statements";
+import AddOfferPage from "./pages/AddOfferPage";
+import ReadOffers from "./pages/ReadOffers";
+import EditOffers from "./pages/EditOffers";
 
 function App() {
   return (
@@ -61,6 +64,7 @@ function App() {
           <Route path="/dodajprojekat" element={<AddProjectPage />} />
           <Route path="/dodajvijest" element={<AddNewsPage />} />
           <Route path="/dodajdonatora" element={<AddDonatorPage />} />
+          <Route path="/dodajponudu" element={<AddOfferPage />} />
           <Route path="/workshops" element={<Workshops />} />
           <Route path="/projekti" element={<Projects />} />
           <Route path="/aktivnosti" element={<AllActivities />} />
@@ -71,11 +75,13 @@ function App() {
           <Route path="/readactivities" element={<ReadActivities />} />
           <Route path="/readnews" element={<ReadNews />} />
           <Route path="/readdonators" element={<ReadDonators />} />
+          <Route path="/readoffers" element={<ReadOffers />} />
           <Route path="/editworkshop/:name" element={<EditWorkshops />} />
           <Route path="/editproject/:name" element={<EditProjects />} />
           <Route path="/editactivity/:name" element={<EditActivities />} />
           <Route path="/editnews/:name" element={<EditNews />} />
           <Route path="/editdonator/:name" element={<EditDonators />} />
+          <Route path="/editoffer/:name" element={<EditOffers />} />
           <Route path="/workshops/:area" element={<WorkshopList />} />
           <Route path="/workshops/details/:name" element={<WorkshopDetailed />} />
           <Route path="/projects/details/:name" element={<ProjectDetailed />} />

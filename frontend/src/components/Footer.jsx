@@ -57,7 +57,7 @@ function Footer() {
           </div>
           <div className="reference">
             <p id="vijesti" className="referenceItem" onClick={handleReferenceClick}>
-              VIJESTI
+              NOVOSTI
             </p>
           </div>
           <div className="reference">

@@ -9,14 +9,24 @@ import "./../css/Statut.css";
 function Statut() {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const [secondPageNumber, setSecondPageNumber] = useState(2);
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
   };
 
-  const goToPrevPage = () => setPageNumber(pageNumber - 1 <= 1 ? 1 : pageNumber - 1);
+  const goToPrevPage = (e) => {
+    e.preventDefault();
+    setPageNumber(pageNumber - 2 <= 1 ? 1 : pageNumber - 2);
+    setSecondPageNumber(secondPageNumber - 2 <= 2 ? 2 : secondPageNumber - 2);
+  };
 
-  const goToNextPage = () => setPageNumber(pageNumber + 1 >= numPages ? numPages : pageNumber + 1);
+  const goToNextPage = (e) => {
+    e.preventDefault();
+    if (pageNumber == 9 || secondPageNumber == 10) return;
+    setPageNumber(pageNumber + 2 >= numPages ? numPages : pageNumber + 2);
+    setSecondPageNumber(secondPageNumber + 2 >= numPages ? numPages : secondPageNumber + 2);
+  };
   return (
     <>
       <Navigation />
@@ -27,19 +37,42 @@ function Statut() {
 
         <div>
           <Document className="statutDocumentFile" file={statut} onLoadSuccess={onDocumentLoadSuccess}>
-            <Page pageNumber={pageNumber} />
+            <div className="pages">
+              <Page pageNumber={pageNumber} />
+              <Page pageNumber={secondPageNumber} />
+            </div>
           </Document>
           <nav>
             <div className="statutDocumentFileButtonsContainer">
-              <Button className="statutDocumentFileButton" onClick={goToPrevPage} variant="outline-danger">
-                Prethodna stranica
-              </Button>
+              {pageNumber == 1 ? (
+                <div className="disabledButton">
+                  <Button className="statutDocumentFileButton" onClick={(e) => goToPrevPage(e)} variant="outline-danger" disabled={true}>
+                    Prethodni list
+                  </Button>
+                </div>
+              ) : (
+                <div className="enabledButton">
+                  <Button className="statutDocumentFileButton" onClick={(e) => goToPrevPage(e)} variant="outline-danger">
+                    Prethodni list
+                  </Button>
+                </div>
+              )}
               <p className="statutDocumentPageNumber">
-                Stranica {pageNumber} od {numPages}
+                List {secondPageNumber / 2} od {numPages / 2}
               </p>
-              <Button className="statutDocumentFileButton" onClick={goToNextPage} variant="outline-danger">
-                Naredna stranica
-              </Button>
+              {pageNumber == 9 ? (
+                <div className="disabledButton">
+                  <Button className="statutDocumentFileButton" onClick={(e) => goToNextPage(e)} variant="outline-danger" disabled={true}>
+                    Naredni list
+                  </Button>
+                </div>
+              ) : (
+                <div className="enabledButton">
+                  <Button className="statutDocumentFileButton" onClick={(e) => goToNextPage(e)} variant="outline-danger">
+                    Naredni list
+                  </Button>
+                </div>
+              )}
             </div>
           </nav>
         </div>

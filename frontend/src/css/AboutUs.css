@@ -26,6 +26,20 @@
   background-image: url("./../assets/administrativeBodiesImage.jpg");
 }
 
+.networksImage {
+  min-height: 500px;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-image: url("./../assets/clanstvo.jpg");
+}
+
 .aboutUsHeadline {
   margin-top: 60px;
   margin-bottom: 50px;

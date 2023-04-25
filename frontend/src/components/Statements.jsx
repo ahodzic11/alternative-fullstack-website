@@ -43,7 +43,7 @@ function Statements() {
                     <div className="oneContainer">
                       <img src={path + "amila-brodlija.jpg"} alt="" class="center-block team" />
                       <h3>Amila Brodlija</h3>
-                      <h4>Socijalni radnik</h4>
+                      <h4>socijalni radnik</h4>
                       <div className="othersDescription">
                         <p>
                           “Imala sam priliku učestvovati u radionicama za odrasle, ali sam i roditelj čije je dijete bilo uključeno u radionice koje je provodio tim NVO Alternative Kakanj i moje iskustvo je krajnje pozitivno, jer su radionice zabavne, inovativne, edukativne, destigmatizirajuće i promiču ljudska prava i odgovornosti. Posebno mi se dopada rad sa djecom koji u njima potiče

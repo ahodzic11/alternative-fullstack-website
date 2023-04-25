@@ -24,6 +24,7 @@ function ChooseImage() {
       else if (type == "activity") folderName = "aktivnosti";
       else if (type == "news") folderName = "vijesti";
       else if (type == "donator") folderName = "donatori";
+      else if (type == "ponuda") folderName = "ponude";
       setPath("http://localhost:5000/newuploads/" + folderName + "/" + name + "/");
     };
 
@@ -35,6 +36,7 @@ function ChooseImage() {
         else if (type == "activity") response = await axios.get(`http://localhost:5000/aktivnosti/` + name);
         else if (type == "news") response = await axios.get(`http://localhost:5000/vijesti/` + name);
         else if (type == "donator") response = await axios.get(`http://localhost:5000/donatori/` + name);
+        else if (type == "ponuda") response = await axios.get(`http://localhost:5000/ponude/` + name);
         setImages(response.data);
       } catch (err) {}
     };
@@ -52,6 +54,8 @@ function ChooseImage() {
           res = await axios.get(`http://localhost:5000/api/news/` + name);
         } else if (type == "donator") {
           res = await axios.get(`http://localhost:5000/api/donators/` + name);
+        } else if (type == "ponuda") {
+          res = await axios.get(`http://localhost:5000/api/ponude/` + name);
         }
         const dummyWorkshop = res.data.data;
         setCurrentItem(dummyWorkshop);
@@ -67,6 +71,7 @@ function ChooseImage() {
         else if (type == "activity") res = await axios.get(`http://localhost:5000/api/activities/selectedImage/` + currentItem.id);
         else if (type == "news") res = await axios.get(`http://localhost:5000/api/news/selectedImage/` + currentItem.id);
         else if (type == "donator") res = await axios.get(`http://localhost:5000/api/donators/selectedImage/` + currentItem.id);
+        else if (type == "ponuda") res = await axios.get(`http://localhost:5000/api/ponude/selectedImage/` + currentItem.id);
       } catch (err) {}
     };
 
@@ -88,6 +93,7 @@ function ChooseImage() {
       else if (type == "activity") res = await axios.patch(`http://localhost:5000/api/activities/updateImage`, updatedItem);
       else if (type == "news") res = await axios.patch(`http://localhost:5000/api/news/updateImage`, updatedItem);
       else if (type == "donator") res = await axios.patch(`http://localhost:5000/api/donators/updateImage`, updatedItem);
+      else if (type == "ponuda") res = await axios.patch(`http://localhost:5000/api/ponude/updateImage`, updatedItem);
     } catch (err) {}
   };
 
