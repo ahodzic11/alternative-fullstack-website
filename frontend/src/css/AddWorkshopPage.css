@@ -1,28 +1,30 @@
 .addWorkshopContainer {
   display: flex;
   flex-direction: column;
+  row-gap: 50px;
   justify-content: center;
   align-items: center;
+  align-content: space-between;
   background-color: #f1f3f4;
-  height: 100%;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  padding-top: 30px;
 }
 
 .addWorkshopForm {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px;
-  height: 100%;
   background-color: #f1f3f4;
-  width: 50%;
+  width: 60%;
 }
 
 .addStuffButton {
   display: flex;
   justify-content: right;
   font-family: "Josefin Sans", sans-serif;
-  padding: 0;
-  margin-top: 40px;
+  padding-bottom: 30px;
 }
 
 .itemTitleElement {
@@ -31,7 +33,6 @@
 }
 
 .currentLocationHeadline {
-  margin-top: 50px;
   font-family: "Oswald", sans-serif;
   letter-spacing: 3px;
   color: black;
@@ -110,5 +111,9 @@
   font-size: 20px;
   justify-content: center;
   align-items: center;
+  width: 100%;
+}
+
+.customFormContainer {
   width: 100%;
 }

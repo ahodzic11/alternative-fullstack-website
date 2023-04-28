@@ -8,10 +8,13 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import "./../css/ActivityBar.css";
 import Offer from "./Offer";
+import { useNavigate } from "react-router-dom";
+import { formatPath } from "../js/namechange";
 
 function AcitivityBar() {
   const [offerList, setOffers] = useState([]);
   const path = "http://localhost:5000/newUploads/ponude/";
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getOffers = async () => {

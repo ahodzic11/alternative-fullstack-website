@@ -55,7 +55,7 @@ module.exports = {
 
   updateWorkshop: (data, callBack) => {
     pool.query(
-      `UPDATE workshops SET naslov=?, formatiranNaslov, mjesto=?, datum=?, trener=?, ucesnici=?, nazivDonatora=?, nazivProjekta=?, cilj=?, opisRadionice=?, oblastRadionice=? WHERE id=?`,
+      `UPDATE workshops SET naslov=?, formatiranNaslov=?, mjesto=?, datum=?, trener=?, ucesnici=?, nazivDonatora=?, nazivProjekta=?, cilj=?, opisRadionice=?, oblastRadionice=? WHERE id=?`,
       [data.naslov, data.formatiranNaslov, data.mjesto, data.datum, data.trener, data.ucesnici, data.nazivDonatora, data.nazivProjekta, data.cilj, data.opisRadionice, data.oblastRadionice, data.id],
       (error, results, fields) => {
         if (error) {

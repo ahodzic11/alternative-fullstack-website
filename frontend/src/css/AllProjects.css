@@ -1,6 +1,3 @@
-.workshopsContainer {
-}
-
 .containerWorkshopItem {
   height: 300px;
   width: 300px;
@@ -15,11 +12,13 @@
   align-items: center;
 }
 
-.workshopsMainTitle {
+.projectsMainTitle {
+  color: black;
   display: flex;
   justify-content: center;
+  width: 100%;
   align-items: center;
-  padding: 20px;
+  padding-top: 10px;
   font-size: 48px;
   font-weight: 600;
   font-family: "Josefin Sans", sans-serif;
@@ -72,10 +71,6 @@
   row-gap: 20px;
 }
 
-.sortingContainer {
-  width: 200px;
-}
-
 .projectFilterAndSortingSection {
   display: flex;
   flex-direction: row;
@@ -95,7 +90,7 @@
 }
 
 .allProjectsContainer {
-  width: 90%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,13 +100,14 @@
   flex-wrap: wrap;
   gap: 30px;
   background-color: #f1f4f5;
-  border: 1px solid lightgray;
 }
 
 .projectsSomeWrapper {
   width: 100%;
+  min-height: 490px;
   display: flex;
   flex-direction: row;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 #iznosSredstava {
@@ -119,5 +115,113 @@
 }
 
 .sortingContainer {
+  width: 100%;
   margin: 0;
+}
+
+.filterIconsContainer {
+  position: absolute;
+  left: -300px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  transition: 1s;
+  padding: 20px;
+  z-index: 2;
+}
+
+.filteringSmallerContainer {
+  color: black;
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  font-family: "Teko", sans-serif;
+  font-size: 23px;
+  letter-spacing: 3px;
+  column-gap: 5px;
+  width: 270px;
+  padding: 10px 0px 0px 30px;
+}
+
+.filteringSmallerContainerTwo {
+  position: absolute;
+  left: -300px;
+  background-color: #dc3545;
+  height: 53px;
+  width: 270px;
+  transition: 1s;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  z-index: -1;
+}
+
+.filtersIcons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.filterIconText {
+  padding-top: 4px;
+}
+
+.filterIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.newFilterContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  width: 100%;
+}
+
+.newFilterSection {
+  width: 100%;
+}
+
+.newFilterWrapper {
+  width: 230px;
+}
+
+.filtersCustomDesign {
+  color: #9a9a9a;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.resetFilters {
+  width: 100%;
+}
+
+.resetFiltersText {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Josefin Sans", sans-serif;
+  letter-spacing: 3px;
+}
+
+.resultsNumber {
+  padding-top: 10px;
+  padding-right: 30px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+  column-gap: 4px;
+  font-family: "Teko", sans-serif;
+  letter-spacing: 3px;
+}
+
+.resultsNumberLength {
+  font-size: 40px;
+}
+
+.resultsNumberName {
+  font-size: 30px;
+  padding-bottom: 8px;
+  color: rgb(117, 117, 117);
 }

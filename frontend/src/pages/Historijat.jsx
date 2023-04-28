@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import "./../css/Historijat.css";
 
 function Historijat() {
+  const [prikaz, setPrikaz] = useState("više");
+
+  const prikaziViseManje = (e) => {
+    e.preventDefault();
+    console.log(e.target);
+    var moreText = document.getElementById("showMoreText" + e.target.id);
+    if (prikaz == "više") {
+      setPrikaz("manje");
+      moreText.style.maxHeight = "1000px";
+      moreText.style.transition = "max-height 1s ease-in-out";
+    } else {
+      setPrikaz("više");
+      moreText.style.transition = "max-height 0.6s ease-in";
+      moreText.style.maxHeight = "0px";
+    }
+  };
+
   return (
     <>
       <Navigation />
@@ -21,14 +38,21 @@ function Historijat() {
                   Neposredno poslije rata u Bosni i Hercegovini grupa žena sa rekreacije u „Partizanu“ osnovala je udruženje „Alternative“ Kakanj s ciljem da saznaju gdje im se nalaze prijateljice koje su tokom rata napustile Kakanj i imaju li namjeru vratiti se. S obzirom na brojne opstrukcije povratku od strane vlasti, koje su se deklarativno pred međunarodnom zajednicom izjašnjavala za povratak
                   a u praksi sve činile da do povratka ne dođe, bila je hrabrost organizovati udruženje koje će podržati proces povratka.
                 </div>
-                <div className="content-row">Prvi projekat udruženja „Podrška povratku raseljenih i izbjeglih osoba u općinu Kakanj“ podržan je od strane UMCOR-a – United Methodist Committe on Relief.</div>
-                <div className="content-row">Projekat je imao snažnu podršku OSCE-a – Ured za demokratizaciju u Varešu. </div>
-                <div className="content-row">Realizacija projekta se odvija u općinama: Kakanj, Drvar, Zenica,Tasovčići (Čapljina), Livno, Ljubuški, Posušje, Stolac i Vareš. </div>
-                <div className="content-row">Paralelno sa podrškom procesu povratka među prvim projektima udruženja bili su projekti i aktivnosti koji su odgovorili na potrebe djece, mladih i žena u općini Kakanj. Udruženje pokreće ekološku sekciju, muzičku školu i školu ritmike za djecu te projekte za osnaživanje djevojka i žena za aktivno učešće u razvoju zajednice.</div>
+                <div id="showMoreTextshowMore1" className="showMoreText">
+                  <div className="content-row">Prvi projekat udruženja „Podrška povratku raseljenih i izbjeglih osoba u općinu Kakanj“ podržan je od strane UMCOR-a – United Methodist Committe on Relief.</div>
+                  <div className="content-row">Projekat je imao snažnu podršku OSCE-a – Ured za demokratizaciju u Varešu. </div>
+                  <div className="content-row">Realizacija projekta se odvija u općinama: Kakanj, Drvar, Zenica,Tasovčići (Čapljina), Livno, Ljubuški, Posušje, Stolac i Vareš. </div>
+                  <div className="content-row">Paralelno sa podrškom procesu povratka među prvim projektima udruženja bili su projekti i aktivnosti koji su odgovorili na potrebe djece, mladih i žena u općini Kakanj. Udruženje pokreće ekološku sekciju, muzičku školu i školu ritmike za djecu te projekte za osnaživanje djevojka i žena za aktivno učešće u razvoju zajednice.</div>
+                  <div className="content-image">
+                    <img className="content-image-element" src="http://localhost:5000/newuploads/historijat/kakoJeSvePocelo.jpg" />
+                    <div className="image-description">Posjeta Celeste Sheib direktorice Američkog ORT-a kancelariji „Alternative“, DemNET/USAID program</div>
+                  </div>
+                </div>
               </div>
-              <div className="content-image">
-                <img className="content-image-element" src="http://localhost:5000/newuploads/historijat/kakoJeSvePocelo.jpg" />
-                <div className="image-description">Posjeta Celeste Sheib direktorice Američkog ORT-a kancelariji „Alternative“, DemNET/USAID program</div>
+              <div className="showMoreButton">
+                <div id="showMore1" className="showMoreButtonText" onClick={prikaziViseManje}>
+                  Prikaži {prikaz}
+                </div>
               </div>
             </div>
           </div>
@@ -41,16 +65,23 @@ function Historijat() {
               <div className="content-text">
                 <div className="content-row">17.2.1998. Osnivačka skupština udruženja. Prisutno 30 osnivačica.</div>
                 <div className="content-row">24.2.1998. registrovano je udruženje građana pod nazivom: Forum žena "Alternative" Kakanj u Ministarstvu za pravosuđe i upravu Zeničko-dobojskog kantona.</div>
-                <div className="content-row">Upis promjena u registar udruženja ZDK: </div>
-                <ul>
-                  <li>12.4.2004. u skladu sa Zakonom o udruženjima građana i fondacijama, Udruženje mijenja naziv iz Forum žena „Alternative“ Kakanj u Udruženje građana „Alternative“ Kakanj </li>
-                  <li>16.4.2009. Iz naziva Udruženje građana „Alternative“ Kakanj se briše riječ građana te ostaje samo Udruženje „Alternative Kakanj, u skladu sa Zakonom o Udreženjima i fondacijama </li>
-                  <li>19.6.2018. - 19.6.2018. Udruženja mijenja dijelove Statuta na način da se uvodi rodno senzitivan jezik i jasnije definišu ciljevi i djelovanje udruženja </li>
-                </ul>
-                <div className="content-row">Od osnivanja pa sve do danas (2023.) “Alternative” se razvijaju u jaku i pouzdanu organizaciju - organizaciju kojoj se vjeruje. </div>
-                <div className="content-image">
-                  <img className="content-image-element" src="http://localhost:5000/newuploads/historijat/osnivanje.jpg" />
-                  <div className="image-description">Sjednica Upravnog odbora udruženja Alternative</div>
+                <div id="showMoreTextshowMore2" className="showMoreText">
+                  <div className="content-row">Upis promjena u registar udruženja ZDK: </div>
+                  <ul>
+                    <li>12.4.2004. u skladu sa Zakonom o udruženjima građana i fondacijama, Udruženje mijenja naziv iz Forum žena „Alternative“ Kakanj u Udruženje građana „Alternative“ Kakanj </li>
+                    <li>16.4.2009. Iz naziva Udruženje građana „Alternative“ Kakanj se briše riječ građana te ostaje samo Udruženje „Alternative Kakanj, u skladu sa Zakonom o Udreženjima i fondacijama </li>
+                    <li>19.6.2018. - 19.6.2018. Udruženja mijenja dijelove Statuta na način da se uvodi rodno senzitivan jezik i jasnije definišu ciljevi i djelovanje udruženja </li>
+                  </ul>
+                  <div className="content-row">Od osnivanja pa sve do danas (2023.) “Alternative” se razvijaju u jaku i pouzdanu organizaciju - organizaciju kojoj se vjeruje. </div>
+                  <div className="content-image">
+                    <img className="content-image-element" src="http://localhost:5000/newuploads/historijat/osnivanje.jpg" />
+                    <div className="image-description">Sjednica Upravnog odbora udruženja Alternative</div>
+                  </div>
+                </div>
+                <div className="showMoreButton">
+                  <div id="showMore2" className="showMoreButtonText" onClick={prikaziViseManje}>
+                    Prikaži {prikaz}
+                  </div>
                 </div>
               </div>
             </div>

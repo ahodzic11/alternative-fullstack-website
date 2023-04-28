@@ -5,8 +5,10 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import Activity from "../components/Activity";
-import "./../css/AllActivities.css";
+import filterIcon from "./../assets/filters.png";
+import Button from "react-bootstrap/Button";
 import { formatPath } from "../js/namechange";
+import "./../css/AllActivities.css";
 
 function AllActivities() {
   const [activityList, setActivities] = useState([]);
@@ -87,6 +89,29 @@ function AllActivities() {
     sortiraj();
   }
 
+  const prikaziFiltere = (e) => {
+    e.preventDefault();
+    var filteringDiv = document.getElementById("filterIconsContainer");
+    var filteringIcons = document.getElementById("filteringSmallerContainer");
+    var filteringIconsTwo = document.getElementById("filteringSmallerContainerTwo");
+    var allProjectsContainer = document.getElementById("allProjectsContainer");
+    if (filteringDiv.style.left === "0px") {
+      filteringDiv.style.left = "-300px";
+      filteringIconsTwo.style.left = "-300px";
+      filteringIcons.style.color = "black";
+      allProjectsContainer.style.paddingLeft = "0px";
+    } else {
+      filteringDiv.style.transition = "1s";
+      filteringDiv.style.left = "0px";
+      filteringIconsTwo.style.left = "0px";
+      filteringIcons.style.transition = "1s";
+      filteringIcons.style.color = "white";
+      //DA NE BUDE OVERLAY
+      //allProjectsContainer.style.transition = "1s";
+      //allProjectsContainer.style.paddingLeft = "260px";
+    }
+  };
+
   const resetujFiltere = (e) => {
     e.preventDefault();
     /*setSort("newest");
@@ -105,99 +130,114 @@ function AllActivities() {
   return (
     <>
       <Navigation />
-      <div className="workshopsMainWrapper">
-        <div className="workshopsMainTitle">Aktivnosti</div>
-        <div className="filterAndSortingSection">
-          <div className="filtersContainer">
-            <div className="filtersHeadline">Pretraži po</div>
-            <div className="filteringInputs">
-              <div className="filtersSection">
-                Naziv:
-                <input id="nazivInput" name="naziv" type="text" onChange={(e) => setNazivFilter(e.target.value)} />
-              </div>
-              <div className="filtersSection">
-                Donator:
-                <Form.Group className="sortingContainer">
-                  <Form.Select id="donatorInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedDonator(e.target.value)}>
-                    <option value="allDonators">Svi donatori</option>
-                    {donators.length == 0 ? (
-                      <></>
-                    ) : (
-                      <>
-                        {donators
-                          .sort((a, b) => {
-                            return a > b ? -1 : 0;
-                          })
-                          .map((donator) => (
-                            <option value={donator}>{donator}</option>
-                          ))}
-                      </>
-                    )}
-                  </Form.Select>
-                </Form.Group>
-              </div>
-              <div className="filtersSection">
-                Projekat:
-                <Form.Group className="sortingContainer">
-                  <Form.Select id="projekatInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedProject(e.target.value)}>
-                    <option value="allProjects">Svi projekti</option>
-                    {projects.length == 0 ? (
-                      <></>
-                    ) : (
-                      <>
-                        {projects
-                          .sort((a, b) => {
-                            return a > b ? -1 : 0;
-                          })
-                          .filter((project) => {
-                            return project.length > 0 ? -1 : 0;
-                          })
-                          .map((project) => (
-                            <option value={project}>{project}</option>
-                          ))}
-                      </>
-                    )}
-                  </Form.Select>
-                </Form.Group>
-              </div>
+      <div className="projectsMainWrapper">
+        <div className="projectsMainTitle">Aktivnosti</div>
+        <div id="filtersIcons" className="filtersIcons">
+          <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
+            <img className="filterIcon" src={filterIcon} />
+            <div className="filterIconText">FILTERI</div>
+            <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
+          </div>
+        </div>
+        <div className="projectsSomeWrapper">
+          <div id="filterIconsContainer" className="filterIconsContainer">
+            <div id="filteringDiv" className="newFilterWrapper">
+              <div className="newFilterContainer">
+                <div className="newFilterSection">
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label className="filtersCustomDesign">NAZIV</Form.Label>
+                    <Form.Control type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
+                  </Form.Group>
+                </div>
+                <div className="newFilterSection">
+                  <Form.Group className="sortingContainer">
+                    <Form.Label className="filtersCustomDesign">DONATOR</Form.Label>
+                    <Form.Select id="donatorInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedDonator(e.target.value)}>
+                      <option value="allDonators">Svi donatori</option>
+                      {donators.length == 0 ? (
+                        <></>
+                      ) : (
+                        <>
+                          {donators
+                            .sort((a, b) => {
+                              return a > b ? -1 : 0;
+                            })
+                            .map((donator) => (
+                              <option value={donator}>{donator}</option>
+                            ))}
+                        </>
+                      )}
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="newFilterSection">
+                  <Form.Group className="sortingContainer">
+                    <Form.Label className="filtersCustomDesign">PROJEKAT</Form.Label>
+                    <Form.Select id="projekatInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedProject(e.target.value)}>
+                      <option value="allProjects">Svi projekti</option>
+                      {projects.length == 0 ? (
+                        <></>
+                      ) : (
+                        <>
+                          {projects
+                            .sort((a, b) => {
+                              return a > b ? -1 : 0;
+                            })
+                            .filter((project) => {
+                              return project.length > 0 ? -1 : 0;
+                            })
+                            .map((project) => (
+                              <option value={project}>{project}</option>
+                            ))}
+                        </>
+                      )}
+                    </Form.Select>
+                  </Form.Group>
+                </div>
 
-              <div className="filtersSection">
-                Sortiraj:
-                <Form.Group className="sortingContainer">
-                  <Form.Select id="sortInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSort(e.target.value)}>
-                    <option value="asc">A-Z</option>
-                    <option value="desc">Z-A</option>
-                  </Form.Select>
-                </Form.Group>
+                <div className="newFilterSection">
+                  <Form.Group className="sortingContainer">
+                    <Form.Label className="filtersCustomDesign">SORTIRAJ</Form.Label>
+                    <Form.Select id="sortInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSort(e.target.value)}>
+                      <option value="asc">A-Z</option>
+                      <option value="desc">Z-A</option>
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="newFilterSection">
+                  <Button className="resetFilters" variant="danger">
+                    <div className="resetFiltersText">RESETUJ FILTERE</div>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="allWorkshopsContainer" onClick={handleClick}>
-          {donators.length == 0 ? (
-            <>
-              {filteredActivities.map((item) => (
-                <Activity item={item} />
-              ))}
-            </>
-          ) : (
-            <>
-              {filteredActivities
-                .filter((item) => {
-                  return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-                })
-                .filter((item) => {
-                  return item.nazivProjekta == selectedProject || selectedProject == "allProjects";
-                })
-                .filter((item) => {
-                  if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-                  else return 1;
-                })
-                .map((item) => (
+          <div className="allProjectsContainer" onClick={handleClick}>
+            {donators.length == 0 ? (
+              <>
+                {filteredActivities.map((item) => (
                   <Activity item={item} />
                 ))}
-            </>
-          )}
+              </>
+            ) : (
+              <>
+                {filteredActivities
+                  .filter((item) => {
+                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+                  })
+                  .filter((item) => {
+                    return item.nazivProjekta == selectedProject || selectedProject == "allProjects";
+                  })
+                  .filter((item) => {
+                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+                    else return 1;
+                  })
+                  .map((item) => (
+                    <Activity item={item} />
+                  ))}
+              </>
+            )}
+          </div>
         </div>
       </div>
       <Footer />

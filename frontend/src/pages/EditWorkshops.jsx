@@ -10,6 +10,7 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "./../css/ReadWorkshops.css";
+import { formatDate, formatPath } from "../js/namechange";
 
 function EditWorkshops() {
   const [workshop, setWorkshop] = useState([]);
@@ -31,12 +32,15 @@ function EditWorkshops() {
   };
 
   const updateWorkshop = async (formDataObj) => {
+    var firstDate = formDataObj.datum.split("-");
+    var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
     try {
       const updatedWorkshop = {
         id: workshop.id,
         naslov: formDataObj.naslov,
+        formatiranNaslov: formatPath(formDataObj.naslov),
         mjesto: formDataObj.mjesto,
-        datum: formDataObj.datum,
+        datum: formatDate(firstCorrectDate),
         trener: formDataObj.trener,
         ucesnici: formDataObj.ucesnici,
         nazivDonatora: formDataObj.nazivDonatora,
@@ -45,6 +49,7 @@ function EditWorkshops() {
         opisRadionice: formDataObj.opisRadionice,
         oblastRadionice: formDataObj.oblastRadionice,
       };
+      console.log(updatedWorkshop);
       const res = await axios.patch(`http://localhost:5000/api/workshops/`, updatedWorkshop);
     } catch (err) {}
   };

@@ -3,9 +3,9 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callBack) => {
     pool.query(
-      `INSERT INTO offers(naziv, formatiranNaziv, opis, sadrzajPonude, trener, pocetakPonude, krajPonude, cijena, uzrast, naslovnaSlika) 
-        values(?,?,?,?,?,?,?,?,?,?)`,
-      [data.naziv, data.formatiranNaziv, data.opis, data.sadrzajPonude, data.trener, data.pocetakPonude, data.krajPonude, data.cijena, data.uzrast, data.naslovnaSlika],
+      `INSERT INTO offers(naziv, formatiranNaziv, opis, sadrzajPonude, trener, pocetakPonude, krajPonude, cijena, uzrast, napomene, naslovnaSlika) 
+        values(?,?,?,?,?,?,?,?,?,?,?)`,
+      [data.naziv, data.formatiranNaziv, data.opis, data.sadrzajPonude, data.trener, data.pocetakPonude, data.krajPonude, data.cijena, data.uzrast, data.napomene, data.naslovnaSlika],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   updateOffer: (data, callBack) => {
-    pool.query(`UPDATE offers SET naziv=?, formatiranNaziv=?, opis=?, sadrzajPonude=?, trener=?, pocetakPonude=?, krajPonude=?, cijena=?, uzrast=? WHERE id=?`, [data.naziv, data.formatiranNaziv, data.opis, data.sadrzajPonude, data.trener, data.pocetakPonude, data.krajPonude, data.cijena, data.uzrast, data.id], (error, results, fields) => {
+    pool.query(`UPDATE offers SET naziv=?, formatiranNaziv=?, opis=?, sadrzajPonude=?, trener=?, pocetakPonude=?, krajPonude=?, cijena=?, uzrast=?, napomene=? WHERE id=?`, [data.naziv, data.formatiranNaziv, data.opis, data.sadrzajPonude, data.trener, data.pocetakPonude, data.krajPonude, data.cijena, data.uzrast, data.napomene, data.id], (error, results, fields) => {
       if (error) {
         callBack(error);
       }

@@ -27,6 +27,14 @@ export const addProject = async (project) => {
   }
 };
 
+export const addArticle = async (article) => {
+  try {
+    const res = await publicRequest.post(`/articles`, article);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const addOffer = async (offer) => {
   try {
     const res = await publicRequest.post(`/offers`, offer);

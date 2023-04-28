@@ -9,8 +9,8 @@ import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
-import "./../css/AddWorkshopPage.css";
 import { formatPath } from "../js/namechange";
+import "./../css/AddWorkshopPage.css";
 
 function AddWorkshopPage() {
   const [inputs, setInputs] = useState({});
@@ -23,18 +23,23 @@ function AddWorkshopPage() {
   };
 
   const handleSubmit = async (event) => {
-    //event.preventDefault();
-    if (inputs.oblastRadionice == null) return;
     const form = event.currentTarget;
+    if (inputs.oblastRadionice == null) {
+      alert("Morate unijeti kategoriju radionice!");
+      return;
+    }
+    if (document.getElementById("uploadedFiles").files.length === 0) {
+      alert("Morate unijeti bar jednu sliku!");
+      return;
+    }
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
+      return;
     }
-    setValidated(true);
-
     var uploadForm = document.getElementById("uploadForm");
     var uploadFormData = new FormData(uploadForm);
-
     try {
       const response = await axios.post(`http://localhost:5000/upload/radionice/` + inputs.naslov, uploadFormData);
     } catch (err) {}
@@ -53,15 +58,17 @@ function AddWorkshopPage() {
       oblastRadionice: inputs.oblastRadionice,
       naslovnaSlika: formatPath(inputs.naslov) + "0.jpg",
     });
+    alert("Radionica uspješno dodana!");
   };
 
   return (
     <>
       <AdminNavigation />
+
       <div className="addWorkshopContainer">
         <div className="currentLocationHeadline">Dodavanje radionice</div>
         <div className="addWorkshopForm">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form className="customFormContainer" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naslov</Form.Label>
@@ -75,22 +82,22 @@ function AddWorkshopPage() {
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
               <div className="col-md-4">
-                <Form.Group controlId="dob">
+                <Form.Group controlId="validationCustom03">
                   <Form.Label className="itemTitleElement">Datum</Form.Label>
-                  <Form.Control name="datum" type="date" placeholder="datum" onChange={handleChange} />
+                  <Form.Control name="datum" required type="date" placeholder="datum" onChange={handleChange} />
                 </Form.Group>
               </div>
             </Row>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Donator</Form.Label>
-                <Form.Control name="nazivDonatora" required type="text" placeholder="Naziv donatora" onChange={handleChange} />
+                <Form.Control name="nazivDonatora" type="text" placeholder="Naziv donatora" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Projekat</Form.Label>
-                <Form.Control name="nazivProjekta" required type="text" placeholder="Naziv projekta" onChange={handleChange} />
+                <Form.Control name="nazivProjekta" type="text" placeholder="Naziv projekta" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
@@ -103,20 +110,20 @@ function AddWorkshopPage() {
 
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Učesnici</Form.Label>
-                <Form.Control name="ucesnici" required type="text" placeholder="Broj ili ime učesnika" onChange={handleChange} />
+                <Form.Control name="ucesnici" type="text" placeholder="Broj ili ime učesnika" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Cilj</Form.Label>
-                <Form.Control name="cilj" required type="text" placeholder="Cilj radionice" onChange={handleChange} />
+                <Form.Control name="cilj" type="text" placeholder="Cilj radionice" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Oblast radionice</Form.Label>
-                <Form.Select name="oblastRadionice" aria-label="Default select example" onClick={handleChange}>
+                <Form.Select required name="oblastRadionice" aria-label="Default select example" onClick={handleChange}>
                   <option>Oblast radionice</option>
                   <option value="Civilno društvo">Civilno društvo</option>
                   <option value="Izgradnja samopoštovanja i samopouzdanja">Izgradnja samopoštovanja i samopouzdanja</option>
@@ -134,12 +141,12 @@ function AddWorkshopPage() {
             <Row className="mb-3">
               <Form.Label className="itemTitleElement">Slike</Form.Label>
               <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
-                <input className="uploadImagesInput" type="file" name="image" multiple />
+                <input id="uploadedFiles" required className="uploadImagesInput" type="file" name="image" multiple />
               </form>
             </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis radionice</Form.Label>
-              <Form.Control name="opisRadionice" as="textarea" rows={4} onChange={handleChange} />
+              <Form.Control required name="opisRadionice" as="textarea" rows={4} onChange={handleChange} />
             </Form.Group>
             <div className="addStuffButton">
               <Button type="submit">Dodaj radionicu</Button>

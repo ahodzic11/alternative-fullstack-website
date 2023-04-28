@@ -1,5 +1,19 @@
 export function formatPath(str) {
   var newString = str.toLowerCase();
-  newString = newString.replace(/ć|č/g, "c").replace(/š/g, "s").replace(/đ/g, "d").replace(/ž/g, "z").replace(/:|-|,/g, "").replace(/ /g, "-").replace(".", "").replace("„", "").replace("“", "").replace(/„/g, "").replace(/“/g, "");
+  newString = newString.replace(/"/g, "").replace(/ć|č/g, "c").replace(/š/g, "s").replace(/đ/g, "d").replace(/ž/g, "z").replace(/:|-|,/g, "").replace(/ /g, "-").replace(".", "").replace("„", "").replace("“", "").replace(/„/g, "").replace(/“/g, "");
   return newString;
+}
+
+export function formatDate(inputDate) {
+  let date, month, year;
+
+  date = inputDate.getDate();
+  month = inputDate.getMonth() + 1;
+  year = inputDate.getFullYear();
+
+  date = date.toString().padStart(2, "0");
+
+  month = month.toString().padStart(2, "0");
+
+  return `${date}.${month}.${year}.`;
 }

@@ -9,8 +9,8 @@ import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
-import "./../css/AddWorkshopPage.css";
 import { formatPath } from "../js/namechange";
+import "./../css/AddWorkshopPage.css";
 
 function AddOfferPage() {
   const [inputs, setInputs] = useState({});
@@ -47,6 +47,7 @@ function AddOfferPage() {
       krajPonude: inputs.krajPonude,
       cijena: inputs.cijena,
       uzrast: inputs.uzrast,
+      napomene: inputs.napomene,
       naslovnaSlika: formatPath(inputs.naziv) + "0.jpg",
     });
   };
@@ -109,6 +110,10 @@ function AddOfferPage() {
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Sadržaj ponude</Form.Label>
               <Form.Control name="sadrzajPonude" as="textarea" rows={4} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label className="itemTitleElement">Upute/napomene</Form.Label>
+              <Form.Control name="napomene" as="textarea" rows={4} onChange={handleChange} />
             </Form.Group>
             <div className="addStuffButton">
               <Button type="submit">Dodaj ponudu</Button>

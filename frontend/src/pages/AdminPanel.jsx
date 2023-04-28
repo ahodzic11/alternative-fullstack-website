@@ -67,6 +67,16 @@ function AdminPanel() {
     navigate("/readoffers");
   };
 
+  const addArticle = (e) => {
+    e.preventDefault();
+    navigate("/dodajclanak");
+  };
+
+  const readArticles = (e) => {
+    e.preventDefault();
+    navigate("/readarticles");
+  };
+
   return (
     <>
       <AdminNavigation />
@@ -107,6 +117,12 @@ function AdminPanel() {
           </div>
           <div className="viewActivitiesContainer addingItem" onClick={readOffers}>
             POGLEDAJ PONUDE
+          </div>
+          <div className="addActivityContainer addingItem" onClick={addArticle}>
+            DODAJ ČLANAK
+          </div>
+          <div className="viewActivitiesContainer addingItem" onClick={readArticles}>
+            POGLEDAJ ČLANKE
           </div>
         </div>
       </div>

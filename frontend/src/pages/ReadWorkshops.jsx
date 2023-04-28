@@ -8,8 +8,8 @@ import editIcon from "./../assets/editIcon.png";
 import changePictureIcon from "./../assets/changePicture.png";
 import deleteIcon from "./../assets/deleteIcon.png";
 import { useNavigate } from "react-router-dom";
-import "./../css/ReadWorkshops.css";
 import { formatPath } from "../js/namechange";
+import "./../css/ReadWorkshops.css";
 
 function ReadWorkshops() {
   const [workshops, setWorkshops] = useState([]);
@@ -39,6 +39,9 @@ function ReadWorkshops() {
     e.preventDefault();
     try {
       const res = await axios.delete(`http://localhost:5000/api/workshops/` + item.id);
+    } catch (err) {}
+    try {
+      const res = await axios.delete(`http://localhost:5000/delete/radionice/` + item.naslov);
     } catch (err) {}
     getWorkshops();
   }

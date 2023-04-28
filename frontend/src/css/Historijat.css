@@ -201,3 +201,29 @@ body {
   font-family: "Teko", sans-serif;
   letter-spacing: 16px;
 }
+
+.showMoreText {
+  display: flex;
+  max-height: 0;
+  transition: max-height 1s ease-in-out;
+  overflow: hidden;
+  flex-direction: column;
+  row-gap: 20px;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.showMoreButton {
+  display: flex;
+  justify-content: right;
+  font-weight: bold;
+  background-color: white;
+}
+
+.showMoreButtonText {
+  padding: 10px;
+  cursor: pointer;
+  width: fit-content;
+  font-family: "Teko", sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+}

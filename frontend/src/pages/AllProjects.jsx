@@ -5,8 +5,11 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import Project from "../components/Project";
-import "./../css/AllProjects.css";
 import { formatPath } from "../js/namechange";
+import filterIcon from "./../assets/filters.png";
+import Button from "react-bootstrap/Button";
+
+import "./../css/AllProjects.css";
 
 function AllProjects() {
   const [projectList, setProjects] = useState([]);
@@ -77,41 +80,66 @@ function AllProjects() {
     sortiraj();
   }
 
+  const prikaziFiltere = (e) => {
+    e.preventDefault();
+    var filteringDiv = document.getElementById("filterIconsContainer");
+    var filteringIcons = document.getElementById("filteringSmallerContainer");
+    var filteringIconsTwo = document.getElementById("filteringSmallerContainerTwo");
+    var allProjectsContainer = document.getElementById("allProjectsContainer");
+    if (filteringDiv.style.left === "0px") {
+      filteringDiv.style.left = "-300px";
+      filteringIconsTwo.style.left = "-300px";
+      filteringIcons.style.color = "black";
+      allProjectsContainer.style.paddingLeft = "0px";
+    } else {
+      filteringDiv.style.transition = "1s";
+      filteringDiv.style.left = "0px";
+      filteringIconsTwo.style.left = "0px";
+      filteringIcons.style.transition = "1s";
+      filteringIcons.style.color = "white";
+      //DA NE BUDE OVERLAY
+      //allProjectsContainer.style.transition = "1s";
+      //allProjectsContainer.style.paddingLeft = "260px";
+    }
+  };
+
   const resetujFiltere = (e) => {
     e.preventDefault();
-    /*setSort("newest");
-    setTrenerFilter("");
-    setNaslovFilter("");
-    var yearInput = document.getElementById("yearInput");
-    yearInput.value = "allyears";
-    var sortInput = document.getElementById("sortInput");
-    sortInput.value = "newest";
-    var naslovInput = document.getElementById("naslovInput");
-    naslovInput.value = "";
-    var trenerInput = document.getElementById("trenerInput");
-    trenerInput.value = "";*/
   };
 
   return (
     <>
       <Navigation />
       <div className="projectsMainWrapper">
-        <div className="workshopsMainTitle">Projekti</div>
+        <div className="projectsMainTitle">Projekti</div>
+        <div id="filtersIcons" className="filtersIcons">
+          <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
+            <img className="filterIcon" src={filterIcon} />
+            <div className="filterIconText">FILTERI</div>
+            <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
+          </div>
+          <div className="resultsNumber">
+            <div className="resultsNumberLength">{filteredProjects.length}</div>
+            <div className="resultsNumberName">projekta</div>
+          </div>
+        </div>
         <div className="projectsSomeWrapper">
-          <div className="projectFilterAndSortingSection">
-            <div className="projectFiltersContainer">
-              <div className="projectFilteringInputs">
-                <div className="projectFiltersSection">
+          <div id="filterIconsContainer" className="filterIconsContainer">
+            <div id="filteringDiv" className="newFilterWrapper">
+              <div className="newFilterContainer">
+                <div className="newFilterSection">
                   <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Naziv</Form.Label>
+                    <Form.Label className="filtersCustomDesign">NAZIV</Form.Label>
                     <Form.Control type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
                   </Form.Group>
                 </div>
-                <div className="projectFiltersSection">
+                <div className="newFilterSection">
                   <Form.Group className="sortingContainers">
-                    <Form.Label>Donator</Form.Label>
-                    <Form.Select id="donatorInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedDonator(e.target.value)}>
-                      <option value="allDonators">Svi donatori</option>
+                    <Form.Label className="filtersCustomDesign">DONATOR</Form.Label>
+                    <Form.Select className="filterInputField" id="donatorInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedDonator(e.target.value)}>
+                      <option className="filterInputField" value="allDonators">
+                        <div>Svi donatori</div>
+                      </option>
                       {donators.length == 0 ? (
                         <></>
                       ) : (
@@ -121,16 +149,18 @@ function AllProjects() {
                               return a > b ? -1 : 0;
                             })
                             .map((donator) => (
-                              <option value={donator}>{donator}</option>
+                              <option className="filterInputField" value={donator}>
+                                {donator}
+                              </option>
                             ))}
                         </>
                       )}
                     </Form.Select>
                   </Form.Group>
                 </div>
-                <div className="projectFiltersSection">
+                <div className="newFilterSection">
                   <Form.Group className="sortingContainers">
-                    <Form.Label>Iznos sredstava</Form.Label>
+                    <Form.Label className="filtersCustomDesign">IZNOS SREDSTAVA</Form.Label>
                     <Form.Select id="iznosSredstava" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedRange(e.target.value)}>
                       <option value="allValues">Svi iznosi</option>
                       <option value="0to10">0 KM do 10000 KM</option>
@@ -141,19 +171,24 @@ function AllProjects() {
                   </Form.Group>
                 </div>
 
-                <div className="projectFiltersSection">
+                <div className="newFilterSection">
                   <Form.Group className="sortingContainers">
-                    <Form.Label>Sortiraj</Form.Label>
+                    <Form.Label className="filtersCustomDesign">SORTIRAJ</Form.Label>
                     <Form.Select id="sortInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSort(e.target.value)}>
                       <option value="asc">A-Z</option>
                       <option value="desc">Z-A</option>
                     </Form.Select>
                   </Form.Group>
                 </div>
+                <div className="newFilterSection">
+                  <Button className="resetFilters" variant="danger">
+                    <div className="resetFiltersText">RESETUJ FILTERE</div>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-          <div className="allProjectsContainer" onClick={handleClick}>
+          <div id="allProjectsContainer" className="allProjectsContainer" onClick={handleClick}>
             {donators.length == 0 ? (
               <>
                 {filteredProjects.map((item) => (
@@ -191,11 +226,3 @@ function AllProjects() {
 }
 
 export default AllProjects;
-
-/*
-<div className="filtersSection">
-<Button className="resetFilters" variant="danger" onClick={resetujFiltere}>
-                  <p className="buttonText">RESETUJ FILTERE</p>
-                </Button>
-                </div>
-                */

@@ -4,71 +4,42 @@ import Navigation from "../components/Navigation";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
-import News from "../components/News";
-import filterIcon from "./../assets/filters.png";
-import "./../css/AllProjects.css";
+import Project from "../components/Project";
 import { formatPath } from "../js/namechange";
+import filterIcon from "./../assets/filters.png";
 import Button from "react-bootstrap/Button";
+import "./../css/AllArticles.css";
 
-function AllNews() {
-  const [newsList, setNews] = useState([]);
-  const [filteredNews, setFilteredNews] = useState([]);
+function AllArticles() {
+  const [articleList, setArticles] = useState([]);
+  const [filteredArticles, setFilteredArticles] = useState([]);
   const [nazivFilter, setNazivFilter] = useState("");
   const [sort, setSort] = useState("asc");
-  const [teme, setTeme] = useState([]);
+  const [donators, setDonators] = useState([]);
+  const [selectedDonator, setSelectedDonator] = useState("allDonators");
+  const [selectedRange, setSelectedRange] = useState("allValues");
+  const [selectedYear, setSelectedYear] = useState("allyears");
   const [years, setYears] = useState([]);
-  const [selectedTema, setSelectedTema] = useState("allTeme");
-  const [selectedYear, setSelectedYear] = useState("allYears");
+  const path = "http://localhost:5000/newuploads/clanci/";
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getNews = async () => {
+    const getArticles = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/news`);
-        setNews(res.data.data);
-        setFilteredNews(res.data.data);
+        const res = await axios.get(`http://localhost:5000/api/articles`);
+        setArticles(res.data.data);
+        setFilteredArticles(res.data.data);
       } catch (err) {}
     };
-    getNews();
+    getArticles();
+    getArticlesYears();
     setSort("asc");
   }, []);
 
-  function sortiraj() {
-    if (sort === "asc") {
-      setFilteredNews((prev) =>
-        [...prev].sort((a, b) => {
-          return a.naziv < b.naziv ? -1 : 0;
-        })
-      );
-    } else if (sort === "desc") {
-      setFilteredNews((prev) =>
-        [...prev].sort((a, b) => {
-          return a.naziv > b.naziv ? -1 : 0;
-        })
-      );
-    }
-  }
-
-  function getTeme() {
-    var allTeme = [];
-    filteredNews.forEach((vijest) => {
-      if (!allTeme.includes(vijest.tema)) allTeme.push(vijest.tema);
-    });
-    setTeme(allTeme);
-  }
-
-  useEffect(() => {
-    getTeme();
-  }, [newsList, sort, filteredNews]);
-
-  useEffect(() => {
-    sortiraj();
-  }, [sort, nazivFilter, newsList]);
-
-  function getNewsYears() {
+  function getArticlesYears() {
     var allYears = [];
-    filteredNews.forEach((newsArticle) => {
-      var date = newsArticle.datum.split("-");
+    filteredArticles.forEach((article) => {
+      var date = article.datum.split("-");
       var fullDate = new Date(date[0], date[1] - 1, date[2]);
       let year = fullDate.getFullYear();
       if (!allYears.includes(year)) allYears.push(year);
@@ -76,12 +47,40 @@ function AllNews() {
     setYears(allYears);
   }
 
+  function sortiraj() {
+    if (sort === "asc") {
+      setFilteredArticles((prev) =>
+        [...prev].sort((a, b) => {
+          return a.naziv < b.naziv ? -1 : 0;
+        })
+      );
+    } else if (sort === "desc") {
+      setFilteredArticles((prev) =>
+        [...prev].sort((a, b) => {
+          return a.naziv > b.naziv ? -1 : 0;
+        })
+      );
+    }
+  }
+
+  function getDonators() {
+    var allDonators = [];
+    filteredArticles.forEach((project) => {
+      if (!allDonators.includes(project.nazivDonatora)) allDonators.push(project.nazivDonatora);
+    });
+    setDonators(allDonators);
+  }
+
   useEffect(() => {
-    getNewsYears();
-  }, [newsList, sort, filteredNews]);
+    getDonators();
+  }, [articleList, sort, filteredArticles]);
+
+  useEffect(() => {
+    sortiraj();
+  }, [sort, nazivFilter, articleList]);
 
   const handleClick = (e) => {
-    navigate("/news/details/" + formatPath(e.target.id));
+    navigate("/projects/details/" + formatPath(e.target.id));
   };
 
   useEffect(() => {
@@ -90,9 +89,17 @@ function AllNews() {
 
   function handleChange() {
     setSort(sort);
-    if (nazivFilter) setFilteredNews(newsList.filter((item) => item.naziv.toUpperCase().includes(nazivFilter.toUpperCase())));
-    else setFilteredNews(newsList);
+    if (nazivFilter) setFilteredArticles(articleList.filter((item) => item.naziv.toUpperCase().includes(nazivFilter.toUpperCase())));
+    else setFilteredArticles(articleList);
     sortiraj();
+  }
+
+  function ellipsify(str) {
+    if (str.length > 10) {
+      return str.substring(0, 830) + "...";
+    } else {
+      return str;
+    }
   }
 
   const prikaziFiltere = (e) => {
@@ -120,24 +127,13 @@ function AllNews() {
 
   const resetujFiltere = (e) => {
     e.preventDefault();
-    /*setSort("newest");
-    setTrenerFilter("");
-    setNaslovFilter("");
-    var yearInput = document.getElementById("yearInput");
-    yearInput.value = "allyears";
-    var sortInput = document.getElementById("sortInput");
-    sortInput.value = "newest";
-    var naslovInput = document.getElementById("naslovInput");
-    naslovInput.value = "";
-    var trenerInput = document.getElementById("trenerInput");
-    trenerInput.value = "";*/
   };
 
   return (
     <>
       <Navigation />
-      <div className="projectsMainWrapper">
-        <div className="projectsMainTitle">Novosti</div>
+      <div className="articlesMainWrapper">
+        <div className="projectsMainTitle">Članci</div>
         <div id="filtersIcons" className="filtersIcons">
           <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
             <img className="filterIcon" src={filterIcon} />
@@ -145,7 +141,7 @@ function AllNews() {
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
           </div>
         </div>
-        <div className="projectsSomeWrapper">
+        <div className="articlesSomeWrapper">
           <div id="filterIconsContainer" className="filterIconsContainer">
             <div id="filteringDiv" className="newFilterWrapper">
               <div className="newFilterContainer">
@@ -157,31 +153,9 @@ function AllNews() {
                 </div>
                 <div className="newFilterSection">
                   <Form.Group className="sortingContainer">
-                    <Form.Label className="filtersCustomDesign">TEMA</Form.Label>
-                    <Form.Select id="temaInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedTema(e.target.value)}>
-                      <option value="allTeme">Sve teme</option>
-                      {teme.length == 0 ? (
-                        <></>
-                      ) : (
-                        <>
-                          {teme
-                            .sort((a, b) => {
-                              return a > b ? -1 : 0;
-                            })
-                            .map((donator) => (
-                              <option value={donator}>{donator}</option>
-                            ))}
-                        </>
-                      )}
-                    </Form.Select>
-                  </Form.Group>
-                </div>
-
-                <div className="newFilterSection">
-                  <Form.Group className="sortingContainer">
                     <Form.Label className="filtersCustomDesign">GODINA</Form.Label>
                     <Form.Select id="yearInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedYear(e.target.value)}>
-                      <option value="allYears">Sve godine</option>
+                      <option value="allyears">Sve godine</option>
                       {years.length == 0 ? (
                         <></>
                       ) : (
@@ -199,7 +173,20 @@ function AllNews() {
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
-                  <Form.Group className="sortingContainer">
+                  <Form.Group className="sortingContainers">
+                    <Form.Label className="filtersCustomDesign">TIP MEDIJA</Form.Label>
+                    <Form.Select id="iznosSredstava" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedRange(e.target.value)}>
+                      <option value="allValues">Svi mediji</option>
+                      <option value="Web portal">Web portal</option>
+                      <option value="Društvene mreže">Društvene mreže</option>
+                      <option value="TV">TV</option>
+                      <option value="Štampa">Štampa</option>
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+
+                <div className="newFilterSection">
+                  <Form.Group className="sortingContainers">
                     <Form.Label className="filtersCustomDesign">SORTIRAJ</Form.Label>
                     <Form.Select id="sortInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSort(e.target.value)}>
                       <option value="asc">A-Z</option>
@@ -215,31 +202,56 @@ function AllNews() {
               </div>
             </div>
           </div>
-          <div className="allProjectsContainer" onClick={handleClick}>
-            {teme.length == 0 ? (
+          <div id="allArticlesContainer" className="allArticlesContainer">
+            {donators.length == 0 ? (
               <>
-                {filteredNews.map((item) => (
-                  <News item={item} />
+                {filteredArticles.map((item) => (
+                  <Project item={item} />
                 ))}
               </>
             ) : (
               <>
-                {filteredNews
+                {filteredArticles
                   .filter((item) => {
-                    return item.tema == selectedTema || selectedTema == "allTeme";
-                  })
-                  .filter((item) => {
-                    var date = item.datum.split("-");
-                    var fullDate = new Date(date[0], date[1] - 1, date[2]);
-                    let year = fullDate.getFullYear();
-                    return year == selectedYear || selectedYear == "allYears";
+                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
                   })
                   .filter((item) => {
                     if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
                     else return 1;
                   })
-                  .map((item) => (
-                    <News item={item} />
+                  .filter((article) => {
+                    var date = article.datum.split("-");
+                    var fullDate = new Date(date[0], date[1] - 1, date[2]);
+                    let year = fullDate.getFullYear();
+                    return year == selectedYear || selectedYear == "allyears";
+                  })
+                  .map((article) => (
+                    <div className="articleItem">
+                      <div className="articleTopBar">
+                        <div className="articleTopBarTextContainer">
+                          {article.datum} | {article.nazivMedija}
+                        </div>
+                      </div>
+                      <div className="articleImageTextContainer">
+                        <div className="articleImage">
+                          <img className="articleImageElement" src={path + formatPath(article.naziv) + "/" + article.naslovnaSlika} />
+                        </div>
+                        <div className="articleTextContainer">
+                          <div className="articleMainTitle">{article.naziv}</div>
+                          <div className="articleText">{ellipsify(article.tekst)}</div>
+                          {article.link ? (
+                            <div className="readMoreArticle">
+                              Pročitaj više na:
+                              <a className="readMoreLink" href={article.link}>
+                                {article.link}
+                              </a>
+                            </div>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   ))}
               </>
             )}
@@ -251,4 +263,4 @@ function AllNews() {
   );
 }
 
-export default AllNews;
+export default AllArticles;

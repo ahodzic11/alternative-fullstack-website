@@ -10,6 +10,7 @@ const newsRouter = require("./api/news/newsRouter");
 const projectsRouter = require("./api/projects/projectRouter");
 const donatorsRouter = require("./api/donators/donatorsRouter");
 const offersRouter = require("./api/offers/offerRouter");
+const articleRouter = require("./api/articles/articleRouter");
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
 const path = require("path");
@@ -24,10 +25,11 @@ app.use("/api/news", newsRouter);
 app.use("/api/projects", projectsRouter);
 app.use("/api/donators", donatorsRouter);
 app.use("/api/offers", offersRouter);
+app.use("/api/articles", articleRouter);
 
 function formatPath(str) {
   var newString = str.toLowerCase();
-  newString = newString.replace("–", "").replace(/ć|č/g, "c").replace(/š/g, "s").replace(/đ/g, "d").replace(/ž/g, "z").replace(/:|-|,/g, "").replace(/ /g, "-").replace(".", "").replace("„", "").replace("“", "").replace(/„/g, "").replace(/“/g, "");
+  newString = newString.replace(/"/g, "").replace(/ć|č/g, "c").replace(/š/g, "s").replace(/đ/g, "d").replace(/ž/g, "z").replace(/:|-|,/g, "").replace(/ /g, "-").replace(".", "").replace("„", "").replace("“", "").replace(/„/g, "").replace(/“/g, "");
   return newString;
 }
 
@@ -51,6 +53,19 @@ app.post("/upload/:tipobjave/:naslov", (req, res) => {
     });
   } else image.mv(__dirname + "/newuploads/" + tipObjave + "/" + naslov + "/" + naslov + "0.jpg");
 
+  res.sendStatus(200);
+});
+
+app.delete("/delete/:tipobjave/:naslov", (req, res) => {
+  const { image } = req.files;
+  const naslov = formatPath(req.params.naslov);
+  const tipObjave = req.params.tipobjave;
+  fs.rmdir(path.join(__dirname + "/newuploads/" + tipObjave + "/", naslov), (err) => {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("Folder uspješno obrisan");
+  });
   res.sendStatus(200);
 });
 

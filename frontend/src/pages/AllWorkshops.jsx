@@ -6,6 +6,7 @@ import Workshop from "../components/Workshop";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
+import filterIcon from "./../assets/filters.png";
 import "./../css/AllWorkshops.css";
 import { formatPath } from "../js/namechange";
 
@@ -35,9 +36,9 @@ function AllWorkshops() {
     if (sort === "newest") {
       setFilteredWorkshops((prev) =>
         [...prev].sort((a, b) => {
-          var firstDate = a.datum.split("-");
+          var firstDate = a.datum.split(".");
           var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
-          var secondDate = b.datum.split("-");
+          var secondDate = b.datum.split(".");
           var secondCorrectDate = new Date(secondDate[0], secondDate[1] - 1, secondDate[2]);
           return firstCorrectDate > secondCorrectDate ? -1 : 0;
         })
@@ -45,9 +46,9 @@ function AllWorkshops() {
     } else if (sort === "oldest") {
       setFilteredWorkshops((prev) =>
         [...prev].sort((a, b) => {
-          var firstDate = a.datum.split("-");
+          var firstDate = a.datum.split(".");
           var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
-          var secondDate = b.datum.split("-");
+          var secondDate = b.datum.split(".");
           var secondCorrectDate = new Date(secondDate[0], secondDate[1] - 1, secondDate[2]);
           return firstCorrectDate < secondCorrectDate ? -1 : 0;
         })
@@ -74,8 +75,8 @@ function AllWorkshops() {
   function getWorkshopYears() {
     var allYears = [];
     filteredWorkshops.forEach((workshop) => {
-      var date = workshop.datum.split("-");
-      var fullDate = new Date(date[0], date[1] - 1, date[2]);
+      var date = workshop.datum.split(".");
+      var fullDate = new Date(date[2], date[1] - 1, date[0]);
       let year = fullDate.getFullYear();
       if (!allYears.includes(year)) allYears.push(year);
     });
@@ -108,6 +109,29 @@ function AllWorkshops() {
     sortiraj();
   }
 
+  const prikaziFiltere = (e) => {
+    e.preventDefault();
+    var filteringDiv = document.getElementById("filterIconsContainer");
+    var filteringIcons = document.getElementById("filteringSmallerContainer");
+    var filteringIconsTwo = document.getElementById("filteringSmallerContainerTwo");
+    var allProjectsContainer = document.getElementById("allProjectsContainer");
+    if (filteringDiv.style.left === "0px") {
+      filteringDiv.style.left = "-300px";
+      filteringIconsTwo.style.left = "-300px";
+      filteringIcons.style.color = "black";
+      allProjectsContainer.style.paddingLeft = "0px";
+    } else {
+      filteringDiv.style.transition = "1s";
+      filteringDiv.style.left = "0px";
+      filteringIconsTwo.style.left = "0px";
+      filteringIcons.style.transition = "1s";
+      filteringIcons.style.color = "white";
+      //DA NE BUDE OVERLAY
+      //allProjectsContainer.style.transition = "1s";
+      //allProjectsContainer.style.paddingLeft = "260px";
+    }
+  };
+
   const resetujFiltere = (e) => {
     e.preventDefault();
     setSelectedYear("allyears");
@@ -127,82 +151,93 @@ function AllWorkshops() {
   return (
     <>
       <Navigation />
-      <div className="workshopsMainWrapper">
+      <div className="projectsMainWrapper">
         <div className="workshopsMainTitle">Sve radionice</div>
-        <div className="filterAndSortingSection">
-          <div className="filtersContainer">
-            <div className="filtersHeadline">Pretraži po</div>
-            <div className="filteringInputs">
-              <div className="filtersSection">
-                Naslov:
-                <input id="naslovInput" name="naslov" type="text" onChange={(e) => setNaslovFilter(e.target.value)} />
-              </div>
-              <div className="filtersSection">
-                Trener:
-                <input id="trenerInput" name="trener" type="text" onChange={(e) => setTrenerFilter(e.target.value)} />
-              </div>
-              <div className="filtersSection">
-                Godina:
-                <Form.Group className="sortingContainer">
-                  <Form.Select id="yearInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedYear(e.target.value)}>
-                    <option value="allyears">Sve godine</option>
-                    {years.length == 0 ? (
-                      <></>
-                    ) : (
-                      <>
-                        {years
-                          .sort((a, b) => {
-                            return a > b ? -1 : 0;
-                          })
-                          .map((year) => (
-                            <option value={year}>{year}</option>
-                          ))}
-                      </>
-                    )}
-                  </Form.Select>
-                </Form.Group>
-              </div>
-              <div className="filtersSection">
-                Sortiraj:
-                <Form.Group className="sortingContainer">
-                  <Form.Select id="sortInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSort(e.target.value)}>
-                    <option value="newest">Najnovije ka najstarijem</option>
-
-                    <option value="oldest">Najstarije ka najnovijem</option>
-                    <option value="asc">A-Z</option>
-                    <option value="desc">Z-A</option>
-                  </Form.Select>
-                </Form.Group>
-              </div>
-              <div className="filtersSection">
-                <Button className="resetFilters" variant="danger" onClick={resetujFiltere}>
-                  <p className="buttonText">RESETUJ FILTERE</p>
-                </Button>
+        <div id="filtersIcons" className="filtersIcons">
+          <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
+            <img className="filterIcon" src={filterIcon} />
+            <div className="filterIconText">FILTERI</div>
+            <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
+          </div>
+        </div>
+        <div className="projectsSomeWrapper">
+          <div id="filterIconsContainer" className="filterIconsContainer">
+            <div id="filteringDiv" className="newFilterWrapper">
+              <div className="newFilterContainer">
+                <div className="newFilterSection">
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label className="filtersCustomDesign">NASLOV</Form.Label>
+                    <Form.Control id="naslovInput" type="naslov" placeholder="Naslov" onChange={(e) => setNaslovFilter(e.target.value)} />
+                  </Form.Group>
+                </div>
+                <div className="newFilterSection">
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label className="filtersCustomDesign">TRENER</Form.Label>
+                    <Form.Control id="trenerInput" type="trener" placeholder="Trener" onChange={(e) => setTrenerFilter(e.target.value)} />
+                  </Form.Group>
+                </div>
+                <div className="newFilterSection">
+                  <Form.Group className="sortingContainer">
+                    <Form.Label className="filtersCustomDesign">GODINA</Form.Label>
+                    <Form.Select id="yearInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedYear(e.target.value)}>
+                      <option value="allyears">Sve godine</option>
+                      {years.length == 0 ? (
+                        <></>
+                      ) : (
+                        <>
+                          {years
+                            .sort((a, b) => {
+                              return a > b ? -1 : 0;
+                            })
+                            .map((year) => (
+                              <option value={year}>{year}</option>
+                            ))}
+                        </>
+                      )}
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="newFilterSection">
+                  <Form.Group className="sortingContainer">
+                    <Form.Label className="filtersCustomDesign">SORTIRAJ</Form.Label>
+                    <Form.Select id="sortInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSort(e.target.value)}>
+                      <option value="newest">Najnovije ka najstarijem</option>
+                      <option value="oldest">Najstarije ka najnovijem</option>
+                      <option value="asc">A-Z</option>
+                      <option value="desc">Z-A</option>
+                    </Form.Select>
+                  </Form.Group>
+                </div>
+                <div className="newFilterSection">
+                  <Button className="resetFilters" variant="danger">
+                    <div className="resetFiltersText">RESETUJ FILTERE</div>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="allWorkshopsContainer" onClick={handleClick}>
-          {years.length == 0 ? (
-            <>
-              {filteredWorkshops.map((item) => (
-                <Workshop item={item} />
-              ))}
-            </>
-          ) : (
-            <>
-              {filteredWorkshops
-                .filter((item) => {
-                  var date = item.datum.split("-");
-                  var fullDate = new Date(date[0], date[1] - 1, date[2]);
-                  let year = fullDate.getFullYear();
-                  return year == selectedYear || selectedYear == "allyears";
-                })
-                .map((item) => (
+          <div className="allProjectsContainer" onClick={handleClick}>
+            {years.length == 0 ? (
+              <>
+                {filteredWorkshops.map((item) => (
                   <Workshop item={item} />
                 ))}
-            </>
-          )}
+              </>
+            ) : (
+              <>
+                {filteredWorkshops
+                  .filter((item) => {
+                    var date = item.datum.split(".");
+                    var fullDate = new Date(date[2], date[1] - 1, date[0]);
+                    let year = fullDate.getFullYear();
+                    return year == selectedYear || selectedYear == "allyears";
+                  })
+                  .map((item) => (
+                    <Workshop item={item} />
+                  ))}
+              </>
+            )}
+          </div>
         </div>
       </div>
       <Footer />

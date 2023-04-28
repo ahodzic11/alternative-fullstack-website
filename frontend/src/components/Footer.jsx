@@ -30,6 +30,7 @@ function Footer() {
             <div className="alternativeInfo">Kakanj 72240</div>
             <div className="alternativeInfo">+387 32 556 288</div>
             <div className="alternativeInfo">Bosna i Hercegovina</div>
+            <div className="alternativeInfo">alternative@bih.net.ba</div>
           </div>
         </div>
         <div id="footerContactUsPoint"></div>

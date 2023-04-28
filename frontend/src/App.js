@@ -45,6 +45,11 @@ import Statements from "./pages/Statements";
 import AddOfferPage from "./pages/AddOfferPage";
 import ReadOffers from "./pages/ReadOffers";
 import EditOffers from "./pages/EditOffers";
+import SingleOffer from "./pages/SingleOffer";
+import AddArticlePage from "./pages/AddArticlePage";
+import ReadArticles from "./pages/ReadArticles";
+import EditArticles from "./pages/EditArticles";
+import AllArticles from "./pages/AllArticles";
 
 function App() {
   return (
@@ -65,6 +70,7 @@ function App() {
           <Route path="/dodajvijest" element={<AddNewsPage />} />
           <Route path="/dodajdonatora" element={<AddDonatorPage />} />
           <Route path="/dodajponudu" element={<AddOfferPage />} />
+          <Route path="/dodajclanak" element={<AddArticlePage />} />
           <Route path="/workshops" element={<Workshops />} />
           <Route path="/projekti" element={<Projects />} />
           <Route path="/aktivnosti" element={<AllActivities />} />
@@ -76,17 +82,20 @@ function App() {
           <Route path="/readnews" element={<ReadNews />} />
           <Route path="/readdonators" element={<ReadDonators />} />
           <Route path="/readoffers" element={<ReadOffers />} />
+          <Route path="/readarticles" element={<ReadArticles />} />
           <Route path="/editworkshop/:name" element={<EditWorkshops />} />
           <Route path="/editproject/:name" element={<EditProjects />} />
           <Route path="/editactivity/:name" element={<EditActivities />} />
           <Route path="/editnews/:name" element={<EditNews />} />
           <Route path="/editdonator/:name" element={<EditDonators />} />
           <Route path="/editoffer/:name" element={<EditOffers />} />
+          <Route path="/editarticle/:name" element={<EditArticles />} />
           <Route path="/workshops/:area" element={<WorkshopList />} />
           <Route path="/workshops/details/:name" element={<WorkshopDetailed />} />
           <Route path="/projects/details/:name" element={<ProjectDetailed />} />
           <Route path="/activities/details/:name" element={<ActivityDetailed />} />
           <Route path="/news/details/:name" element={<NewsDetailed />} />
+          <Route path="/offers/:name" element={<SingleOffer />} />
           <Route path="/workshops/workshopdetails/:name" element={<WorkshopInformation />} />
           <Route path="/projects/projectdetails/:name" element={<ProjectInformation />} />
           <Route path="/activities/activitydetails/:name" element={<ActivityInformation />} />
@@ -96,7 +105,7 @@ function App() {
           <Route path="/treneri" element={<Treneri />} />
           <Route path="/historijat" element={<Historijat />} />
           <Route path="/izjave" element={<Statements />} />
-          <Route path="/clanci" element={<OthersAboutUs />} />
+          <Route path="/clanci" element={<AllArticles />} />
         </Routes>
       </BrowserRouter>
     </>

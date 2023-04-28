@@ -43,6 +43,7 @@ function EditOffers() {
         krajPonude: formDataObj.krajPonude,
         cijena: formDataObj.cijena,
         uzrast: formDataObj.uzrast,
+        napomene: formDataObj.napomene,
       };
       const res = await axios.patch(`http://localhost:5000/api/offers/`, updatedOffer);
     } catch (err) {}
@@ -117,6 +118,10 @@ function EditOffers() {
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Sadržaj ponude</Form.Label>
               <Form.Control name="sadrzajPonude" as="textarea" rows={4} defaultValue={offer.sadrzajPonude} />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label className="itemTitleElement">Upute/napomene</Form.Label>
+              <Form.Control name="napomene" as="textarea" rows={4} defaultValue={offer.napomene} />
             </Form.Group>
             <div className="addStuffButton">
               <Button type="submit">Sačuvaj izmjene</Button>

@@ -58,7 +58,7 @@ function AddProjectPage() {
       <div className="addWorkshopContainer">
         <div className="currentLocationHeadline">Dodavanje projekta</div>
         <div className="addWorkshopForm">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form className="customFormContainer" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naziv projekta</Form.Label>
@@ -104,11 +104,13 @@ function AddProjectPage() {
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
-            <Form.Group as={Col} controlId="validationCustom01">
-              <Form.Label className="itemTitleElement">Cilj</Form.Label>
-              <Form.Control name="cilj" required type="text" placeholder="Cilj projekta" onChange={handleChange} />
-              <Form.Control.Feedback>Okej!</Form.Control.Feedback>
-            </Form.Group>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="validationCustom01">
+                <Form.Label className="itemTitleElement">Cilj</Form.Label>
+                <Form.Control name="cilj" required type="text" placeholder="Cilj projekta" onChange={handleChange} />
+                <Form.Control.Feedback>Okej!</Form.Control.Feedback>
+              </Form.Group>
+            </Row>
             <Row className="mb-3">
               <Form.Label className="itemTitleElement">Slike</Form.Label>
               <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
