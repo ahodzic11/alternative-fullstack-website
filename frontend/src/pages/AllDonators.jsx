@@ -9,6 +9,7 @@ import Donator from "../components/Donator";
 import filterIcon from "./../assets/filters.png";
 import Button from "react-bootstrap/Button";
 import "./../css/AllDonators.css";
+import GoToTop from "../components/GoToTop";
 
 function AllDonators() {
   const [donatorList, setDonators] = useState([]);
@@ -107,29 +108,49 @@ function AllDonators() {
 
   const resetujFiltere = (e) => {
     e.preventDefault();
-    /*setSort("newest");
-    setTrenerFilter("");
-    setNaslovFilter("");
+    setNazivFilter("");
+    setSelectedYear("allyears");
+    setSort("asc");
+    var nazivInput = document.getElementById("nazivInput");
+    nazivInput.value = "";
+    var sortInput = document.getElementById("sortInput");
+    sortInput.value = "asc";
     var yearInput = document.getElementById("yearInput");
     yearInput.value = "allyears";
-    var sortInput = document.getElementById("sortInput");
-    sortInput.value = "newest";
-    var naslovInput = document.getElementById("naslovInput");
-    naslovInput.value = "";
-    var trenerInput = document.getElementById("trenerInput");
-    trenerInput.value = "";*/
+  };
+
+  const displayResults = () => {
+    var resultNumber =
+      filteredDonators.filter((donator) => {
+        return (selectedYear <= Number(donator.krajPodrske) && selectedYear >= Number(donator.pocetakPodrske)) || selectedYear == "allyears";
+      }).length % 10;
+    if (resultNumber == 0) return <>donatora</>;
+    else if (resultNumber == 1) return <>donator</>;
+    else return <>donatora</>;
   };
 
   return (
     <>
       <Navigation />
       <div className="projectsMainWrapper">
-        <div className="projectsMainTitle">Donatori</div>
+        <div className="heading text-center">
+          <h2>DONATORI</h2>
+        </div>
         <div id="filtersIcons" className="filtersIcons">
           <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
             <img className="filterIcon" src={filterIcon} />
             <div className="filterIconText">FILTERI</div>
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
+          </div>
+          <div className="resultsNumber">
+            <div className="resultsNumberLength">
+              {
+                filteredDonators.filter((donator) => {
+                  return (selectedYear <= Number(donator.krajPodrske) && selectedYear >= Number(donator.pocetakPodrske)) || selectedYear == "allyears";
+                }).length
+              }
+            </div>
+            <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
         <div className="projectsSomeWrapper">
@@ -139,7 +160,7 @@ function AllDonators() {
                 <div className="newFilterSection">
                   <Form.Group controlId="formBasicEmail">
                     <Form.Label className="filtersCustomDesign">NAZIV</Form.Label>
-                    <Form.Control type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
+                    <Form.Control id="nazivInput" type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
@@ -174,7 +195,7 @@ function AllDonators() {
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
-                  <Button className="resetFilters" variant="danger">
+                  <Button className="resetFilters" variant="danger" onClick={(e) => resetujFiltere(e)}>
                     <div className="resetFiltersText">RESETUJ FILTERE</div>
                   </Button>
                 </div>
@@ -192,6 +213,7 @@ function AllDonators() {
           </div>
         </div>
       </div>
+      <GoToTop />
       <Footer />
     </>
   );

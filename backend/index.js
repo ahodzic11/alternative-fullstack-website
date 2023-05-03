@@ -57,10 +57,9 @@ app.post("/upload/:tipobjave/:naslov", (req, res) => {
 });
 
 app.delete("/delete/:tipobjave/:naslov", (req, res) => {
-  const { image } = req.files;
   const naslov = formatPath(req.params.naslov);
   const tipObjave = req.params.tipobjave;
-  fs.rmdir(path.join(__dirname + "/newuploads/" + tipObjave + "/", naslov), (err) => {
+  fs.rm(path.join(__dirname + "/newuploads/" + tipObjave + "/", naslov), { recursive: true }, (err) => {
     if (err) {
       return console.log(err);
     }

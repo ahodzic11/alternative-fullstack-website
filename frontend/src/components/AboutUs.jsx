@@ -69,8 +69,8 @@ function AboutUs() {
           <div className="administrativeBodyDetails">
             <div className="aboutUsCustomEntity">
               <div className="detailedProjectText">
-                <span>Predsjedništvo</span> <br />
-                Od 1998. - 1999.: <br /> <br />
+                Od 1998. - 1999.: Skupština - Predsjedništvo - Izvršni odbor (osoblje)
+                <br /> <br />
                 Maksuma Topalović, Predsjednica <br />
                 Izelsota Dada Hadžić, Poslovna direktorica
               </div>
@@ -78,14 +78,18 @@ function AboutUs() {
 
             <div className="aboutUsCustomEntity">
               <div className="detailedProjectText">
-                <span>Upravni odbor</span> <br />
-                Od 1999. - 2004.: <br /> <br />
+                Od 1999. - 2004.: Skupština - Upravni odbor - Izvršni odbor (osoblje)
+                <br /> <br />
                 Josip Miočević, Predsjednik Upravnog odbora <br />
                 Maksuma Topalović, Izvršna direktorica <br /> <br />
-                Od 2004. - 2018.: <br /> <br />
+                Od 2004. - 2018.: Skupština - Upravni odbor - Izvršni odbor (osoblje)
+                <br /> <br />
                 Izudin Neimarlija, Predsjednik Upravnog odbora <br />
                 Maksuma Topalović, Izvršna direktorica <br /> <br />
-                Članovi Upravnog odbora: <br /> <br />
+                Predsjednik Skupštine: Dalibor Lovrić
+                <br /> <br />
+                Članovi Upravnog odbora:
+                <br /> <br />
                 Izudin Neimarlija, tehnički direktor Tvornice cementa Kakanj <br />
                 Amela Džomba, profesorica u srednjoj tehničkoj školi <br />
                 Ana Dojčinov, dipl. ing. arh. <br />
@@ -96,14 +100,6 @@ function AboutUs() {
 
             <div className="aboutUsCustomEntity">
               <div className="detailedProjectText">
-                <span>Skupština</span> <br />
-                Predsjednik Skupštine: Dalibor Lovrić
-              </div>
-            </div>
-
-            <div className="aboutUsCustomEntity">
-              <div className="detailedProjectText">
-                <span>Osoblje:</span> <br />
                 <span>Stalno i povremeno uposleni tokom 20 godina rada:</span> <br />
                 <ul>
                   {" "}
@@ -119,9 +115,8 @@ function AboutUs() {
                   <li>Neven Radoš</li>
                   <li>Sakiba Hamzakadić</li>
                   <li>Saša Kadrić</li>
+                  <li>Ajla Vehab Hrusto</li>
                 </ul>
-                <span>Uposleni: 2017/2018.</span> <br />
-                Maksuma Topalović, Izvršna direktorica <br /> <br />
                 Vođenje finansijskog poslovanja : Knjigovodstveni servis Finesa, Kakanj <br /> <br />
                 Po osnovu Ugovora na povremenim poslovima: Alisa Provalić, Alma Hasagić, Belma Dizdarević, Dejan Terzić, Duško Kostić, Emina Topalović, Esmin Brodlija, Jelena Radoš, Josip Miočević, Naida Bukvić, Naila Obralija, Mirza Bajramović i Vildana Neimarlija.
               </div>
@@ -135,21 +130,16 @@ function AboutUs() {
           <div className="administrativeBodyDetails">
             <div className="aboutUsCustomEntity">
               <div className="detailedProjectText">
-                <span>"Alternative" je članica sljedećih mreža:</span> <br /> <br />
+                <span>Udruženje "Alternative" je članica sljedećih mreža:</span> <br /> <br />
                 <ul>
                   <li>Mreža za izgradnju mira</li>
                   <li>
                     Regionalna mreža: Koalicija za REKOM <a href="http://recom.link">http://recom.link</a>
                   </li>
-                  <li>EKO BiH mreža</li>
-                  <li>
-                    Ženska mreža <a href="http://zenskamreza.ba">http://zenskamreza.ba</a>
-                  </li>
-                  <li>Koalicija za zaštitu rijeka</li>
-                  <li>Mreža pravde BiH</li>
                 </ul>
                 <span>Ranije članstvo u mrežama:</span> <br /> <br />
                 <ul>
+                  <li>Mreža pravde BiH</li>
                   <li>Mreža "Sporazum plus" BiH</li>
                   <li>Koalicija NVO Vijeće BiH</li>
                   <li>Demokratska mreža (DemNet) u BiH</li>

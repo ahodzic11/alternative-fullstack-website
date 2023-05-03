@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import ProjectsBar from "../components/ProjectsBar";
 import Statements from "../components/Statements";
+import GoToTop from "../components/GoToTop";
 
 function Home() {
   return (
@@ -15,7 +16,7 @@ function Home() {
       <ProjectsBar />
       <AcitivityBar />
       <DetailedProjectsBar />
-      <Statements />
+      <GoToTop />
       <Footer />
     </div>
   );

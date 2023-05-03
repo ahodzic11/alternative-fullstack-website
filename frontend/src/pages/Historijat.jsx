@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import "./../css/Historijat.css";
+import GoToTop from "../components/GoToTop";
 
 function Historijat() {
   const [prikaz, setPrikaz] = useState("više");
@@ -289,6 +290,7 @@ function Historijat() {
           <div className="content-row">U dvadesetpetogodišnjem radu implementirali smo 147 projekta i brojne aktivnosti u skladu sa našom misijom, vizijom i principima djelovanja.</div>
         </div>
       </div>
+      <GoToTop />
       <Footer />
     </>
   );

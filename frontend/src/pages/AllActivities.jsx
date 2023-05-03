@@ -114,29 +114,68 @@ function AllActivities() {
 
   const resetujFiltere = (e) => {
     e.preventDefault();
-    /*setSort("newest");
-    setTrenerFilter("");
-    setNaslovFilter("");
-    var yearInput = document.getElementById("yearInput");
-    yearInput.value = "allyears";
+    setNazivFilter("");
+    setSelectedDonator("allDonators");
+    setSelectedProject("allProjects");
+    setSort("asc");
+    var nazivInput = document.getElementById("nazivInput");
+    nazivInput.value = "";
     var sortInput = document.getElementById("sortInput");
-    sortInput.value = "newest";
-    var naslovInput = document.getElementById("naslovInput");
-    naslovInput.value = "";
-    var trenerInput = document.getElementById("trenerInput");
-    trenerInput.value = "";*/
+    sortInput.value = "asc";
+    var projekatInput = document.getElementById("projekatInput");
+    projekatInput.value = "allProjects";
+    var donatorInput = document.getElementById("donatorInput");
+    donatorInput.value = "allDonators";
+  };
+
+  const displayResults = () => {
+    var resultNumber =
+      filteredActivities
+        .filter((item) => {
+          return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+        })
+        .filter((item) => {
+          return item.nazivProjekta == selectedProject || selectedProject == "allProjects";
+        })
+        .filter((item) => {
+          if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+          else return 1;
+        }).length % 10;
+    if (resultNumber == 0) return <>aktivnosti</>;
+    else if (resultNumber == 1) return <>aktivnost</>;
+    else return <>aktivnosti</>;
   };
 
   return (
     <>
       <Navigation />
       <div className="projectsMainWrapper">
-        <div className="projectsMainTitle">Aktivnosti</div>
+        <div className="heading text-center">
+          <h2>AKTIVNOSTI</h2>
+        </div>
         <div id="filtersIcons" className="filtersIcons">
           <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
             <img className="filterIcon" src={filterIcon} />
             <div className="filterIconText">FILTERI</div>
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
+          </div>
+          <div className="resultsNumber">
+            <div className="resultsNumberLength">
+              {
+                filteredActivities
+                  .filter((item) => {
+                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+                  })
+                  .filter((item) => {
+                    return item.nazivProjekta == selectedProject || selectedProject == "allProjects";
+                  })
+                  .filter((item) => {
+                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+                    else return 1;
+                  }).length
+              }
+            </div>
+            <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
         <div className="projectsSomeWrapper">
@@ -146,7 +185,7 @@ function AllActivities() {
                 <div className="newFilterSection">
                   <Form.Group controlId="formBasicEmail">
                     <Form.Label className="filtersCustomDesign">NAZIV</Form.Label>
-                    <Form.Control type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
+                    <Form.Control id="nazivInput" type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
@@ -205,7 +244,7 @@ function AllActivities() {
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
-                  <Button className="resetFilters" variant="danger">
+                  <Button className="resetFilters" variant="danger" onClick={(e) => resetujFiltere(e)}>
                     <div className="resetFiltersText">RESETUJ FILTERE</div>
                   </Button>
                 </div>

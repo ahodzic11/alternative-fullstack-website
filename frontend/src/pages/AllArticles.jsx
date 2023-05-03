@@ -8,6 +8,7 @@ import Project from "../components/Project";
 import { formatPath } from "../js/namechange";
 import filterIcon from "./../assets/filters.png";
 import Button from "react-bootstrap/Button";
+import GoToTop from "../components/GoToTop";
 import "./../css/AllArticles.css";
 
 function AllArticles() {
@@ -129,16 +130,61 @@ function AllArticles() {
     e.preventDefault();
   };
 
+  const displayResults = () => {
+    var resultNumber =
+      filteredArticles
+        .filter((item) => {
+          return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+        })
+        .filter((item) => {
+          if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+          else return 1;
+        })
+        .filter((article) => {
+          var date = article.datum.split("-");
+          var fullDate = new Date(date[0], date[1] - 1, date[2]);
+          let year = fullDate.getFullYear();
+          return year == selectedYear || selectedYear == "allyears";
+        }).length % 100;
+    if (resultNumber == 0) return <>članaka</>;
+    else if (resultNumber == 1) return <>članak</>;
+    else if (resultNumber >= 2 && resultNumber <= 4) return <>članka</>;
+    else if (resultNumber >= 5 && resultNumber <= 20) return <>članaka</>;
+  };
+
   return (
     <>
       <Navigation />
       <div className="articlesMainWrapper">
-        <div className="projectsMainTitle">Članci</div>
+        <div className="heading text-center">
+          <h2>ČLANCI</h2>
+        </div>
         <div id="filtersIcons" className="filtersIcons">
           <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
             <img className="filterIcon" src={filterIcon} />
             <div className="filterIconText">FILTERI</div>
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
+          </div>
+          <div className="resultsNumber">
+            <div className="resultsNumberLength">
+              {
+                filteredArticles
+                  .filter((item) => {
+                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+                  })
+                  .filter((item) => {
+                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+                    else return 1;
+                  })
+                  .filter((article) => {
+                    var date = article.datum.split("-");
+                    var fullDate = new Date(date[0], date[1] - 1, date[2]);
+                    let year = fullDate.getFullYear();
+                    return year == selectedYear || selectedYear == "allyears";
+                  }).length
+              }
+            </div>
+            <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
         <div className="articlesSomeWrapper">
@@ -258,6 +304,7 @@ function AllArticles() {
           </div>
         </div>
       </div>
+      <GoToTop />
       <Footer />
     </>
   );

@@ -56,6 +56,7 @@
   position: absolute;
   overflow: auto;
   background-color: white;
+  z-index: 99;
 }
 
 .dropdown:hover .dropdown-content {
@@ -228,4 +229,8 @@
   color: white;
   font-weight: 600;
   letter-spacing: 10px;
+}
+
+.aboutUsLinkNoPointer {
+  cursor: none;
 }

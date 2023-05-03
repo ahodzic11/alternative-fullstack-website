@@ -148,16 +148,45 @@ function AllWorkshops() {
     trenerInput.value = "";
   };
 
+  const displayResults = () => {
+    var resultNumber =
+      filteredWorkshops.filter((item) => {
+        var date = item.datum.split(".");
+        var fullDate = new Date(date[2], date[1] - 1, date[0]);
+        let year = fullDate.getFullYear();
+        return year == selectedYear || selectedYear == "allyears";
+      }).length % 10;
+    if (resultNumber == 0) return <>radionica</>;
+    else if (resultNumber == 1) return <>radionica</>;
+    else if (resultNumber >= 2 && resultNumber <= 4) return <>radionice</>;
+    else return <>radionica</>;
+  };
+
   return (
     <>
       <Navigation />
       <div className="projectsMainWrapper">
-        <div className="workshopsMainTitle">Sve radionice</div>
+        <div className="heading text-center">
+          <h2>SVE RADIONICE</h2>
+        </div>
         <div id="filtersIcons" className="filtersIcons">
           <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
             <img className="filterIcon" src={filterIcon} />
             <div className="filterIconText">FILTERI</div>
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
+          </div>
+          <div className="resultsNumber">
+            <div className="resultsNumberLength">
+              {
+                filteredWorkshops.filter((item) => {
+                  var date = item.datum.split(".");
+                  var fullDate = new Date(date[2], date[1] - 1, date[0]);
+                  let year = fullDate.getFullYear();
+                  return year == selectedYear || selectedYear == "allyears";
+                }).length
+              }
+            </div>
+            <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
         <div className="projectsSomeWrapper">
@@ -209,7 +238,7 @@ function AllWorkshops() {
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
-                  <Button className="resetFilters" variant="danger">
+                  <Button className="resetFilters" variant="danger" onClick={(e) => resetujFiltere(e)}>
                     <div className="resetFiltersText">RESETUJ FILTERE</div>
                   </Button>
                 </div>

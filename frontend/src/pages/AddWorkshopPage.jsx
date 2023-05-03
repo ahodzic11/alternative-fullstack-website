@@ -9,7 +9,7 @@ import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
-import { formatPath } from "../js/namechange";
+import { formatDate, formatPath } from "../js/namechange";
 import "./../css/AddWorkshopPage.css";
 
 function AddWorkshopPage() {
@@ -23,6 +23,7 @@ function AddWorkshopPage() {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
     if (inputs.oblastRadionice == null) {
       alert("Morate unijeti kategoriju radionice!");
@@ -42,13 +43,17 @@ function AddWorkshopPage() {
     var uploadFormData = new FormData(uploadForm);
     try {
       const response = await axios.post(`http://localhost:5000/upload/radionice/` + inputs.naslov, uploadFormData);
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
+    var firstDate = inputs.datum.split("-");
+    var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
 
     addWorkshop({
       naslov: inputs.naslov,
       mjesto: inputs.mjesto,
       formatiranNaslov: formatPath(inputs.naslov),
-      datum: inputs.datum,
+      datum: formatDate(firstCorrectDate),
       trener: inputs.trener,
       ucesnici: inputs.ucesnici,
       nazivDonatora: inputs.nazivDonatora,

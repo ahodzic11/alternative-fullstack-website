@@ -24,12 +24,14 @@ import adisImage from "./../assets/adisImage.jpg";
 import eminImage from "./../assets/eminImage.jpg";
 import amelImage from "./../assets/amelImage.jpg";
 import enaSikiraImage from "./../assets/enaSikiraImage.jpg";
+import GoToTop from "./GoToTop";
 import "./../css/OurTeam.css";
 
 //preuredit da radi sa bazom
 function OurTeam() {
   return (
     <>
+      <GoToTop />
       <div className="outterContainer">
         <div class="responsive-container-block container">
           <p class="text-blk team-head-text">Naš tim</p>

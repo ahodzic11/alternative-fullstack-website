@@ -5,7 +5,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./../css/ActivityDetailed.css";
-import { formatPath } from "../js/namechange";
 
 function ActivityDetailed() {
   const [activity, setActivity] = useState([]);

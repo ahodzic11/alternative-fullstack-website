@@ -1,14 +1,10 @@
 .offerMainTitle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Teko", sans-serif;
-  background-color: black;
+  font-family: "Fjalla One", sans-serif;
+  font-weight: 500;
+  font-size: 45px;
+  color: black;
   width: 100%;
-  height: 120px;
-  color: white;
-  font-size: 50px;
-  letter-spacing: 10px;
+  letter-spacing: 3px;
 }
 
 .offerContainer {
@@ -32,17 +28,17 @@
 }
 
 .offerContainerFirstColumn {
-  background-color: lightgray;
+  padding-left: 100px;
+  background-color: white;
   width: 60%;
 }
 
 .offerContainerSecondColumn {
   padding: 40px;
-  background-color: lightgray;
+  background-color: white;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  justify-content: center;
+  gap: 110px;
   align-items: center;
   width: 40%;
 }
@@ -58,22 +54,6 @@
   row-gap: 15px;
 }
 
-.onlinePrijava {
-  text-align: center;
-  cursor: pointer;
-  font-family: "Teko", sans-serif;
-  font-size: 30px;
-  letter-spacing: 5px;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70%;
-  height: 150px;
-  background-color: #dc3545;
-  border-radius: 5%;
-}
-
 .offerImages {
   display: flex;
   flex-wrap: wrap;
@@ -85,4 +65,119 @@
   object-fit: cover;
   width: 40%;
   height: 100px;
+}
+
+.offerSadrzajPonude {
+  color: rgb(71, 71, 71);
+  white-space: pre-wrap;
+}
+
+.bookingContainer {
+  padding: 15px;
+  border-radius: 7%;
+  width: 70%;
+  height: fit-content;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.bookingTitle {
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+  color: black;
+  font-weight: 500;
+  letter-spacing: 1px;
+  font-size: 20px;
+  font-family: "Secular One", sans-serif;
+  padding-left: 15px;
+}
+
+.bookingImage {
+  height: 25px;
+  width: 25px;
+}
+
+.bookingFormular {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 40px;
+}
+
+#timeInput {
+  height: 38px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  text-align: start;
+  width: 100%;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-color: rgb(206, 212, 218);
+  border-top-color: rgb(206, 212, 218);
+  border-right-color: rgb(206, 212, 218);
+  border-left-color: rgb(206, 212, 218);
+  border-width: 0.8px;
+}
+
+.bookADate {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Josefin Sans", sans-serif;
+  color: white;
+  background-color: rgb(226, 19, 19);
+  height: 45px;
+  text-align: center;
+  width: 90%;
+  border-radius: 500px;
+  font-size: 18px;
+}
+
+.offerDescription {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  height: 340px;
+}
+
+.offerOpis {
+  position: relative;
+  font-size: 25px;
+  height: 100%;
+  width: 100%;
+}
+
+.offerMainOpis {
+  color: white;
+  font-size: 40px;
+  position: absolute;
+  width: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+.offerImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  filter: brightness(20%) grayscale(100%);
+}
+
+.offerRadioButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }

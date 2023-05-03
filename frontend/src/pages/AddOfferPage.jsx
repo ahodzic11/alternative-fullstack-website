@@ -9,7 +9,7 @@ import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
-import { formatPath } from "../js/namechange";
+import { formatDate, formatPath } from "../js/namechange";
 import "./../css/AddWorkshopPage.css";
 
 function AddOfferPage() {
@@ -23,19 +23,32 @@ function AddOfferPage() {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
+    if (inputs.tipPonude == null) {
+      alert("Morate unijeti tip ponude!");
+      return;
+    }
+    if (document.getElementById("uploadedFiles").files.length === 0) {
+      alert("Morate unijeti bar jednu sliku!");
+      return;
+    }
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
+      return;
     }
-    setValidated(true);
 
     var uploadForm = document.getElementById("uploadForm");
     var uploadFormData = new FormData(uploadForm);
-
     try {
       const response = await axios.post(`http://localhost:5000/upload/ponude/` + inputs.naziv, uploadFormData);
     } catch (err) {}
+    var firstDate = inputs.pocetakPonude.split("-");
+    var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
+    var secondDate = inputs.krajPonude.split("-");
+    var secondCorrectDate = new Date(secondDate[0], secondDate[1] - 1, secondDate[2]);
 
     addOffer({
       naziv: inputs.naziv,
@@ -43,13 +56,15 @@ function AddOfferPage() {
       opis: inputs.opis,
       sadrzajPonude: inputs.sadrzajPonude,
       trener: inputs.trener,
-      pocetakPonude: inputs.pocetakPonude,
-      krajPonude: inputs.krajPonude,
+      pocetakPonude: formatDate(firstCorrectDate),
+      krajPonude: formatDate(secondCorrectDate),
       cijena: inputs.cijena,
       uzrast: inputs.uzrast,
       napomene: inputs.napomene,
+      tipPonude: inputs.tipPonude,
       naslovnaSlika: formatPath(inputs.naziv) + "0.jpg",
     });
+    alert("Ponuda uspješno dodana!");
   };
 
   return (
@@ -58,7 +73,7 @@ function AddOfferPage() {
       <div className="addWorkshopContainer">
         <div className="currentLocationHeadline">Dodavanje ponude</div>
         <div className="addWorkshopForm">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form className="customFormContainer" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naziv ponude</Form.Label>
@@ -68,6 +83,11 @@ function AddOfferPage() {
               <Form.Group as={Col} controlId="validationCustom02">
                 <Form.Label className="itemTitleElement">Uzrast</Form.Label>
                 <Form.Control name="uzrast" required type="text" placeholder="Uzrast" onChange={handleChange} />
+                <Form.Control.Feedback>Okej!</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} controlId="validationCustom01">
+                <Form.Label className="itemTitleElement">Cijena</Form.Label>
+                <Form.Control name="cijena" required type="text" placeholder="U KM" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
@@ -86,34 +106,37 @@ function AddOfferPage() {
               </div>
             </Row>
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="validationCustom01">
-                <Form.Label className="itemTitleElement">Cijena</Form.Label>
-                <Form.Control name="cijena" required type="text" placeholder="U KM" onChange={handleChange} />
-                <Form.Control.Feedback>Okej!</Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group as={Col} controlId="validationCustom02">
+              <Form.Group as={Col} md={4} controlId="validationCustom02">
                 <Form.Label className="itemTitleElement">Trener</Form.Label>
                 <Form.Control name="trener" required type="text" placeholder="Trener" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} controlId="validationCustom01">
+                <Form.Label className="itemTitleElement">Tip ponude</Form.Label>
+                <Form.Select required name="tipPonude" aria-label="Default select example" onClick={handleChange}>
+                  <option>Tip ponude</option>
+                  <option value="Jednodnevna">Jednodnevna</option>
+                  <option value="Višednevna">Višednevna</option>
+                </Form.Select>
               </Form.Group>
             </Row>
             <Row className="mb-3">
               <Form.Label className="itemTitleElement">Slike</Form.Label>
               <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
-                <input className="uploadImagesInput" type="file" name="image" multiple />
+                <input id="uploadedFiles" className="uploadImagesInput" type="file" name="image" multiple />
               </form>
             </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis ponude</Form.Label>
-              <Form.Control name="opis" as="textarea" rows={2} onChange={handleChange} />
+              <Form.Control required name="opis" as="textarea" rows={2} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Sadržaj ponude</Form.Label>
-              <Form.Control name="sadrzajPonude" as="textarea" rows={4} onChange={handleChange} />
+              <Form.Control required name="sadrzajPonude" as="textarea" rows={4} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Upute/napomene</Form.Label>
-              <Form.Control name="napomene" as="textarea" rows={4} onChange={handleChange} />
+              <Form.Control required name="napomene" as="textarea" rows={4} onChange={handleChange} />
             </Form.Group>
             <div className="addStuffButton">
               <Button type="submit">Dodaj ponudu</Button>

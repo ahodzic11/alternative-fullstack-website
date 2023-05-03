@@ -17,3 +17,17 @@ export function formatDate(inputDate) {
 
   return `${date}.${month}.${year}.`;
 }
+
+export function englishFormatDate(inputDate) {
+  console.log(inputDate);
+  let date, month, year;
+  var firstDate = inputDate.split(".");
+  var firstCorrectDate = new Date(firstDate[2], firstDate[1] - 1, firstDate[0]);
+  date = firstCorrectDate.getDate();
+  month = firstCorrectDate.getMonth() + 1;
+  year = firstCorrectDate.getFullYear();
+  date = date.toString().padStart(2, "0");
+
+  month = month.toString().padStart(2, "0");
+  return `${year}-${month}-${date}`;
+}

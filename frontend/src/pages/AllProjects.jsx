@@ -8,7 +8,6 @@ import Project from "../components/Project";
 import { formatPath } from "../js/namechange";
 import filterIcon from "./../assets/filters.png";
 import Button from "react-bootstrap/Button";
-
 import "./../css/AllProjects.css";
 
 function AllProjects() {
@@ -105,13 +104,50 @@ function AllProjects() {
 
   const resetujFiltere = (e) => {
     e.preventDefault();
+    setNazivFilter("");
+    setSelectedDonator("allDonators");
+    setSelectedRange("allValues");
+    setSort("asc");
+    var nazivInput = document.getElementById("nazivInput");
+    nazivInput.value = "";
+    var sortInput = document.getElementById("sortInput");
+    sortInput.value = "asc";
+    var donatorInput = document.getElementById("donatorInput");
+    donatorInput.value = "allDonators";
+    var valuesInput = document.getElementById("iznosSredstava");
+    valuesInput.value = "allValues";
+  };
+
+  const displayResults = () => {
+    var resultNumber =
+      filteredProjects
+        .filter((item) => {
+          return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+        })
+        .filter((item) => {
+          if (selectedRange == "allValues") return 1;
+          else if (selectedRange == "0to10") return Number(item.projektniGrant) >= 0 && Number(item.projektniGrant) <= 10000;
+          else if (selectedRange == "10to50") return Number(item.projektniGrant) >= 10000 && Number(item.projektniGrant) <= 50000;
+          else if (selectedRange == "50to100") return Number(item.projektniGrant) >= 50000 && Number(item.projektniGrant) <= 100000;
+          else if (selectedRange == "over100") return Number(item.projektniGrant) >= 100000;
+        })
+        .filter((item) => {
+          if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+          else return 1;
+        }).length % 100;
+    if (resultNumber == 0) return <>projekata</>;
+    else if (resultNumber == 1) return <>projekat</>;
+    else if (resultNumber >= 2 && resultNumber <= 4) return <>projekta</>;
+    else if (resultNumber >= 5 && resultNumber <= 20) return <>projekata</>;
   };
 
   return (
     <>
       <Navigation />
       <div className="projectsMainWrapper">
-        <div className="projectsMainTitle">Projekti</div>
+        <div className="heading text-center">
+          <h2>PROJEKTI</h2>
+        </div>
         <div id="filtersIcons" className="filtersIcons">
           <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
             <img className="filterIcon" src={filterIcon} />
@@ -119,8 +155,26 @@ function AllProjects() {
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
           </div>
           <div className="resultsNumber">
-            <div className="resultsNumberLength">{filteredProjects.length}</div>
-            <div className="resultsNumberName">projekta</div>
+            <div className="resultsNumberLength">
+              {
+                filteredProjects
+                  .filter((item) => {
+                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+                  })
+                  .filter((item) => {
+                    if (selectedRange == "allValues") return 1;
+                    else if (selectedRange == "0to10") return Number(item.projektniGrant) >= 0 && Number(item.projektniGrant) <= 10000;
+                    else if (selectedRange == "10to50") return Number(item.projektniGrant) >= 10000 && Number(item.projektniGrant) <= 50000;
+                    else if (selectedRange == "50to100") return Number(item.projektniGrant) >= 50000 && Number(item.projektniGrant) <= 100000;
+                    else if (selectedRange == "over100") return Number(item.projektniGrant) >= 100000;
+                  })
+                  .filter((item) => {
+                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+                    else return 1;
+                  }).length
+              }
+            </div>
+            <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
         <div className="projectsSomeWrapper">
@@ -130,13 +184,13 @@ function AllProjects() {
                 <div className="newFilterSection">
                   <Form.Group controlId="formBasicEmail">
                     <Form.Label className="filtersCustomDesign">NAZIV</Form.Label>
-                    <Form.Control type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
+                    <Form.Control id="nazivInput" type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
                   <Form.Group className="sortingContainers">
                     <Form.Label className="filtersCustomDesign">DONATOR</Form.Label>
-                    <Form.Select className="filterInputField" id="donatorInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedDonator(e.target.value)}>
+                    <Form.Select id="donatorInput" className="filterInputField" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedDonator(e.target.value)}>
                       <option className="filterInputField" value="allDonators">
                         <div>Svi donatori</div>
                       </option>
@@ -181,7 +235,7 @@ function AllProjects() {
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
-                  <Button className="resetFilters" variant="danger">
+                  <Button className="resetFilters" variant="danger" onClick={(e) => resetujFiltere(e)}>
                     <div className="resetFiltersText">RESETUJ FILTERE</div>
                   </Button>
                 </div>

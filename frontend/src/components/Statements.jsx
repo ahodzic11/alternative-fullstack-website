@@ -6,10 +6,10 @@ function Statements() {
   return (
     <>
       <div id="othersAboutUsPoint"></div>
+      <div class="heading text-center">
+        <h2>ŠTA DRUGI KAŽU O NAMA</h2>
+      </div>
       <section class="testimonials">
-        <div class="heading text-center">
-          <h2>ŠTA DRUGI KAŽU O NAMA</h2>
-        </div>
         <div class="container">
           <div class="row text-center">
             <div class="col-md-12">

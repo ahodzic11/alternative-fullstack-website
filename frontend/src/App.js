@@ -4,7 +4,6 @@ import AboutUs from "./pages/AboutUs";
 import Projects from "./pages/AllProjects";
 import Statut from "./pages/Statut";
 import RealAboutUs from "./pages/RealAboutUs";
-import OthersAboutUs from "./pages/OthersAboutUs";
 import Admin from "./pages/AdminPage";
 import AdminPanel from "./pages/AdminPanel";
 import AddWorkshopPage from "./pages/AddWorkshopPage";
@@ -37,7 +36,6 @@ import ReadNews from "./pages/ReadNews";
 import EditNews from "./pages/EditNews";
 import Historijat from "./pages/Historijat";
 import AddDonatorPage from "./pages/AddDonatorPage";
-import "./App.css";
 import ReadDonators from "./pages/ReadDonators";
 import EditDonators from "./pages/EditDonators";
 import AllDonators from "./pages/AllDonators";
@@ -50,6 +48,7 @@ import AddArticlePage from "./pages/AddArticlePage";
 import ReadArticles from "./pages/ReadArticles";
 import EditArticles from "./pages/EditArticles";
 import AllArticles from "./pages/AllArticles";
+import "./App.css";
 
 function App() {
   return (
@@ -61,7 +60,6 @@ function App() {
           <Route path="/projects" element={<ProjectsMainPage />} />
           <Route path="/statut" element={<Statut />} />
           <Route path="/onama" element={<RealAboutUs />} />
-          <Route path="/drugionama" element={<OthersAboutUs />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/adminpanel" element={<AdminPanel />} />
           <Route path="/dodajradionicu" element={<AddWorkshopPage />} />

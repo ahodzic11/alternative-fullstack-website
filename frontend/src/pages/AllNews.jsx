@@ -9,6 +9,7 @@ import filterIcon from "./../assets/filters.png";
 import "./../css/AllProjects.css";
 import { formatPath } from "../js/namechange";
 import Button from "react-bootstrap/Button";
+import GoToTop from "../components/GoToTop";
 
 function AllNews() {
   const [newsList, setNews] = useState([]);
@@ -120,29 +121,75 @@ function AllNews() {
 
   const resetujFiltere = (e) => {
     e.preventDefault();
-    /*setSort("newest");
-    setTrenerFilter("");
-    setNaslovFilter("");
-    var yearInput = document.getElementById("yearInput");
-    yearInput.value = "allyears";
+    setNazivFilter("");
+    setSelectedTema("allTeme");
+    setSelectedYear("allYears");
+    setSort("asc");
+    var nazivInput = document.getElementById("nazivInput");
+    nazivInput.value = "";
     var sortInput = document.getElementById("sortInput");
-    sortInput.value = "newest";
-    var naslovInput = document.getElementById("naslovInput");
-    naslovInput.value = "";
-    var trenerInput = document.getElementById("trenerInput");
-    trenerInput.value = "";*/
+    sortInput.value = "asc";
+    var temaInput = document.getElementById("temaInput");
+    temaInput.value = "allTeme";
+    var yearInput = document.getElementById("yearInput");
+    yearInput.value = "allYears";
+  };
+
+  const displayResults = () => {
+    var resultNumber =
+      filteredNews
+        .filter((item) => {
+          return item.tema == selectedTema || selectedTema == "allTeme";
+        })
+        .filter((item) => {
+          var date = item.datum.split("-");
+          var fullDate = new Date(date[0], date[1] - 1, date[2]);
+          let year = fullDate.getFullYear();
+          return year == selectedYear || selectedYear == "allYears";
+        })
+        .filter((item) => {
+          if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+          else return 1;
+        }).length % 10;
+    if (resultNumber == 0) return <>novosti</>;
+    else if (resultNumber == 1) return <>novost</>;
+    else return <>novosti</>;
   };
 
   return (
     <>
       <Navigation />
+      <GoToTop />
       <div className="projectsMainWrapper">
-        <div className="projectsMainTitle">Novosti</div>
+        <div className="heading text-center">
+          <h2>NOVOSTI</h2>
+        </div>
         <div id="filtersIcons" className="filtersIcons">
           <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
             <img className="filterIcon" src={filterIcon} />
             <div className="filterIconText">FILTERI</div>
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
+          </div>
+          <div className="resultsNumber">
+            <div className="resultsNumberLength">
+              {
+                filteredNews
+                  .filter((item) => {
+                    return item.tema == selectedTema || selectedTema == "allTeme";
+                  })
+                  .filter((item) => {
+                    var date = item.datum.split("-");
+                    var fullDate = new Date(date[0], date[1] - 1, date[2]);
+                    let year = fullDate.getFullYear();
+                    return year == selectedYear || selectedYear == "allYears";
+                  })
+                  .filter((item) => {
+                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+                    else return 1;
+                  }).length
+              }
+            </div>
+            <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
         <div className="projectsSomeWrapper">
@@ -152,7 +199,7 @@ function AllNews() {
                 <div className="newFilterSection">
                   <Form.Group controlId="formBasicEmail">
                     <Form.Label className="filtersCustomDesign">NAZIV</Form.Label>
-                    <Form.Control type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
+                    <Form.Control id="nazivInput" type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
@@ -208,7 +255,7 @@ function AllNews() {
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
-                  <Button className="resetFilters" variant="danger">
+                  <Button className="resetFilters" variant="danger" onClick={(e) => resetujFiltere(e)}>
                     <div className="resetFiltersText">RESETUJ FILTERE</div>
                   </Button>
                 </div>

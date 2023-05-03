@@ -25,6 +25,18 @@
   letter-spacing: 4px;
 }
 
+.h2::after {
+  content: "";
+  width: 500px;
+  position: absolute;
+  margin: 0 auto;
+  height: 5px;
+  background: #ed3237;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+}
+
 .workshopsIntro {
   padding-bottom: 20px;
   font-size: 20px;
@@ -100,6 +112,8 @@
   flex-wrap: wrap;
   gap: 30px;
   background-color: #f1f4f5;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .projectsSomeWrapper {
@@ -217,11 +231,26 @@
 }
 
 .resultsNumberLength {
-  font-size: 40px;
+  font-size: 35px;
 }
 
 .resultsNumberName {
-  font-size: 30px;
-  padding-bottom: 8px;
+  font-size: 27px;
+  padding-bottom: 7px;
   color: rgb(117, 117, 117);
+}
+
+.projectsNewMainTitle {
+  position: relative;
+  padding-top: 30px;
+}
+
+.heading h2 {
+  position: relative;
+  font-size: 40px;
+  font-weight: 700;
+  color: black;
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 14px;
+  padding-top: 30px;
 }

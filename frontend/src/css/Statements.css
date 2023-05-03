@@ -1,5 +1,7 @@
 .heading {
   position: relative;
+  display: flex;
+  justify-content: center;
 }
 .testimonials {
   background-size: cover;
@@ -10,9 +12,9 @@
 }
 
 h2::after {
-  content: "";
-  width: 500px;
   position: absolute;
+  content: "";
+  width: 60%;
   margin: 0 auto;
   height: 5px;
   background: #ed3237;
@@ -27,8 +29,8 @@ h2::after {
   width: 100%;
   height: 100%;
   top: 0;
-  position: absolute;
   left: 0;
+  position: absolute;
 }
 .testimonials .heading h2 {
   font-size: 40px;

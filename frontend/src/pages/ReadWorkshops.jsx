@@ -9,10 +9,16 @@ import changePictureIcon from "./../assets/changePicture.png";
 import deleteIcon from "./../assets/deleteIcon.png";
 import { useNavigate } from "react-router-dom";
 import { formatPath } from "../js/namechange";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import "./../css/ReadWorkshops.css";
 
 function ReadWorkshops() {
   const [workshops, setWorkshops] = useState([]);
+  const [show, setShow] = useState(false);
+  const [chosenWorkshop, setChosenWorkshop] = useState({});
+  const handleClose = () => setShow(false);
+  const handleShow = (item) => setShow(true);
   const navigate = useNavigate();
 
   const getWorkshops = async () => {
@@ -35,15 +41,21 @@ function ReadWorkshops() {
     navigate("/chooseimage/workshop/" + formatPath(item.naslov));
   };
 
-  async function deleteWorkshopItem(e, item) {
-    e.preventDefault();
+  async function handleDelete() {
+    setShow(false);
     try {
-      const res = await axios.delete(`http://localhost:5000/api/workshops/` + item.id);
+      const res = await axios.delete(`http://localhost:5000/api/workshops/` + chosenWorkshop.id);
     } catch (err) {}
     try {
-      const res = await axios.delete(`http://localhost:5000/delete/radionice/` + item.naslov);
+      const res = await axios.delete(`http://localhost:5000/delete/radionice/` + chosenWorkshop.naslov);
     } catch (err) {}
     getWorkshops();
+  }
+
+  function deleteFunction(e, item) {
+    e.preventDefault();
+    setChosenWorkshop(item);
+    handleShow(item);
   }
 
   return (
@@ -52,6 +64,20 @@ function ReadWorkshops() {
       <div className="readWorkshopContainer">
         <div className="currentLocationHeadline">Unesene radionice</div>
         <div className="filterAndSortingContainer"></div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Brisanje radionice</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Sigurno želite obrisati radionicu?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Ne
+            </Button>
+            <Button variant="primary" onClick={handleDelete}>
+              Da
+            </Button>
+          </Modal.Footer>
+        </Modal>
         {workshops.map((item) => (
           <div className="basicInfo">
             <div className="firstWorkshopInformation">
@@ -73,7 +99,7 @@ function ReadWorkshops() {
               <div className="changePictureOption workshopEditOption" onClick={(e) => chooseImage(e, item)}>
                 <img src={changePictureIcon} />
               </div>
-              <div className="deleteWorkshop workshopEditOption" onClick={(e) => deleteWorkshopItem(e, item)}>
+              <div className="deleteWorkshop workshopEditOption" onClick={(e) => deleteFunction(e, item)}>
                 <img src={deleteIcon} />
               </div>
             </div>
