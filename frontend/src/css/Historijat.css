@@ -12,6 +12,7 @@ body {
   position: relative;
   width: 100%;
   margin: 0 auto;
+  margin-top: 50px;
 }
 
 /* The actual timeline (the vertical ruler) */
@@ -226,4 +227,11 @@ body {
   font-family: "Teko", sans-serif;
   font-size: 20px;
   letter-spacing: 2px;
+}
+
+.twoImagesContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }

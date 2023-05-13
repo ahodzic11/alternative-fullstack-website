@@ -32,6 +32,7 @@
   height: 400px;
   width: 65%;
   overflow: hidden;
+  background-color: #f1f4f5;
 }
 
 .articleImage {
@@ -57,6 +58,7 @@
   width: 90%;
   font-size: 17px;
   text-align: justify;
+  white-space: pre-wrap;
 }
 
 .readMoreArticle {
@@ -77,4 +79,5 @@
   row-gap: 40px;
   padding-bottom: 40px;
   min-height: 400px;
+  background-color: #f1f4f5;
 }

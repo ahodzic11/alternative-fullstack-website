@@ -10,7 +10,7 @@ import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
 import "./../css/AddWorkshopPage.css";
-import { formatPath } from "../js/namechange";
+import { formatDate, formatPath } from "../js/namechange";
 
 function AddProjectPage() {
   const [inputs, setInputs] = useState({});
@@ -24,12 +24,16 @@ function AddProjectPage() {
 
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
+    if (document.getElementById("uploadedFiles").files.length === 0) {
+      alert("Morate unijeti bar jednu sliku!");
+      return;
+    }
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
+      return;
     }
-    setValidated(true);
-
     var uploadForm = document.getElementById("uploadForm");
     var uploadFormData = new FormData(uploadForm);
 
@@ -37,12 +41,17 @@ function AddProjectPage() {
       const response = await axios.post(`http://localhost:5000/upload/projekti/` + inputs.naziv, uploadFormData);
     } catch (err) {}
 
+    var firstDate = inputs.pocetakImplementacije.split("-");
+    var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
+    var secondDate = inputs.krajImplementacije.split("-");
+    var secondCorrectDate = new Date(secondDate[0], secondDate[1] - 1, secondDate[2]);
+
     addProject({
       naziv: inputs.naziv,
       formatiranNaziv: formatPath(inputs.naziv),
       mjesto: inputs.mjesto,
-      pocetakImplementacije: inputs.pocetakImplementacije,
-      krajImplementacije: inputs.krajImplementacije,
+      pocetakImplementacije: formatDate(firstCorrectDate),
+      krajImplementacije: formatDate(secondCorrectDate),
       nazivDonatora: inputs.nazivDonatora,
       projektniGrant: inputs.projektniGrant,
       ciljnaGrupa: inputs.ciljnaGrupa,
@@ -50,6 +59,7 @@ function AddProjectPage() {
       opisProjekta: inputs.opisProjekta,
       naslovnaSlika: formatPath(inputs.naziv) + "0.jpg",
     });
+    alert("Projekat uspješno dodan!");
   };
 
   return (
@@ -75,13 +85,13 @@ function AddProjectPage() {
               <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Početak implementacije</Form.Label>
-                  <Form.Control name="pocetakImplementacije" type="date" placeholder="datum" onChange={handleChange} />
+                  <Form.Control name="pocetakImplementacije" required type="date" placeholder="datum" onChange={handleChange} />
                 </Form.Group>
               </div>
               <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Kraj implementacije</Form.Label>
-                  <Form.Control name="krajImplementacije" type="date" placeholder="datum" onChange={handleChange} />
+                  <Form.Control name="krajImplementacije" required type="date" placeholder="datum" onChange={handleChange} />
                 </Form.Group>
               </div>
             </Row>
@@ -100,7 +110,7 @@ function AddProjectPage() {
               </Form.Group>
               <Form.Group as={Col} controlId="validationCustom02">
                 <Form.Label className="itemTitleElement">Ciljna grupa</Form.Label>
-                <Form.Control name="ciljnaGrupa" required type="text" placeholder="Ciljna grupa" onChange={handleChange} />
+                <Form.Control name="ciljnaGrupa" type="text" placeholder="Ciljna grupa" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
@@ -114,12 +124,12 @@ function AddProjectPage() {
             <Row className="mb-3">
               <Form.Label className="itemTitleElement">Slike</Form.Label>
               <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
-                <input className="uploadImagesInput" type="file" name="image" multiple />
+                <input id="uploadedFiles" className="uploadImagesInput" type="file" name="image" multiple />
               </form>
             </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis projekta</Form.Label>
-              <Form.Control name="opisProjekta" as="textarea" rows={4} onChange={handleChange} />
+              <Form.Control required name="opisProjekta" as="textarea" rows={4} onChange={handleChange} />
             </Form.Group>
             <div className="addStuffButton">
               <Button type="submit">Dodaj projekat</Button>

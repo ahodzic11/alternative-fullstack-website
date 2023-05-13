@@ -25,11 +25,10 @@ function AboutUs() {
 
         <div className="principlesImage parallexImage">PRINCIPI DJELOVANJA</div>
         <div className="aboutUsMissionVisionContainer">
-          <div className="aboutUsHeadline headline">PRINCIPI DJELOVANJA</div>
           <div className="aboutUsText">
-            Pomažemo našim KORISNICIMA da participiraju u kreiranju naših projekata. Indikator naše uspješnosti je, prije svih, zadovoljstvo korisnika našim uslugama. Stalno radimo na EDUKACIJI <br /> <br /> VRIJEDNOST našeg rada podiže vrijednost naše organizacije i omogućava nam slobodu djelovanja. <br /> <br /> Dosljedna realizacija projekata, temelj su našeg uspjeha. <br /> <br /> Dajemo
-            poticaj našim SURADNICIMA i motiviramo ih za vrhunske rezultate. Naš uspjeh počinje s našim osobljem. Odnose u našoj organizaciji karakterizira međusobno poštovanje i jasni ciljevi. <br /> <br /> Društvena odgovornost-naš doprinos za bolji svijet. Naše ideje, programi i djelovanje služe ljudima, društvu i okolini. <br /> <br /> Ophođenje sa suradnicima, donatorima i partnerima zasniva
-            se na principu uvažavanja i razumijevanja.
+            Pomažemo našim KORISNICIMA da participiraju u kreiranju naših projekata. Indikator naše uspješnosti je, prije svih, zadovoljstvo korisnika našim uslugama. <br /> <br /> VRIJEDNOST našeg rada podiže vrijednost naše organizacije i omogućava nam slobodu djelovanja. <br /> <br /> Dosljedna realizacija projekata, temelj su našeg uspjeha. <br /> <br /> Dajemo poticaj našim SURADNICIMA i
+            motiviramo ih za vrhunske rezultate. Naš uspjeh počinje s našim osobljem. Odnose u našoj organizaciji karakterizira međusobno poštovanje i jasni ciljevi. <br /> <br /> Društvena odgovornost-naš doprinos za bolji svijet. Naše ideje, programi i djelovanje služe ljudima, društvu i okolini. <br /> <br /> Ophođenje sa suradnicima, donatorima i partnerima zasniva se na principu uvažavanja i
+            razumijevanja.
           </div>
         </div>
 
@@ -38,24 +37,24 @@ function AboutUs() {
           <div className="aboutUsHeadline headline">PRAVNI STATUS</div>
           <div className="administrativeBodyDetails">
             <div className="aboutUsCustomEntity">
-              <div className="detailedProjectText">
+              <div className="detailedProjectText aboutUsText2">
                 <span>Pravni status:</span> Udruženje građana
               </div>
             </div>
 
-            <div className="aboutUsCustomEntity">
+            <div className="aboutUsCustomEntity aboutUsText2">
               <div className="detailedProjectText">
                 <span>Osnivačka skupština:</span> 17.02.1998. godine
               </div>
             </div>
 
-            <div className="aboutUsCustomEntity">
+            <div className="aboutUsCustomEntity aboutUsText2">
               <div className="detailedProjectText">
                 <span>Registracija:</span> Ministarstvo pravde Zeničko-Dobojski kanton, 24.02.1998. godine.
               </div>
             </div>
 
-            <div className="aboutUsCustomEntity">
+            <div className="aboutUsCustomEntity aboutUsText2">
               <div className="detailedProjectText">
                 <span>Preregistracija: </span> <br />
                 Preregistracija u skladu sa Zakonom u udruženjima građana i fondacijama, 12.01.2004. <br /> <br />
@@ -66,8 +65,8 @@ function AboutUs() {
           </div>
 
           <div className="aboutUsHeadline headline">UPRAVNA TIJELA</div>
-          <div className="administrativeBodyDetails">
-            <div className="aboutUsCustomEntity">
+          <div className="administrativeBodyDetails ">
+            <div className="aboutUsCustomEntity aboutUsText2">
               <div className="detailedProjectText">
                 Od 1998. - 1999.: Skupština - Predsjedništvo - Izvršni odbor (osoblje)
                 <br /> <br />
@@ -76,7 +75,7 @@ function AboutUs() {
               </div>
             </div>
 
-            <div className="aboutUsCustomEntity">
+            <div className="aboutUsCustomEntity aboutUsText2">
               <div className="detailedProjectText">
                 Od 1999. - 2004.: Skupština - Upravni odbor - Izvršni odbor (osoblje)
                 <br /> <br />
@@ -98,27 +97,9 @@ function AboutUs() {
               </div>
             </div>
 
-            <div className="aboutUsCustomEntity">
+            <div className="aboutUsCustomEntity aboutUsText2">
               <div className="detailedProjectText">
-                <span>Stalno i povremeno uposleni tokom 20 godina rada:</span> <br />
-                <ul>
-                  {" "}
-                  <br />
-                  <li>Andrijana Pavlović</li>
-                  <li>Dražena Tubić</li>
-                  <li>Dženan Šarić</li>
-                  <li>Josip Miočević</li>
-                  <li>Maksuma Topalović</li>
-                  <li>Medina Fejzović</li>
-                  <li>Mirnes Bajtarević</li>
-                  <li>Nermina Zuli</li>
-                  <li>Neven Radoš</li>
-                  <li>Sakiba Hamzakadić</li>
-                  <li>Saša Kadrić</li>
-                  <li>Ajla Vehab Hrusto</li>
-                </ul>
                 Vođenje finansijskog poslovanja : Knjigovodstveni servis Finesa, Kakanj <br /> <br />
-                Po osnovu Ugovora na povremenim poslovima: Alisa Provalić, Alma Hasagić, Belma Dizdarević, Dejan Terzić, Duško Kostić, Emina Topalović, Esmin Brodlija, Jelena Radoš, Josip Miočević, Naida Bukvić, Naila Obralija, Mirza Bajramović i Vildana Neimarlija.
               </div>
             </div>
           </div>
@@ -128,7 +109,7 @@ function AboutUs() {
         <div className="aboutUsMissionVisionContainer">
           <div className="aboutUsHeadline headline">ČLANSTVO U MREŽAMA</div>
           <div className="administrativeBodyDetails">
-            <div className="aboutUsCustomEntity">
+            <div className="aboutUsCustomEntity aboutUsText2">
               <div className="detailedProjectText">
                 <span>Udruženje "Alternative" je članica sljedećih mreža:</span> <br /> <br />
                 <ul>

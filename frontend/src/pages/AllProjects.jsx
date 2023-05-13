@@ -8,6 +8,8 @@ import Project from "../components/Project";
 import { formatPath } from "../js/namechange";
 import filterIcon from "./../assets/filters.png";
 import Button from "react-bootstrap/Button";
+import Pagination from "../components/Pagination";
+import GoToTop from "../components/GoToTop";
 import "./../css/AllProjects.css";
 
 function AllProjects() {
@@ -18,6 +20,12 @@ function AllProjects() {
   const [donators, setDonators] = useState([]);
   const [selectedDonator, setSelectedDonator] = useState("allDonators");
   const [selectedRange, setSelectedRange] = useState("allValues");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(10);
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = filteredProjects.slice(indexOfFirstRecord, indexOfLastRecord);
+  const [nPages, setNPages] = useState(Math.ceil(filteredProjects.length / recordsPerPage));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +34,7 @@ function AllProjects() {
         const res = await axios.get(`http://localhost:5000/api/projects`);
         setProjects(res.data.data);
         setFilteredProjects(res.data.data);
+        setNPages(Math.ceil(res.data.data.length / recordsPerPage));
       } catch (err) {}
     };
     getProjects();
@@ -50,15 +59,49 @@ function AllProjects() {
 
   function getDonators() {
     var allDonators = [];
-    filteredProjects.forEach((project) => {
+    projectList.forEach((project) => {
       if (!allDonators.includes(project.nazivDonatora)) allDonators.push(project.nazivDonatora);
     });
     setDonators(allDonators);
   }
 
   useEffect(() => {
+    const getPagination = () => {
+      setNPages(Math.ceil(filterSentProjects(projectList).length / recordsPerPage));
+    };
+
+    const filterNews = () => {
+      setFilteredProjects(filterSentProjects(projectList));
+      console.log("FILTEROVANO: ");
+      console.log(filterSentProjects(projectList));
+    };
+    filterNews();
+    getPagination();
+  }, [nazivFilter, selectedRange, selectedDonator]);
+
+  const filterSentProjects = (projects) => {
+    //console.log(projects);
+    //console.log(nazivFilter + " " + selectedDonator + " " + selectedRange);
+    return projects
+      .filter((item) => {
+        if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+        else return 1;
+      })
+      .filter((item) => {
+        return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+      })
+      .filter((item) => {
+        if (selectedRange == "allValues") return 1;
+        else if (selectedRange == "0to10") return Number(item.projektniGrant) >= 0 && Number(item.projektniGrant) <= 10000;
+        else if (selectedRange == "10to50") return Number(item.projektniGrant) >= 10000 && Number(item.projektniGrant) <= 50000;
+        else if (selectedRange == "50to100") return Number(item.projektniGrant) >= 50000 && Number(item.projektniGrant) <= 100000;
+        else if (selectedRange == "over100") return Number(item.projektniGrant) >= 100000;
+      });
+  };
+
+  useEffect(() => {
     getDonators();
-  }, [projectList, sort, filteredProjects]);
+  }, [projectList]);
 
   useEffect(() => {
     sortiraj();
@@ -74,8 +117,6 @@ function AllProjects() {
 
   function handleChange() {
     setSort(sort);
-    if (nazivFilter) setFilteredProjects(projectList.filter((item) => item.naziv.toUpperCase().includes(nazivFilter.toUpperCase())));
-    else setFilteredProjects(projectList);
     sortiraj();
   }
 
@@ -118,23 +159,12 @@ function AllProjects() {
     valuesInput.value = "allValues";
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
+
   const displayResults = () => {
-    var resultNumber =
-      filteredProjects
-        .filter((item) => {
-          return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-        })
-        .filter((item) => {
-          if (selectedRange == "allValues") return 1;
-          else if (selectedRange == "0to10") return Number(item.projektniGrant) >= 0 && Number(item.projektniGrant) <= 10000;
-          else if (selectedRange == "10to50") return Number(item.projektniGrant) >= 10000 && Number(item.projektniGrant) <= 50000;
-          else if (selectedRange == "50to100") return Number(item.projektniGrant) >= 50000 && Number(item.projektniGrant) <= 100000;
-          else if (selectedRange == "over100") return Number(item.projektniGrant) >= 100000;
-        })
-        .filter((item) => {
-          if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-          else return 1;
-        }).length % 100;
+    var resultNumber = filteredProjects.length % 100;
     if (resultNumber == 0) return <>projekata</>;
     else if (resultNumber == 1) return <>projekat</>;
     else if (resultNumber >= 2 && resultNumber <= 4) return <>projekta</>;
@@ -155,25 +185,7 @@ function AllProjects() {
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
           </div>
           <div className="resultsNumber">
-            <div className="resultsNumberLength">
-              {
-                filteredProjects
-                  .filter((item) => {
-                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-                  })
-                  .filter((item) => {
-                    if (selectedRange == "allValues") return 1;
-                    else if (selectedRange == "0to10") return Number(item.projektniGrant) >= 0 && Number(item.projektniGrant) <= 10000;
-                    else if (selectedRange == "10to50") return Number(item.projektniGrant) >= 10000 && Number(item.projektniGrant) <= 50000;
-                    else if (selectedRange == "50to100") return Number(item.projektniGrant) >= 50000 && Number(item.projektniGrant) <= 100000;
-                    else if (selectedRange == "over100") return Number(item.projektniGrant) >= 100000;
-                  })
-                  .filter((item) => {
-                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-                    else return 1;
-                  }).length
-              }
-            </div>
+            <div className="resultsNumberLength">{filteredProjects.length}</div>
             <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
@@ -242,38 +254,30 @@ function AllProjects() {
               </div>
             </div>
           </div>
-          <div id="allProjectsContainer" className="allProjectsContainer" onClick={handleClick}>
+          <div id="allProjectsContainer" className="allProjectsContainer">
             {donators.length == 0 ? (
               <>
-                {filteredProjects.map((item) => (
-                  <Project item={item} />
+                {currentRecords.map((item) => (
+                  <div className="projectClickableDiv" onClick={(e) => handleClick(e)}>
+                    <Project item={item} />
+                  </div>
                 ))}
               </>
             ) : (
               <>
-                {filteredProjects
-                  .filter((item) => {
-                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-                  })
-                  .filter((item) => {
-                    if (selectedRange == "allValues") return 1;
-                    else if (selectedRange == "0to10") return Number(item.projektniGrant) >= 0 && Number(item.projektniGrant) <= 10000;
-                    else if (selectedRange == "10to50") return Number(item.projektniGrant) >= 10000 && Number(item.projektniGrant) <= 50000;
-                    else if (selectedRange == "50to100") return Number(item.projektniGrant) >= 50000 && Number(item.projektniGrant) <= 100000;
-                    else if (selectedRange == "over100") return Number(item.projektniGrant) >= 100000;
-                  })
-                  .filter((item) => {
-                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-                    else return 1;
-                  })
-                  .map((item) => (
-                    <Project item={item} />
-                  ))}
+                {currentRecords.map((item) => (
+                  <div className="projectClickableDiv" onClick={(e) => handleClick(e)}>
+                    <Project item={item} onClick={(e) => handleClick(e)} />
+                  </div>
+                ))}
               </>
             )}
           </div>
         </div>
       </div>
+      {currentRecords.length != 0 ? <Pagination nPages={nPages} currentPage={currentPage} setCurrentPage={setCurrentPage} /> : <></>}
+
+      <GoToTop />
       <Footer />
     </>
   );

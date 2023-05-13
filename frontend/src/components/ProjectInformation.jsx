@@ -1,16 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Footer from "./Footer";
 import Navigation from "./Navigation";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import ImageViewer from "react-simple-image-viewer";
 import "./../css/WorkshopDetailed.css";
-import { formatPath } from "../js/namechange";
 
 function ProjectInformation() {
   const [project, setProject] = useState([]);
   const [images, setImages] = useState([]);
   const { name } = useParams();
   const path = "http://localhost:5000/newuploads/projekti/" + name + "/";
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+
+  const openImageViewer = useCallback((index) => {
+    console.log(images);
+    console.log("INDEX JE " + index);
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
 
   useEffect(() => {
     const getProject = async () => {
@@ -40,8 +54,9 @@ function ProjectInformation() {
         <div className="workshopInformationImage">
           <img src={"http://localhost:5000/newuploads/projekti/" + name + "/" + project.naslovnaSlika} alt="naslovnaSlika" />
         </div>
-        <div className="workshopInformationAbout">
+        <div className="workshopInformationAbout informationalText">
           <span>Sadržaj projekta: </span>
+          <br />
           {project.opisProjekta}
         </div>
         <div className="workshopInformationPlace informationalText">
@@ -62,18 +77,24 @@ function ProjectInformation() {
           <span>Grant: </span>
           {project.projektniGrant} KM
         </div>
-        <div className="workshopInformationProject informationalText">
-          <span>Ciljna grupa: </span>
-          {project.ciljnaGrupa} KM
-        </div>
+        {project.ciljnaGrupa ? (
+          <div className="workshopInformationProject informationalText">
+            <span>Ciljna grupa: </span>
+            {project.ciljnaGrupa} KM
+          </div>
+        ) : (
+          <></>
+        )}
+
         <div className="workshopImagesHeadline">
           <span>Slike:</span>{" "}
         </div>
         <div className="workshopImages">
-          {images.map((image) => (
-            <img id={image} className="workshopInformationImageElement" src={path + image} alt="slikaSRadionice" />
+          {images.map((image, index) => (
+            <img key={index} id={image} className="workshopInformationImageElement" src={path + image} alt="slikaSRadionice" onClick={() => openImageViewer(index)} />
           ))}
         </div>
+        {isViewerOpen && <ImageViewer src={images.map((image) => "http://localhost:5000/newuploads/projekti/" + name + "/" + image)} currentIndex={currentImage} disableScroll={false} closeOnClickOutside={true} onClose={closeImageViewer} />}
       </div>
       <Footer />
     </>

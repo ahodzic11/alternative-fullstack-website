@@ -9,8 +9,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import { englishFormatDate, formatDate, formatPath } from "../js/namechange";
 import "./../css/ReadWorkshops.css";
-import { formatDate, formatPath } from "../js/namechange";
 
 function EditWorkshops() {
   const [workshop, setWorkshop] = useState([]);
@@ -49,7 +49,6 @@ function EditWorkshops() {
         opisRadionice: formDataObj.opisRadionice,
         oblastRadionice: formDataObj.oblastRadionice,
       };
-      console.log(updatedWorkshop);
       const res = await axios.patch(`http://localhost:5000/api/workshops/`, updatedWorkshop);
     } catch (err) {}
   };
@@ -72,7 +71,7 @@ function EditWorkshops() {
       <div className="addWorkshopContainer">
         <div className="currentLocationHeadline">Izmjena radionice</div>
         <div className="addWorkshopForm">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form className="customFormContainer" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naslov</Form.Label>
@@ -88,7 +87,7 @@ function EditWorkshops() {
               <div className="col-md-4">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Datum</Form.Label>
-                  <Form.Control name="datum" type="date" placeholder="datum" defaultValue={workshop.datum} />
+                  {workshop.datum ? <Form.Control name="datum" type="date" placeholder="datum" defaultValue={englishFormatDate(workshop.datum)} /> : <Form.Control name="datum" type="date" placeholder="datum" />}
                 </Form.Group>
               </div>
             </Row>

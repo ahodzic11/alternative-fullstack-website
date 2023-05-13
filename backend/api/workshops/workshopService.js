@@ -2,7 +2,6 @@ const pool = require("../../config/database");
 
 module.exports = {
   create: (data, callBack) => {
-    console.log("uslo u create");
     pool.query(
       `INSERT INTO workshops(naslov, formatiranNaslov, mjesto, datum, trener, ucesnici, nazivDonatora, nazivProjekta, cilj, opisRadionice, oblastRadionice, naslovnaSlika) 
         values(?,?,?,?,?,?,?,?,?,?,?,?)`,
@@ -44,7 +43,6 @@ module.exports = {
   },
 
   getSelectedImage: (id, callBack) => {
-    console.log(id);
     pool.query(`SELECT naslovnaSlika FROM workshops WHERE id=?`, [id], (error, results, fields) => {
       if (error) {
         return callBack(error);

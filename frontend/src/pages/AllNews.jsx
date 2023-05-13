@@ -6,10 +6,11 @@ import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import News from "../components/News";
 import filterIcon from "./../assets/filters.png";
-import "./../css/AllProjects.css";
 import { formatPath } from "../js/namechange";
 import Button from "react-bootstrap/Button";
 import GoToTop from "../components/GoToTop";
+import Pagination from "../components/Pagination";
+import "./../css/AllProjects.css";
 
 function AllNews() {
   const [newsList, setNews] = useState([]);
@@ -20,6 +21,12 @@ function AllNews() {
   const [years, setYears] = useState([]);
   const [selectedTema, setSelectedTema] = useState("allTeme");
   const [selectedYear, setSelectedYear] = useState("allYears");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(10);
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = filteredNews.slice(indexOfFirstRecord, indexOfLastRecord);
+  const [nPages, setNPages] = useState(Math.ceil(filteredNews.length / recordsPerPage));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,13 +35,35 @@ function AllNews() {
         const res = await axios.get(`http://localhost:5000/api/news`);
         setNews(res.data.data);
         setFilteredNews(res.data.data);
+        setNPages(Math.ceil(res.data.data.length / recordsPerPage));
+
+        var allYears = [];
+        res.data.data.forEach((newsArticle) => {
+          var date = newsArticle.datum.split(".");
+          var fullDate = new Date(date[2], date[1] - 1, date[0]);
+          let year = fullDate.getFullYear();
+          if (!allYears.includes(year)) allYears.push(year);
+        });
+        setYears(allYears);
       } catch (err) {}
     };
     getNews();
     setSort("asc");
   }, []);
 
-  function sortiraj() {
+  useEffect(() => {
+    function getTeme() {
+      var allTeme = [];
+      newsList.forEach((vijest) => {
+        if (!allTeme.includes(vijest.tema)) allTeme.push(vijest.tema);
+      });
+      setTeme(allTeme);
+    }
+
+    getTeme();
+  }, [newsList]);
+
+  useEffect(() => {
     if (sort === "asc") {
       setFilteredNews((prev) =>
         [...prev].sort((a, b) => {
@@ -48,53 +77,36 @@ function AllNews() {
         })
       );
     }
-  }
+  }, [sort, nazivFilter, newsList, selectedTema, selectedYear]);
 
-  function getTeme() {
-    var allTeme = [];
-    filteredNews.forEach((vijest) => {
-      if (!allTeme.includes(vijest.tema)) allTeme.push(vijest.tema);
-    });
-    setTeme(allTeme);
-  }
-
-  useEffect(() => {
-    getTeme();
-  }, [newsList, sort, filteredNews]);
-
-  useEffect(() => {
-    sortiraj();
-  }, [sort, nazivFilter, newsList]);
-
-  function getNewsYears() {
-    var allYears = [];
-    filteredNews.forEach((newsArticle) => {
-      var date = newsArticle.datum.split("-");
-      var fullDate = new Date(date[0], date[1] - 1, date[2]);
-      let year = fullDate.getFullYear();
-      if (!allYears.includes(year)) allYears.push(year);
-    });
-    setYears(allYears);
-  }
-
-  useEffect(() => {
-    getNewsYears();
-  }, [newsList, sort, filteredNews]);
-
-  const handleClick = (e) => {
-    navigate("/news/details/" + formatPath(e.target.id));
+  const filterSentNews = (news) => {
+    return news
+      .filter((item) => {
+        return item.tema == selectedTema || selectedTema == "allTeme";
+      })
+      .filter((item) => {
+        var date = item.datum.split(".");
+        var fullDate = new Date(date[2], date[1] - 1, date[0]);
+        let year = fullDate.getFullYear();
+        return year == selectedYear || selectedYear == "allYears";
+      })
+      .filter((item) => {
+        if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+        else return 1;
+      });
   };
 
   useEffect(() => {
-    handleChange();
-  }, [nazivFilter]);
+    const getPagination = () => {
+      setNPages(Math.ceil(filterSentNews(newsList).length / recordsPerPage));
+    };
 
-  function handleChange() {
-    setSort(sort);
-    if (nazivFilter) setFilteredNews(newsList.filter((item) => item.naziv.toUpperCase().includes(nazivFilter.toUpperCase())));
-    else setFilteredNews(newsList);
-    sortiraj();
-  }
+    const filterNews = () => {
+      setFilteredNews(filterSentNews(newsList));
+    };
+    filterNews();
+    getPagination();
+  }, [nazivFilter, selectedYear, selectedTema]);
 
   const prikaziFiltere = (e) => {
     e.preventDefault();
@@ -119,6 +131,10 @@ function AllNews() {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
+
   const resetujFiltere = (e) => {
     e.preventDefault();
     setNazivFilter("");
@@ -136,24 +152,14 @@ function AllNews() {
   };
 
   const displayResults = () => {
-    var resultNumber =
-      filteredNews
-        .filter((item) => {
-          return item.tema == selectedTema || selectedTema == "allTeme";
-        })
-        .filter((item) => {
-          var date = item.datum.split("-");
-          var fullDate = new Date(date[0], date[1] - 1, date[2]);
-          let year = fullDate.getFullYear();
-          return year == selectedYear || selectedYear == "allYears";
-        })
-        .filter((item) => {
-          if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-          else return 1;
-        }).length % 10;
+    var resultNumber = filteredNews.length % 10;
     if (resultNumber == 0) return <>novosti</>;
     else if (resultNumber == 1) return <>novost</>;
     else return <>novosti</>;
+  };
+
+  const handleClick = (e) => {
+    navigate("/news/details/" + formatPath(e.target.id));
   };
 
   return (
@@ -171,24 +177,7 @@ function AllNews() {
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
           </div>
           <div className="resultsNumber">
-            <div className="resultsNumberLength">
-              {
-                filteredNews
-                  .filter((item) => {
-                    return item.tema == selectedTema || selectedTema == "allTeme";
-                  })
-                  .filter((item) => {
-                    var date = item.datum.split("-");
-                    var fullDate = new Date(date[0], date[1] - 1, date[2]);
-                    let year = fullDate.getFullYear();
-                    return year == selectedYear || selectedYear == "allYears";
-                  })
-                  .filter((item) => {
-                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-                    else return 1;
-                  }).length
-              }
-            </div>
+            <div className="resultsNumberLength">{filteredNews.length}</div>
             <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
@@ -262,37 +251,29 @@ function AllNews() {
               </div>
             </div>
           </div>
-          <div className="allProjectsContainer" onClick={handleClick}>
+          <div className="allProjectsContainer">
             {teme.length == 0 ? (
               <>
-                {filteredNews.map((item) => (
-                  <News item={item} />
+                {currentRecords.map((item) => (
+                  <div className="newsClickableDiv" onClick={(e) => handleClick(e)}>
+                    <News item={item} />
+                  </div>
                 ))}
               </>
             ) : (
               <>
-                {filteredNews
-                  .filter((item) => {
-                    return item.tema == selectedTema || selectedTema == "allTeme";
-                  })
-                  .filter((item) => {
-                    var date = item.datum.split("-");
-                    var fullDate = new Date(date[0], date[1] - 1, date[2]);
-                    let year = fullDate.getFullYear();
-                    return year == selectedYear || selectedYear == "allYears";
-                  })
-                  .filter((item) => {
-                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-                    else return 1;
-                  })
-                  .map((item) => (
+                {currentRecords.map((item) => (
+                  <div className="newsClickableDiv" onClick={(e) => handleClick(e)}>
                     <News item={item} />
-                  ))}
+                  </div>
+                ))}
               </>
             )}
           </div>
         </div>
       </div>
+      {filterSentNews(currentRecords).length != 0 ? <Pagination nPages={nPages} currentPage={currentPage} setCurrentPage={setCurrentPage} /> : <></>}
+      <GoToTop />
       <Footer />
     </>
   );

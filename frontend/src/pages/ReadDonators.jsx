@@ -54,8 +54,7 @@ function ReadDonators() {
             <div className="firstWorkshopInformation">
               <div className="workshopTitle">{item.naziv}</div>
               <div className="infoItem">{item.link}</div>
-              <div className="infoItem">{item.pocetakPodrske}</div>
-              <div className="infoItem">{item.krajPodrske}</div>
+              <div className="infoItem">{item.podrska}</div>
             </div>
             <div className="workshopOptions">
               <div className="editWorkshop workshopEditOption" onClick={(e) => editDonator(e, item)}>

@@ -7,8 +7,10 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import filterIcon from "./../assets/filters.png";
-import "./../css/AllWorkshops.css";
 import { formatPath } from "../js/namechange";
+import Pagination from "../components/Pagination";
+import GoToTop from "../components/GoToTop";
+import "./../css/AllWorkshops.css";
 
 function AllWorkshops() {
   const [workshopList, setWorkshops] = useState([]);
@@ -18,6 +20,12 @@ function AllWorkshops() {
   const [sort, setSort] = useState("newest");
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("allyears");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(10);
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = filteredWorkshops.slice(indexOfFirstRecord, indexOfLastRecord);
+  const [nPages, setNPages] = useState(Math.ceil(filteredWorkshops.length / recordsPerPage));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +34,7 @@ function AllWorkshops() {
         const res = await axios.get(`http://localhost:5000/api/workshops`);
         setWorkshops(res.data.data);
         setFilteredWorkshops(res.data.data);
+        setNPages(Math.ceil(res.data.data.length / recordsPerPage));
       } catch (err) {}
     };
     getWorkshops();
@@ -68,13 +77,42 @@ function AllWorkshops() {
     }
   }
 
+  const filterSentWorkshops = (workshops) => {
+    console.log(naslovFilter);
+    return workshops
+      .filter((item) => {
+        var date = item.datum.split(".");
+        var fullDate = new Date(date[2], date[1] - 1, date[0]);
+        let year = fullDate.getFullYear();
+        return year == selectedYear || selectedYear == "allyears";
+      })
+      .filter((workshop) => {
+        if (naslovFilter && trenerFilter) return workshop.naslov.toUpperCase().includes(naslovFilter.toUpperCase()) && workshop.trener.toUpperCase().includes(trenerFilter.toUpperCase());
+        else if (naslovFilter) return workshop.naslov.toUpperCase().includes(naslovFilter.toUpperCase());
+        else if (trenerFilter) return workshop.trener.toUpperCase().includes(trenerFilter.toUpperCase());
+      });
+  };
+
+  useEffect(() => {
+    const getPagination = () => {
+      setNPages(Math.ceil(filterSentWorkshops(workshopList).length / recordsPerPage));
+    };
+
+    const filterWorkshops = () => {
+      setFilteredWorkshops(filterSentWorkshops(workshopList));
+    };
+
+    filterWorkshops();
+    getPagination();
+  }, [naslovFilter, selectedYear]);
+
   useEffect(() => {
     sortiraj();
   }, [sort, trenerFilter, naslovFilter, workshopList]);
 
   function getWorkshopYears() {
     var allYears = [];
-    filteredWorkshops.forEach((workshop) => {
+    workshopList.forEach((workshop) => {
       var date = workshop.datum.split(".");
       var fullDate = new Date(date[2], date[1] - 1, date[0]);
       let year = fullDate.getFullYear();
@@ -82,6 +120,10 @@ function AllWorkshops() {
     });
     setYears(allYears);
   }
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
 
   useEffect(() => {
     getWorkshopYears();
@@ -98,14 +140,7 @@ function AllWorkshops() {
 
   function handleChange() {
     setSort(sort);
-    if (naslovFilter && trenerFilter) {
-      let newFilteredWorkshops = [];
-      newFilteredWorkshops = workshopList.filter((item) => item.naslov.toUpperCase().includes(naslovFilter.toUpperCase()));
-      newFilteredWorkshops = newFilteredWorkshops.filter((item) => item.trener.toUpperCase().includes(trenerFilter.toUpperCase()));
-      setFilteredWorkshops(newFilteredWorkshops);
-    } else if (naslovFilter) setFilteredWorkshops(workshopList.filter((item) => item.naslov.toUpperCase().includes(naslovFilter.toUpperCase())));
-    else if (trenerFilter) setFilteredWorkshops(workshopList.filter((item) => item.trener.toUpperCase().includes(trenerFilter.toUpperCase())));
-    else setFilteredWorkshops(workshopList);
+
     sortiraj();
   }
 
@@ -176,16 +211,7 @@ function AllWorkshops() {
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
           </div>
           <div className="resultsNumber">
-            <div className="resultsNumberLength">
-              {
-                filteredWorkshops.filter((item) => {
-                  var date = item.datum.split(".");
-                  var fullDate = new Date(date[2], date[1] - 1, date[0]);
-                  let year = fullDate.getFullYear();
-                  return year == selectedYear || selectedYear == "allyears";
-                }).length
-              }
-            </div>
+            <div className="resultsNumberLength">{filteredWorkshops.length}</div>
             <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
@@ -248,27 +274,22 @@ function AllWorkshops() {
           <div className="allProjectsContainer" onClick={handleClick}>
             {years.length == 0 ? (
               <>
-                {filteredWorkshops.map((item) => (
+                {currentRecords.map((item) => (
                   <Workshop item={item} />
                 ))}
               </>
             ) : (
               <>
-                {filteredWorkshops
-                  .filter((item) => {
-                    var date = item.datum.split(".");
-                    var fullDate = new Date(date[2], date[1] - 1, date[0]);
-                    let year = fullDate.getFullYear();
-                    return year == selectedYear || selectedYear == "allyears";
-                  })
-                  .map((item) => (
-                    <Workshop item={item} />
-                  ))}
+                {currentRecords.map((item) => (
+                  <Workshop item={item} />
+                ))}
               </>
             )}
           </div>
         </div>
       </div>
+      <Pagination nPages={nPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <GoToTop />
       <Footer />
     </>
   );

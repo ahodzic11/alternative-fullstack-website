@@ -6,10 +6,18 @@ import Workshop from "../components/Workshop";
 import { useParams, useNavigate } from "react-router-dom";
 import "./../css/WorkshopList.css";
 import { formatPath } from "../js/namechange";
+import Pagination from "../components/Pagination";
+import GoToTop from "../components/GoToTop";
 
 function WorkshopList() {
   const [workshopList, setWorkshops] = useState([]);
   let { area } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(10);
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = workshopList.slice(indexOfFirstRecord, indexOfLastRecord);
+  const nPages = Math.ceil(workshopList.length / recordsPerPage);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +34,10 @@ function WorkshopList() {
   const handleClick = (e) => {
     navigate("/workshops/details/" + formatPath(e.target.id));
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
 
   return (
     <>
@@ -46,7 +58,9 @@ function WorkshopList() {
           )}
         </div>
       </div>
+      {workshopList.length != 0 ? <Pagination nPages={nPages} currentPage={currentPage} setCurrentPage={setCurrentPage} /> : <></>}
 
+      <GoToTop />
       <Footer />
     </>
   );

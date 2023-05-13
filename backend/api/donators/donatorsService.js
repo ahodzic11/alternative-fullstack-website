@@ -3,9 +3,9 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callBack) => {
     pool.query(
-      `INSERT INTO donators(naziv, formatiranNaziv, link, pocetakPodrske, krajPodrske, naslovnaSlika) 
-        values(?,?,?,?,?,?)`,
-      [data.naziv, data.formatiranNaziv, data.link, data.pocetakPodrske, data.krajPodrske, data.naslovnaSlika],
+      `INSERT INTO donators(naziv, formatiranNaziv, link, podrska, naslovnaSlika) 
+        values(?,?,?,?,?)`,
+      [data.naziv, data.formatiranNaziv, data.link, data.podrska, data.naslovnaSlika],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   updateDonator: (data, callBack) => {
-    pool.query(`UPDATE donators SET naziv=?, formatiranNaziv=?, link=?, pocetakPodrske=?, krajPodrske=? WHERE id=?`, [data.naziv, data.formatiranNaziv, data.link, data.pocetakPodrske, data.krajPodrske, data.id], (error, results, fields) => {
+    pool.query(`UPDATE donators SET naziv=?, formatiranNaziv=?, link=?, podrska=? WHERE id=?`, [data.naziv, data.formatiranNaziv, data.link, data.podrska, data.id], (error, results, fields) => {
       if (error) {
         callBack(error);
       }
@@ -61,7 +61,6 @@ module.exports = {
   },
 
   getSelectedImage: (id, callBack) => {
-    console.log(id);
     pool.query(`SELECT naslovnaSlika FROM donators WHERE id=?`, [id], (error, results, fields) => {
       if (error) {
         return callBack(error);

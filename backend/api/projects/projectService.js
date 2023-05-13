@@ -65,7 +65,6 @@ module.exports = {
   },
 
   getSelectedImage: (id, callBack) => {
-    console.log(id);
     pool.query(`SELECT naslovnaSlika FROM projects WHERE id=?`, [id], (error, results, fields) => {
       if (error) {
         return callBack(error);

@@ -9,7 +9,6 @@ function GoToTop() {
   };
 
   useEffect(() => {
-    console.log("uslo u useeffect");
     const handleScrollButtonVisibility = () => {
       window.pageYOffset > 1100 ? setValueLeft("30px") : setValueLeft("-130px");
     };

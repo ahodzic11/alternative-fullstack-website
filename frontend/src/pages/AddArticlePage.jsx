@@ -23,14 +23,21 @@ function AddArticlePage() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
     const form = event.currentTarget;
+    if (inputs.tipMedija == null) {
+      alert("Morate odabrati tip medija!");
+      return;
+    }
+    if (document.getElementById("uploadedFiles").files.length === 0) {
+      alert("Morate unijeti bar jednu sliku!");
+      return;
+    }
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
+      return;
     }
-    setValidated(true);
-
     var uploadForm = document.getElementById("uploadForm");
     var uploadFormData = new FormData(uploadForm);
 
@@ -50,6 +57,7 @@ function AddArticlePage() {
       link: inputs.link,
       naslovnaSlika: formatPath(inputs.naziv) + "0.jpg",
     });
+    alert("Članak uspješno dodan!");
   };
 
   return (
@@ -73,17 +81,15 @@ function AddArticlePage() {
               </Form.Group>
               <Form.Group as={Col} md="4" controlId="validationCustom02">
                 <Form.Label className="itemTitleElement">Link</Form.Label>
-                <Form.Control name="link" required type="text" placeholder="Link" onChange={handleChange} />
+                <Form.Control name="link" type="text" placeholder="Link" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
-              <div className="col-md-4">
+              <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Datum</Form.Label>
-                  <Form.Control name="datum" type="date" placeholder="datum" onChange={handleChange} />
+                  <Form.Control required name="datum" type="date" placeholder="datum" onChange={handleChange} />
                 </Form.Group>
               </div>
-            </Row>
-            <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Tip medija</Form.Label>
                 <Form.Select name="tipMedija" aria-label="Default select example" onClick={handleChange}>
@@ -98,12 +104,12 @@ function AddArticlePage() {
             <Row className="mb-3">
               <Form.Label className="itemTitleElement">Slike</Form.Label>
               <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
-                <input className="uploadImagesInput" type="file" name="image" multiple />
+                <input id="uploadedFiles" className="uploadImagesInput" type="file" name="image" multiple />
               </form>
             </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Tekst</Form.Label>
-              <Form.Control name="tekst" as="textarea" rows={4} onChange={handleChange} />
+              <Form.Control required name="tekst" as="textarea" rows={4} onChange={handleChange} />
             </Form.Group>
             <div className="addStuffButton">
               <Button type="submit">Dodaj članak</Button>

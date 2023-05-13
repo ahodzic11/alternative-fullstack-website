@@ -43,8 +43,6 @@ module.exports = {
   },
 
   getUsers: (req, res) => {
-    console.log("USLO OVDJE");
-    alert("USLO OVDJE");
     getUsers((err, results) => {
       if (err) {
         console.log(err);

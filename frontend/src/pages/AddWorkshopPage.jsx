@@ -23,7 +23,6 @@ function AddWorkshopPage() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
     const form = event.currentTarget;
     if (inputs.oblastRadionice == null) {
       alert("Morate unijeti kategoriju radionice!");

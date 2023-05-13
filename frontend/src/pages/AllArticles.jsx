@@ -10,6 +10,7 @@ import filterIcon from "./../assets/filters.png";
 import Button from "react-bootstrap/Button";
 import GoToTop from "../components/GoToTop";
 import "./../css/AllArticles.css";
+import Pagination from "../components/Pagination";
 
 function AllArticles() {
   const [articleList, setArticles] = useState([]);
@@ -18,11 +19,17 @@ function AllArticles() {
   const [sort, setSort] = useState("asc");
   const [donators, setDonators] = useState([]);
   const [selectedDonator, setSelectedDonator] = useState("allDonators");
-  const [selectedRange, setSelectedRange] = useState("allValues");
+  const [selectedMediaType, setSelectedMediaType] = useState("allValues");
   const [selectedYear, setSelectedYear] = useState("allyears");
   const [years, setYears] = useState([]);
-  const path = "http://localhost:5000/newuploads/clanci/";
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(10);
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = filteredArticles.slice(indexOfFirstRecord, indexOfLastRecord);
+  const [nPages, setNPages] = useState(Math.ceil(filteredArticles.length / recordsPerPage));
   const navigate = useNavigate();
+  const path = "http://localhost:5000/newuploads/clanci/";
 
   useEffect(() => {
     const getArticles = async () => {
@@ -30,6 +37,8 @@ function AllArticles() {
         const res = await axios.get(`http://localhost:5000/api/articles`);
         setArticles(res.data.data);
         setFilteredArticles(res.data.data);
+        setNPages(Math.ceil(res.data.data.length / recordsPerPage));
+        setSort("newest");
       } catch (err) {}
     };
     getArticles();
@@ -49,7 +58,27 @@ function AllArticles() {
   }
 
   function sortiraj() {
-    if (sort === "asc") {
+    if (sort === "newest") {
+      setFilteredArticles((prev) =>
+        [...prev].sort((a, b) => {
+          var firstDate = a.datum.split(".");
+          var firstCorrectDate = new Date(firstDate[2], firstDate[1] - 1, firstDate[0]);
+          var secondDate = b.datum.split(".");
+          var secondCorrectDate = new Date(secondDate[2], secondDate[1] - 1, secondDate[0]);
+          return firstCorrectDate > secondCorrectDate ? -1 : 0;
+        })
+      );
+    } else if (sort === "oldest") {
+      setFilteredArticles((prev) =>
+        [...prev].sort((a, b) => {
+          var firstDate = a.datum.split(".");
+          var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
+          var secondDate = b.datum.split(".");
+          var secondCorrectDate = new Date(secondDate[0], secondDate[1] - 1, secondDate[2]);
+          return firstCorrectDate < secondCorrectDate ? -1 : 0;
+        })
+      );
+    } else if (sort === "asc") {
       setFilteredArticles((prev) =>
         [...prev].sort((a, b) => {
           return a.naziv < b.naziv ? -1 : 0;
@@ -63,6 +92,39 @@ function AllArticles() {
       );
     }
   }
+
+  const filterSentArticles = (articles) => {
+    return articles
+      .filter((item) => {
+        return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+      })
+      .filter((item) => {
+        if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+        else return 1;
+      })
+      .filter((article) => {
+        var date = article.datum.split(".");
+        var fullDate = new Date(date[2], date[1] - 1, date[0]);
+        let year = fullDate.getFullYear();
+        return year == selectedYear || selectedYear == "allyears";
+      })
+      .filter((article) => {
+        return article.tipMedija == selectedMediaType || selectedMediaType == "allValues";
+      });
+  };
+
+  useEffect(() => {
+    const getPagination = () => {
+      setNPages(Math.ceil(filterSentArticles(articleList).length / recordsPerPage));
+    };
+
+    const filterNews = () => {
+      setFilteredArticles(filterSentArticles(articleList));
+    };
+    filterNews();
+    getPagination();
+    sortiraj();
+  }, [nazivFilter, selectedYear, selectedMediaType, selectedDonator]);
 
   function getDonators() {
     var allDonators = [];
@@ -80,10 +142,6 @@ function AllArticles() {
     sortiraj();
   }, [sort, nazivFilter, articleList]);
 
-  const handleClick = (e) => {
-    navigate("/projects/details/" + formatPath(e.target.id));
-  };
-
   useEffect(() => {
     handleChange();
   }, [nazivFilter]);
@@ -96,12 +154,27 @@ function AllArticles() {
   }
 
   function ellipsify(str) {
-    if (str.length > 10) {
+    if (str.length > 830) {
       return str.substring(0, 830) + "...";
     } else {
       return str;
     }
   }
+
+  function getArticlesYears() {
+    var allYears = [];
+    articleList.forEach((article) => {
+      var date = article.datum.split(".");
+      var fullDate = new Date(date[2], date[1] - 1, date[0]);
+      let year = fullDate.getFullYear();
+      if (!allYears.includes(year)) allYears.push(year);
+    });
+    setYears(allYears);
+  }
+
+  useEffect(() => {
+    getArticlesYears();
+  }, [articleList, sort, filteredArticles]);
 
   const prikaziFiltere = (e) => {
     e.preventDefault();
@@ -126,30 +199,29 @@ function AllArticles() {
     }
   };
 
-  const resetujFiltere = (e) => {
-    e.preventDefault();
-  };
-
   const displayResults = () => {
-    var resultNumber =
-      filteredArticles
-        .filter((item) => {
-          return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-        })
-        .filter((item) => {
-          if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-          else return 1;
-        })
-        .filter((article) => {
-          var date = article.datum.split("-");
-          var fullDate = new Date(date[0], date[1] - 1, date[2]);
-          let year = fullDate.getFullYear();
-          return year == selectedYear || selectedYear == "allyears";
-        }).length % 100;
+    var resultNumber = filteredArticles.length % 100;
     if (resultNumber == 0) return <>članaka</>;
     else if (resultNumber == 1) return <>članak</>;
     else if (resultNumber >= 2 && resultNumber <= 4) return <>članka</>;
     else if (resultNumber >= 5 && resultNumber <= 20) return <>članaka</>;
+  };
+
+  const resetujFiltere = (e) => {
+    e.preventDefault();
+    setSelectedYear("allyears");
+    setSort("newest");
+    setNazivFilter("");
+    var tipMedija = document.getElementById("tipMedija");
+    tipMedija.value = "allValues";
+    var yearInput = document.getElementById("yearInput");
+    yearInput.value = "allyears";
+    var sortInput = document.getElementById("sortInput");
+    sortInput.value = "newest";
+    var naslovInput = document.getElementById("nazivInput");
+    naslovInput.value = "";
+    var trenerInput = document.getElementById("trenerInput");
+    trenerInput.value = "";
   };
 
   return (
@@ -161,29 +233,12 @@ function AllArticles() {
         </div>
         <div id="filtersIcons" className="filtersIcons">
           <div id="filteringSmallerContainer" className="filteringSmallerContainer" onClick={(e) => prikaziFiltere(e)}>
-            <img className="filterIcon" src={filterIcon} />
+            <img className="filterIcon" src={filterIcon} alt="Filter icon" />
             <div className="filterIconText">FILTERI</div>
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
           </div>
           <div className="resultsNumber">
-            <div className="resultsNumberLength">
-              {
-                filteredArticles
-                  .filter((item) => {
-                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-                  })
-                  .filter((item) => {
-                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-                    else return 1;
-                  })
-                  .filter((article) => {
-                    var date = article.datum.split("-");
-                    var fullDate = new Date(date[0], date[1] - 1, date[2]);
-                    let year = fullDate.getFullYear();
-                    return year == selectedYear || selectedYear == "allyears";
-                  }).length
-              }
-            </div>
+            <div className="resultsNumberLength">{filteredArticles.length}</div>
             <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
@@ -194,14 +249,16 @@ function AllArticles() {
                 <div className="newFilterSection">
                   <Form.Group controlId="formBasicEmail">
                     <Form.Label className="filtersCustomDesign">NAZIV</Form.Label>
-                    <Form.Control type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
+                    <Form.Control id="nazivInput" type="naziv" placeholder="Naziv" onChange={(e) => setNazivFilter(e.target.value)} />
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
                   <Form.Group className="sortingContainer">
                     <Form.Label className="filtersCustomDesign">GODINA</Form.Label>
                     <Form.Select id="yearInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedYear(e.target.value)}>
-                      <option value="allyears">Sve godine</option>
+                      <option id="yearInput" value="allyears">
+                        Sve godine
+                      </option>
                       {years.length == 0 ? (
                         <></>
                       ) : (
@@ -221,7 +278,7 @@ function AllArticles() {
                 <div className="newFilterSection">
                   <Form.Group className="sortingContainers">
                     <Form.Label className="filtersCustomDesign">TIP MEDIJA</Form.Label>
-                    <Form.Select id="iznosSredstava" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedRange(e.target.value)}>
+                    <Form.Select id="tipMedija" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSelectedMediaType(e.target.value)}>
                       <option value="allValues">Svi mediji</option>
                       <option value="Web portal">Web portal</option>
                       <option value="Društvene mreže">Društvene mreže</option>
@@ -235,13 +292,15 @@ function AllArticles() {
                   <Form.Group className="sortingContainers">
                     <Form.Label className="filtersCustomDesign">SORTIRAJ</Form.Label>
                     <Form.Select id="sortInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSort(e.target.value)}>
+                      <option value="newest">Najnovije ka najstarijem</option>
+                      <option value="oldest">Najstarije ka najnovijem</option>
                       <option value="asc">A-Z</option>
                       <option value="desc">Z-A</option>
                     </Form.Select>
                   </Form.Group>
                 </div>
                 <div className="newFilterSection">
-                  <Button className="resetFilters" variant="danger">
+                  <Button className="resetFilters" variant="danger" onClick={(e) => resetujFiltere(e)}>
                     <div className="resetFiltersText">RESETUJ FILTERE</div>
                   </Button>
                 </div>
@@ -251,59 +310,46 @@ function AllArticles() {
           <div id="allArticlesContainer" className="allArticlesContainer">
             {donators.length == 0 ? (
               <>
-                {filteredArticles.map((item) => (
+                {currentRecords.map((item) => (
                   <Project item={item} />
                 ))}
               </>
             ) : (
               <>
-                {filteredArticles
-                  .filter((item) => {
-                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-                  })
-                  .filter((item) => {
-                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-                    else return 1;
-                  })
-                  .filter((article) => {
-                    var date = article.datum.split("-");
-                    var fullDate = new Date(date[0], date[1] - 1, date[2]);
-                    let year = fullDate.getFullYear();
-                    return year == selectedYear || selectedYear == "allyears";
-                  })
-                  .map((article) => (
-                    <div className="articleItem">
-                      <div className="articleTopBar">
-                        <div className="articleTopBarTextContainer">
-                          {article.datum} | {article.nazivMedija}
-                        </div>
-                      </div>
-                      <div className="articleImageTextContainer">
-                        <div className="articleImage">
-                          <img className="articleImageElement" src={path + formatPath(article.naziv) + "/" + article.naslovnaSlika} />
-                        </div>
-                        <div className="articleTextContainer">
-                          <div className="articleMainTitle">{article.naziv}</div>
-                          <div className="articleText">{ellipsify(article.tekst)}</div>
-                          {article.link ? (
-                            <div className="readMoreArticle">
-                              Pročitaj više na:
-                              <a className="readMoreLink" href={article.link}>
-                                {article.link}
-                              </a>
-                            </div>
-                          ) : (
-                            <></>
-                          )}
-                        </div>
+                {currentRecords.map((article) => (
+                  <div className="articleItem">
+                    <div className="articleTopBar">
+                      <div className="articleTopBarTextContainer">
+                        {article.datum} | {article.nazivMedija}
                       </div>
                     </div>
-                  ))}
+                    <div className="articleImageTextContainer">
+                      <div className="articleImage">
+                        <img className="articleImageElement" src={path + formatPath(article.naziv) + "/" + article.naslovnaSlika} alt="Article element" />
+                      </div>
+                      <div className="articleTextContainer">
+                        <div className="articleMainTitle">{article.naziv}</div>
+                        <div className="articleText">{ellipsify(article.tekst)}</div>
+                        {article.link ? (
+                          <div className="readMoreArticle">
+                            Pročitaj više na:
+                            <a className="readMoreLink" href={article.link}>
+                              {article.link}
+                            </a>
+                          </div>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </>
             )}
           </div>
         </div>
       </div>
+      {filterSentArticles(currentRecords).length != 0 ? <Pagination nPages={nPages} currentPage={currentPage} setCurrentPage={setCurrentPage} /> : <></>}
       <GoToTop />
       <Footer />
     </>

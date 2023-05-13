@@ -4,12 +4,12 @@ import Navigation from "../components/Navigation";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
-import { formatPath } from "../js/namechange";
 import Donator from "../components/Donator";
 import filterIcon from "./../assets/filters.png";
 import Button from "react-bootstrap/Button";
-import "./../css/AllDonators.css";
 import GoToTop from "../components/GoToTop";
+import Pagination from "../components/Pagination";
+import "./../css/AllDonators.css";
 
 function AllDonators() {
   const [donatorList, setDonators] = useState([]);
@@ -18,6 +18,12 @@ function AllDonators() {
   const [sort, setSort] = useState("asc");
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("allyears");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(10);
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = filteredDonators.slice(indexOfFirstRecord, indexOfLastRecord);
+  const [nPages, setNPages] = useState(Math.ceil(filteredDonators.length / recordsPerPage));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,14 +32,48 @@ function AllDonators() {
         const res = await axios.get(`http://localhost:5000/api/donators`);
         setDonators(res.data.data);
         setFilteredDonators(res.data.data);
+        setNPages(Math.ceil(res.data.data.length / recordsPerPage));
+        setSort("newest");
+
+        var allYears = [];
+        res.data.data.forEach((donator) => {
+          donator.podrska.split(",").forEach((period) => {
+            var godine = period.split("-");
+            if (!allYears.includes(godine[0])) allYears.push(godine[0]);
+            if (!allYears.includes(godine[1])) allYears.push(godine[1]);
+          });
+        });
+        setYears(allYears);
       } catch (err) {}
     };
+
     getDonators();
-    setSort("asc");
   }, []);
 
+  function findLatestYear(donator) {
+    var latestYear = 0;
+    donator.podrska.split(",").forEach((period) => {
+      var godine = period.split("-");
+      if (Number(godine[0]) > latestYear) latestYear = Number(godine[0]);
+      if (Number(godine[1]) > latestYear) latestYear = Number(godine[1]);
+    });
+    return latestYear;
+  }
+
   function sortiraj() {
-    if (sort === "asc") {
+    if (sort === "newest") {
+      setFilteredDonators((prev) =>
+        [...prev].sort((a, b) => {
+          return findLatestYear(a) > findLatestYear(b) ? -1 : 0;
+        })
+      );
+    } else if (sort === "oldest") {
+      setFilteredDonators((prev) =>
+        [...prev].sort((a, b) => {
+          return findLatestYear(a) < findLatestYear(b) ? -1 : 0;
+        })
+      );
+    } else if (sort === "asc") {
       setFilteredDonators((prev) =>
         [...prev].sort((a, b) => {
           return a.naziv < b.naziv ? -1 : 0;
@@ -48,29 +88,33 @@ function AllDonators() {
     }
   }
 
+  const filterSentDonators = (news) => {
+    return news
+      .filter((donator) => {
+        if (nazivFilter) return donator.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+        else return 1;
+      })
+      .filter((donator) => {
+        return uPeriodu(donator) || selectedYear == "allyears";
+      });
+  };
+
+  useEffect(() => {
+    const getPagination = () => {
+      setNPages(Math.ceil(filterSentDonators(donatorList).length / recordsPerPage));
+    };
+
+    const filterDonators = () => {
+      setFilteredDonators(filterSentDonators(donatorList));
+    };
+    filterDonators();
+
+    getPagination();
+  }, [nazivFilter, selectedYear]);
+
   useEffect(() => {
     sortiraj();
   }, [sort, nazivFilter, donatorList]);
-
-  const handleClick = (e) => {
-    navigate("/projects/details/" + formatPath(e.target.id));
-  };
-
-  function getWorkshopYears() {
-    var allYears = [];
-    filteredDonators.forEach((donator) => {
-      var pocetakPodrske = donator.pocetakPodrske;
-
-      var krajPodrske = donator.krajPodrske;
-      if (!allYears.includes(pocetakPodrske)) allYears.push(pocetakPodrske);
-      if (!allYears.includes(krajPodrske)) allYears.push(krajPodrske);
-    });
-    setYears(allYears);
-  }
-
-  useEffect(() => {
-    getWorkshopYears();
-  }, [donatorList, sort, filteredDonators]);
 
   useEffect(() => {
     handleChange();
@@ -82,6 +126,10 @@ function AllDonators() {
     else setFilteredDonators(donatorList);
     sortiraj();
   }
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
 
   const prikaziFiltere = (e) => {
     e.preventDefault();
@@ -129,11 +177,20 @@ function AllDonators() {
     else return <>donatora</>;
   };
 
+  function uPeriodu(donator) {
+    let inRange = false;
+    donator.podrska.split(",").forEach((period) => {
+      var godine = period.split("-");
+      if (selectedYear <= Number(godine[1]) && selectedYear >= Number(godine[0])) inRange = true;
+    });
+    return inRange;
+  }
+
   return (
     <>
       <Navigation />
       <div className="projectsMainWrapper">
-        <div className="heading text-center">
+        <div id="donatorField" className="heading text-center">
           <h2>DONATORI</h2>
         </div>
         <div id="filtersIcons" className="filtersIcons">
@@ -143,13 +200,7 @@ function AllDonators() {
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
           </div>
           <div className="resultsNumber">
-            <div className="resultsNumberLength">
-              {
-                filteredDonators.filter((donator) => {
-                  return (selectedYear <= Number(donator.krajPodrske) && selectedYear >= Number(donator.pocetakPodrske)) || selectedYear == "allyears";
-                }).length
-              }
-            </div>
+            <div className="resultsNumberLength">{filteredDonators.length}</div>
             <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
@@ -189,6 +240,8 @@ function AllDonators() {
                   <Form.Group className="sortingContainer">
                     <Form.Label className="filtersCustomDesign">SORTIRAJ</Form.Label>
                     <Form.Select id="sortInput" name="oblastRadionice" aria-label="Default select example" onClick={(e) => setSort(e.target.value)}>
+                      <option value="newest">Najnoviji ka najstarijim</option>
+                      <option value="oldest">Najstariji ka najnovijim</option>
                       <option value="asc">A-Z</option>
                       <option value="desc">Z-A</option>
                     </Form.Select>
@@ -203,16 +256,13 @@ function AllDonators() {
             </div>
           </div>
           <div className="allProjectsContainer">
-            {filteredDonators
-              .filter((donator) => {
-                return (selectedYear <= Number(donator.krajPodrske) && selectedYear >= Number(donator.pocetakPodrske)) || selectedYear == "allyears";
-              })
-              .map((donator) => (
-                <Donator item={donator} />
-              ))}
+            {currentRecords.map((donator) => (
+              <Donator item={donator} onClick={uPeriodu(donator)} />
+            ))}
           </div>
         </div>
       </div>
+      <Pagination nPages={nPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <GoToTop />
       <Footer />
     </>

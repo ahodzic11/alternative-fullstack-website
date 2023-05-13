@@ -34,7 +34,9 @@ function OurTeam() {
       <GoToTop />
       <div className="outterContainer">
         <div class="responsive-container-block container">
-          <p class="text-blk team-head-text">Naš tim</p>
+          <div id="donatorField" className="heading text-center">
+            <h2>NAŠ TIM</h2>
+          </div>
           <div class="responsive-container-block">
             <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
               <div class="card">
@@ -196,7 +198,18 @@ function OurTeam() {
           </div>
 
           <p class="text-blk team-head-text">Kreativni inovacijski centar Kakanj</p>
+
           <div class="responsive-container-block">
+            <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+              <div class="card">
+                <div class="team-image-wrapper">
+                  <img class="team-member-image" src={enaSikiraImage} />
+                </div>
+                <p class="text-blk name">Ena Sikira</p>
+                <p class="text-blk position">Volonterka u KICK-u</p>
+                <p class="text-blk feature-text">Aktivna: 2018.</p>
+              </div>
+            </div>
             <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
               <div class="card">
                 <div class="team-image-wrapper">
@@ -293,17 +306,6 @@ function OurTeam() {
                 <p class="text-blk name">Adis Alajbegović</p>
                 <p class="text-blk position">Volonter u KICK-u</p>
                 <p class="text-blk feature-text">Aktivan: 2018. - 2020.</p>
-              </div>
-            </div>
-
-            <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
-              <div class="card">
-                <div class="team-image-wrapper">
-                  <img class="team-member-image" src={enaSikiraImage} />
-                </div>
-                <p class="text-blk name">Ena Sikira</p>
-                <p class="text-blk position">Volonterka u KICK-u</p>
-                <p class="text-blk feature-text">Aktivna: 2018. - 2020.</p>
               </div>
             </div>
           </div>

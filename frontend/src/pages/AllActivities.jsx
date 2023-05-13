@@ -8,6 +8,8 @@ import Activity from "../components/Activity";
 import filterIcon from "./../assets/filters.png";
 import Button from "react-bootstrap/Button";
 import { formatPath } from "../js/namechange";
+import Pagination from "../components/Pagination";
+import GoToTop from "../components/GoToTop";
 import "./../css/AllActivities.css";
 
 function AllActivities() {
@@ -19,6 +21,12 @@ function AllActivities() {
   const [projects, setProjects] = useState([]);
   const [selectedDonator, setSelectedDonator] = useState("allDonators");
   const [selectedProject, setSelectedProject] = useState("allProjects");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(10);
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = filteredActivities.slice(indexOfFirstRecord, indexOfLastRecord);
+  const [nPages, setNPages] = useState(Math.ceil(filteredActivities.length / recordsPerPage));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,11 +35,39 @@ function AllActivities() {
         const res = await axios.get(`http://localhost:5000/api/activities`);
         setActivities(res.data.data);
         setFilteredActivities(res.data.data);
+        setNPages(Math.ceil(res.data.data.length / recordsPerPage));
       } catch (err) {}
     };
     getActivities();
     setSort("asc");
   }, []);
+
+  useEffect(() => {
+    const getPagination = () => {
+      setNPages(Math.ceil(filterSentActivities(activityList).length / recordsPerPage));
+    };
+
+    const filterActivities = () => {
+      setFilteredActivities(filterSentActivities(activityList));
+    };
+    filterActivities();
+
+    getPagination();
+  }, [nazivFilter, selectedDonator, selectedProject]);
+
+  const filterSentActivities = (activities) => {
+    return activities
+      .filter((item) => {
+        return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
+      })
+      .filter((item) => {
+        return item.nazivProjekta == selectedProject || selectedProject == "allProjects";
+      })
+      .filter((item) => {
+        if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
+        else return 1;
+      });
+  };
 
   function sortiraj() {
     if (sort === "asc") {
@@ -51,7 +87,7 @@ function AllActivities() {
 
   function getDonators() {
     var allDonators = [];
-    filteredActivities.forEach((activity) => {
+    activityList.forEach((activity) => {
       if (!allDonators.includes(activity.nazivDonatora)) allDonators.push(activity.nazivDonatora);
     });
     setDonators(allDonators);
@@ -59,7 +95,7 @@ function AllActivities() {
 
   function getProjects() {
     var allProjects = [];
-    filteredActivities.forEach((activity) => {
+    activityList.forEach((activity) => {
       if (!allProjects.includes(activity.nazivProjekta)) allProjects.push(activity.nazivProjekta);
     });
     setProjects(allProjects);
@@ -84,8 +120,6 @@ function AllActivities() {
 
   function handleChange() {
     setSort(sort);
-    if (nazivFilter) setFilteredActivities(activityList.filter((item) => item.naziv.toUpperCase().includes(nazivFilter.toUpperCase())));
-    else setFilteredActivities(activityList);
     sortiraj();
   }
 
@@ -111,6 +145,10 @@ function AllActivities() {
       //allProjectsContainer.style.paddingLeft = "260px";
     }
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
 
   const resetujFiltere = (e) => {
     e.preventDefault();
@@ -160,21 +198,7 @@ function AllActivities() {
             <div id="filteringSmallerContainerTwo" className="filteringSmallerContainerTwo"></div>
           </div>
           <div className="resultsNumber">
-            <div className="resultsNumberLength">
-              {
-                filteredActivities
-                  .filter((item) => {
-                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-                  })
-                  .filter((item) => {
-                    return item.nazivProjekta == selectedProject || selectedProject == "allProjects";
-                  })
-                  .filter((item) => {
-                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-                    else return 1;
-                  }).length
-              }
-            </div>
+            <div className="resultsNumberLength">{filteredActivities.length}</div>
             <div className="resultsNumberName">{displayResults()}</div>
           </div>
         </div>
@@ -254,31 +278,22 @@ function AllActivities() {
           <div className="allProjectsContainer" onClick={handleClick}>
             {donators.length == 0 ? (
               <>
-                {filteredActivities.map((item) => (
+                {currentRecords.map((item) => (
                   <Activity item={item} />
                 ))}
               </>
             ) : (
               <>
-                {filteredActivities
-                  .filter((item) => {
-                    return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-                  })
-                  .filter((item) => {
-                    return item.nazivProjekta == selectedProject || selectedProject == "allProjects";
-                  })
-                  .filter((item) => {
-                    if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-                    else return 1;
-                  })
-                  .map((item) => (
-                    <Activity item={item} />
-                  ))}
+                {currentRecords.map((item) => (
+                  <Activity item={item} />
+                ))}
               </>
             )}
           </div>
         </div>
       </div>
+      {currentRecords.length != 0 ? <Pagination nPages={nPages} currentPage={currentPage} setCurrentPage={setCurrentPage} /> : <></>}
+      <GoToTop />
       <Footer />
     </>
   );

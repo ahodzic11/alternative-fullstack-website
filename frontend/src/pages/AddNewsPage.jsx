@@ -10,7 +10,7 @@ import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
 import "./../css/AddWorkshopPage.css";
-import { formatPath } from "../js/namechange";
+import { formatDate, formatPath } from "../js/namechange";
 
 function AddNewsPage() {
   const [inputs, setInputs] = useState({});
@@ -24,13 +24,17 @@ function AddNewsPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (document.getElementById("uploadedFiles").files.length === 0) {
+      alert("Morate unijeti bar jednu sliku!");
+      return;
+    }
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
+      return;
     }
-    setValidated(true);
-
     var uploadForm = document.getElementById("uploadForm");
     var uploadFormData = new FormData(uploadForm);
 
@@ -38,14 +42,18 @@ function AddNewsPage() {
       const response = await axios.post(`http://localhost:5000/upload/vijesti/` + inputs.naziv, uploadFormData);
     } catch (err) {}
 
+    var firstDate = inputs.datum.split("-");
+    var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
+
     addNews({
       naziv: inputs.naziv,
       formatiranNaziv: formatPath(inputs.naziv),
       tema: inputs.tema,
-      datum: inputs.datum,
+      datum: formatDate(firstCorrectDate),
       tekstVijesti: inputs.tekstVijesti,
       naslovnaSlika: formatPath(inputs.naziv) + "0.jpg",
     });
+    alert("Novost uspješno dodana!");
   };
 
   return (
@@ -54,7 +62,7 @@ function AddNewsPage() {
       <div className="addWorkshopContainer">
         <div className="currentLocationHeadline">Dodavanje vijesti</div>
         <div className="addWorkshopForm">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form className="customFormContainer" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naziv</Form.Label>
@@ -71,19 +79,19 @@ function AddNewsPage() {
               <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Datum</Form.Label>
-                  <Form.Control name="datum" type="date" placeholder="datum" onChange={handleChange} />
+                  <Form.Control name="datum" required type="date" placeholder="datum" onChange={handleChange} />
                 </Form.Group>
               </div>
             </Row>
             <Row className="mb-3">
               <Form.Label className="itemTitleElement">Slike</Form.Label>
               <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
-                <input className="uploadImagesInput" type="file" name="image" multiple />
+                <input id="uploadedFiles" className="uploadImagesInput" type="file" name="image" multiple />
               </form>
             </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Tekst vijesti</Form.Label>
-              <Form.Control name="tekstVijesti" as="textarea" rows={4} onChange={handleChange} />
+              <Form.Control required name="tekstVijesti" as="textarea" rows={4} onChange={handleChange} />
             </Form.Group>
             <div className="addStuffButton">
               <Button type="submit">Dodaj vijest</Button>

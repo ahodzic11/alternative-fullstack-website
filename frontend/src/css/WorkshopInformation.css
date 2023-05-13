@@ -6,6 +6,15 @@
   font-family: "Josefin Sans", sans-serif;
 }
 
+.workshopInnerContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  padding-left: 10%;
+  padding-right: 10%;
+  font-family: "Josefin Sans", sans-serif;
+}
+
 .workshopInformationTitle {
   font-size: 45px;
   font-weight: bold;

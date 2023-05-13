@@ -80,6 +80,10 @@ html {
   text-indent: 30px;
 }
 
+.aboutUsText2 {
+  font-size: 18px;
+}
+
 .aboutUsContainerElement {
   display: flex;
   flex-direction: column;

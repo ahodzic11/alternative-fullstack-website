@@ -128,3 +128,8 @@
 .customFormContainer {
   width: 100%;
 }
+
+.addPeriodContainer {
+  display: flex;
+  flex-direction: column;
+}
