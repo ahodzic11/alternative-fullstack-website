@@ -56,6 +56,26 @@ app.post("/upload/:tipobjave/:naslov", (req, res) => {
   res.sendStatus(200);
 });
 
+app.patch("/upload/:tipobjave/:naslov", (req, res) => {
+  const { image } = req.files;
+  const naslov = formatPath(req.params.naslov);
+  const tipObjave = req.params.tipobjave;
+
+  const testFolder2 = "./../backend/newuploads/" + tipObjave + "/" + naslov + "/";
+  const slike = fs.readdirSync(testFolder2);
+  let imageNumber = slike.map((slika) => Number(slika.replace(naslov, "").replace(".jpg", "")));
+  imageNumber = imageNumber[imageNumber.length - 1] + 1;
+  if (image.length > 1) {
+    image.forEach((slika) => {
+      let slikaName = naslov + imageNumber + ".jpg";
+      slika.mv(__dirname + "/newuploads/" + tipObjave + "/" + naslov + "/" + slikaName);
+      imageNumber++;
+    });
+  } else image.mv(__dirname + "/newuploads/" + tipObjave + "/" + naslov + "/" + naslov + imageNumber + ".jpg");
+
+  res.sendStatus(200);
+});
+
 app.delete("/delete/:tipobjave/:naslov", (req, res) => {
   const naslov = formatPath(req.params.naslov);
   const tipObjave = req.params.tipobjave;
@@ -64,6 +84,23 @@ app.delete("/delete/:tipobjave/:naslov", (req, res) => {
       return console.log(err);
     }
     console.log("Folder uspješno obrisan");
+  });
+  res.sendStatus(200);
+});
+
+app.delete("/delete/:tipobjave/:naslov/:nazivSlike", (req, res) => {
+  const naslov = req.params.naslov;
+  const tipObjave = req.params.tipobjave;
+  const nazivSlike = req.params.nazivSlike;
+  console.log(naslov);
+  console.log(tipObjave);
+  console.log(nazivSlike);
+
+  fs.rm(path.join(__dirname + "/newuploads/" + tipObjave + "/" + naslov, nazivSlike), { recursive: true }, (err) => {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("Slika uspješno obrisana");
   });
   res.sendStatus(200);
 });

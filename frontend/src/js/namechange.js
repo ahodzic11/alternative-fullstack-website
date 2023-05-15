@@ -19,7 +19,6 @@ export function formatDate(inputDate) {
 }
 
 export function englishFormatDate(inputDate) {
-  console.log(inputDate);
   let date, month, year;
   var firstDate = inputDate.split(".");
   var firstCorrectDate = new Date(firstDate[2], firstDate[1] - 1, firstDate[0]);

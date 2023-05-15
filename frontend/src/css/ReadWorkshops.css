@@ -54,3 +54,44 @@
   background-color: #f1f3f4;
   padding-bottom: 40px;
 }
+
+.deleteImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: red;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  cursor: pointer;
+}
+
+.customImageDeletionContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.deleteImageIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.workshopSecondImages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.workshopInformationImageElement {
+  cursor: pointer;
+}
+
+.addImagesButton {
+  display: flex;
+  justify-content: right;
+  font-family: "Josefin Sans", sans-serif;
+  padding-bottom: 30px;
+}

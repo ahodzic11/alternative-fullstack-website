@@ -24,6 +24,7 @@ function AddWorkshopPage() {
 
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
+    event.preventDefault();
     if (inputs.oblastRadionice == null) {
       alert("Morate unijeti kategoriju radionice!");
       return;

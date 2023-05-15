@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
@@ -9,16 +9,39 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import deleteIcon from "./../assets/deleteIconWhite.png";
 import { englishFormatDate, formatDate, formatPath } from "../js/namechange";
+import ImageViewer from "react-simple-image-viewer";
 import "./../css/ReadWorkshops.css";
 
 function EditWorkshops() {
   const [workshop, setWorkshop] = useState([]);
   let { name } = useParams();
   const [oblast, setOblast] = useState({});
+  const [images, setImages] = useState([]);
   const [validated, setValidated] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const path = "http://localhost:5000/newUploads/radionice/" + name + "/";
 
-  const handleSubmit = (event) => {
+  const openImageViewer = useCallback((index) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
+
+  const getSlike = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/radionice/` + name);
+      setImages(response.data);
+    } catch (err) {}
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target),
       formDataObj = Object.fromEntries(formData.entries());
@@ -62,8 +85,51 @@ function EditWorkshops() {
         setWorkshop(dummyWorkshop);
       } catch (err) {}
     };
+
+    getSlike();
     getWorkshop();
   }, []);
+
+  async function updateImage(updatedItem) {
+    try {
+      const res = await axios.patch(`http://localhost:5000/api/workshops/updateImage`, updatedItem);
+      console.log(res);
+    } catch (err) {}
+  }
+
+  const handleImageDeletion = async (e, image) => {
+    e.preventDefault();
+    try {
+      const res = await axios.get(`http://localhost:5000/api/workshops/selectedImage/` + workshop.id);
+      if (image == res.data.data.naslovnaSlika) {
+        for (let i = 0; i < images.length; i++) {
+          if (images[i] != image) {
+            updateImage({
+              id: workshop.id,
+              naslovnaSlika: images[i],
+            });
+            break;
+          }
+        }
+      }
+    } catch (err) {}
+    try {
+      const res = await axios.delete(`http://localhost:5000/delete/radionice/` + formatPath(workshop.naslov) + "/" + image);
+    } catch (err) {}
+
+    getSlike();
+  };
+
+  const handleImageAdding = async () => {
+    var uploadForm = document.getElementById("uploadForm");
+    var uploadFormData = new FormData(uploadForm);
+    try {
+      const response = await axios.patch(`http://localhost:5000/upload/radionice/` + workshop.naslov, uploadFormData);
+    } catch (err) {
+      console.log(err);
+    }
+    getSlike();
+  };
 
   return (
     <>
@@ -147,12 +213,33 @@ function EditWorkshops() {
               <Form.Label className="itemTitleElement">Opis radionice</Form.Label>
               <Form.Control name="opisRadionice" as="textarea" rows={4} defaultValue={workshop.opisRadionice} />
             </Form.Group>
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Dodaj još slika</Form.Label>
+              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
+                <input id="uploadedFiles" required className="uploadImagesInput" type="file" name="image" multiple onChange={handleImageAdding} />
+              </form>
+            </Row>
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Slike</Form.Label>
+              <div className="workshopSecondImages">
+                {images.map((image, index) => (
+                  <div className="customImageDeletionContainer">
+                    <img key={index} id={image} className="workshopInformationImageElement" src={path + image} alt="slikaSRadionice" onClick={() => openImageViewer(index)} />
+                    <div className="deleteImageContainer" onClick={(e) => handleImageDeletion(e, image)}>
+                      <img className="deleteImageIcon" src={deleteIcon} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Row>
+
             <div className="addStuffButton">
               <Button type="submit">Sačuvaj izmjene</Button>
             </div>
           </Form>
         </div>
       </div>
+      {isViewerOpen && <ImageViewer src={images.map((image) => "http://localhost:5000/newuploads/radionice/" + name + "/" + image)} currentIndex={currentImage} disableScroll={false} closeOnClickOutside={true} onClose={closeImageViewer} />}
       <AdminLogout />
       <AdminGoBack />
     </>
