@@ -23,6 +23,7 @@ function AddProjectPage() {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
     if (document.getElementById("uploadedFiles").files.length === 0) {
       alert("Morate unijeti bar jednu sliku!");
@@ -94,14 +95,13 @@ function AddProjectPage() {
                   <Form.Control name="krajImplementacije" required type="date" placeholder="datum" onChange={handleChange} />
                 </Form.Group>
               </div>
-            </Row>
-            <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Donator</Form.Label>
                 <Form.Control name="nazivDonatora" required type="text" placeholder="Naziv donatora" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
+
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Grant</Form.Label>
@@ -129,7 +129,7 @@ function AddProjectPage() {
             </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis projekta</Form.Label>
-              <Form.Control required name="opisProjekta" as="textarea" rows={4} onChange={handleChange} />
+              <Form.Control required name="opisProjekta" as="textarea" rows={8} onChange={handleChange} />
             </Form.Group>
             <div className="addStuffButton">
               <Button type="submit">Dodaj projekat</Button>

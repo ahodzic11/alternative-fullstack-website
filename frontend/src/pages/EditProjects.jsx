@@ -13,7 +13,7 @@ import ImageViewer from "react-simple-image-viewer";
 import Modal from "react-bootstrap/Modal";
 import deleteIcon from "./../assets/deleteIconWhite.png";
 import "./../css/EditProjects.css";
-import { englishFormatDate, formatPath } from "../js/namechange";
+import { englishFormatDate, formatDate, formatPath } from "../js/namechange";
 
 function EditProjects() {
   const [project, setProject] = useState([]);
@@ -59,13 +59,18 @@ function EditProjects() {
   };
 
   const updateProject = async (formDataObj) => {
+    var firstDate = formDataObj.pocetakImplementacije.split("-");
+    var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
+    var secondDate = formDataObj.krajImplementacije.split("-");
+    var secondCorrectDate = new Date(secondDate[0], secondDate[1] - 1, secondDate[2]);
     try {
       const updatedProject = {
         id: project.id,
         naziv: formDataObj.naziv,
+        formatiranNaziv: formatPath(formDataObj.naziv),
         mjesto: formDataObj.mjesto,
-        pocetakImplementacije: formDataObj.pocetakImplementacije,
-        krajImplementacije: formDataObj.krajImplementacije,
+        pocetakImplementacije: formatDate(firstCorrectDate),
+        krajImplementacije: formatDate(secondCorrectDate),
         nazivDonatora: formDataObj.nazivDonatora,
         projektniGrant: formDataObj.projektniGrant,
         ciljnaGrupa: formDataObj.ciljnaGrupa,
@@ -74,6 +79,18 @@ function EditProjects() {
       };
       const res = await axios.patch(`http://localhost:5000/api/projects/`, updatedProject);
     } catch (err) {}
+    if (formDataObj.naziv != project.naziv) {
+      try {
+        const res = await axios.patch(`http://localhost:5000/updatelocation/`, { type: "projekti", oldNaziv: project.naziv, naziv: formDataObj.naziv });
+      } catch (err) {}
+      try {
+        const updatedItem = {
+          id: project.id,
+          naslovnaSlika: formatPath(formDataObj.naziv) + project.naslovnaSlika.replace(project.formatiranNaziv, "").replace(".jpg", "") + ".jpg",
+        };
+        const res = await axios.patch(`http://localhost:5000/api/projects/updateImage`, updatedItem);
+      } catch (err) {}
+    }
   };
 
   useEffect(() => {
@@ -158,13 +175,13 @@ function EditProjects() {
               <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Početak implementacije</Form.Label>
-                  {project.pocetakImplementacije ? <Form.Control name="pocetakImplementacije" type="date" placeholder="datum" defaultValue={englishFormatDate(project.pocetakImplementacije)} /> : <Form.Control name="pocetakImplementacije" type="date" placeholder="datum" />}
+                  {project.pocetakImplementacije ? <Form.Control name="pocetakImplementacije" required type="date" placeholder="datum" defaultValue={englishFormatDate(project.pocetakImplementacije)} /> : <Form.Control name="pocetakImplementacije" required type="date" placeholder="datum" />}
                 </Form.Group>
               </div>
               <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Kraj implementacije</Form.Label>
-                  {project.krajImplementacije ? <Form.Control name="krajImplementacije" type="date" placeholder="datum" defaultValue={englishFormatDate(project.krajImplementacije)} /> : <Form.Control name="krajImplementacije" type="date" placeholder="datum" />}
+                  {project.krajImplementacije ? <Form.Control name="krajImplementacije" required type="date" placeholder="datum" defaultValue={englishFormatDate(project.krajImplementacije)} /> : <Form.Control name="krajImplementacije" required type="date" placeholder="datum" />}
                 </Form.Group>
               </div>
             </Row>
@@ -183,7 +200,7 @@ function EditProjects() {
               </Form.Group>
               <Form.Group as={Col} controlId="validationCustom02">
                 <Form.Label className="itemTitleElement">Ciljna grupa</Form.Label>
-                <Form.Control name="ciljnaGrupa" required type="text" placeholder="Ciljna grupa" defaultValue={project.ciljnaGrupa} />
+                <Form.Control name="ciljnaGrupa" type="text" placeholder="Ciljna grupa" defaultValue={project.ciljnaGrupa} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
@@ -197,7 +214,7 @@ function EditProjects() {
             <Row className="mb-3"></Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis projekta</Form.Label>
-              <Form.Control name="opisProjekta" as="textarea" rows={12} defaultValue={project.opisProjekta} />
+              <Form.Control required name="opisProjekta" as="textarea" rows={12} defaultValue={project.opisProjekta} />
             </Form.Group>
             <Row className="mb-3">
               <Form.Label className="itemTitleElement">Dodaj još slika</Form.Label>

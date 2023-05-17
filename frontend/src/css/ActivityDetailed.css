@@ -23,6 +23,7 @@
   color: white;
   height: inherit;
   width: 28%;
+  justify-content: space-between;
 }
 
 .secondWrapperActivity {

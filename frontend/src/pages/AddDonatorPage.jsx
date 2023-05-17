@@ -74,7 +74,7 @@ function AddDonatorPage() {
       <div className="addWorkshopContainer">
         <div className="currentLocationHeadline">Dodavanje donatora</div>
         <div className="addWorkshopForm">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form className="donatorCustomFormContainer" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naziv</Form.Label>

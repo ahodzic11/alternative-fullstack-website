@@ -48,3 +48,9 @@
   height: 36px;
   width: 36px;
 }
+
+.readProjectContainer {
+  padding-top: 30px;
+  background-color: #f1f3f4;
+  padding-bottom: 40px;
+}

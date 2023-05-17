@@ -174,15 +174,6 @@ function AllActivities() {
     else return <>aktivnosti</>;
   };
 
-  /*
-  0 aktivnosti
-  1 aktivnost
-  2 aktivnosti
-  3 aktivnosti
-  4 aktivnosti
-  5 aktivnosti
-  6 aktivnosti
-  */
   return (
     <>
       <Navigation />
@@ -274,17 +265,21 @@ function AllActivities() {
               </div>
             </div>
           </div>
-          <div className="allProjectsContainer" onClick={handleClick}>
+          <div className="allProjectsContainer">
             {donators.length == 0 ? (
               <>
                 {currentRecords.map((item) => (
-                  <Activity item={item} />
+                  <div className="projectClickableDiv" onClick={(e) => handleClick(e)}>
+                    <Activity item={item} />
+                  </div>
                 ))}
               </>
             ) : (
               <>
                 {currentRecords.map((item) => (
-                  <Activity item={item} />
+                  <div className="projectClickableDiv" onClick={(e) => handleClick(e)}>
+                    <Activity item={item} />
+                  </div>
                 ))}
               </>
             )}

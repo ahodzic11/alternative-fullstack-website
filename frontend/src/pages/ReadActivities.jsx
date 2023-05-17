@@ -8,11 +8,17 @@ import editIcon from "./../assets/editIcon.png";
 import changePictureIcon from "./../assets/changePicture.png";
 import deleteIcon from "./../assets/deleteIcon.png";
 import { useNavigate } from "react-router-dom";
-import "./../css/ReadProjects.css";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import { formatPath } from "../js/namechange";
+import "./../css/ReadProjects.css";
 
 function ReadActivities() {
   const [activities, setActivities] = useState([]);
+  const [show, setShow] = useState(false);
+  const [chosenActivity, setChosenActivity] = useState({});
+  const handleClose = () => setShow(false);
+  const handleShow = (item) => setShow(true);
   const navigate = useNavigate();
 
   const getActivities = async () => {
@@ -35,12 +41,21 @@ function ReadActivities() {
     navigate("/chooseimage/activity/" + formatPath(item.naziv));
   };
 
-  async function deleteActivityItem(e, item) {
-    e.preventDefault();
+  async function handleDelete() {
+    setShow(false);
     try {
-      const res = await axios.delete(`http://localhost:5000/api/activities/` + item.id);
+      const res = await axios.delete(`http://localhost:5000/api/activities/` + chosenActivity.id);
+    } catch (err) {}
+    try {
+      const res = await axios.delete(`http://localhost:5000/delete/activities/` + chosenActivity.naslov);
     } catch (err) {}
     getActivities();
+  }
+
+  function deleteFunction(e, item) {
+    e.preventDefault();
+    setChosenActivity(item);
+    handleShow(item);
   }
 
   return (
@@ -49,6 +64,20 @@ function ReadActivities() {
       <div className="readProjectContainer">
         <div className="currentLocationHeadline">Unesene aktivnosti</div>
         <div className="filterAndSortingContainer"></div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Brisanje radionice</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Sigurno želite obrisati radionicu?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Ne
+            </Button>
+            <Button variant="primary" onClick={handleDelete}>
+              Da
+            </Button>
+          </Modal.Footer>
+        </Modal>
         {activities.map((item) => (
           <div className="basicInfo">
             <div className="firstProjectInformation">
@@ -67,7 +96,7 @@ function ReadActivities() {
               <div className="changePictureOption projectEditOption" onClick={(e) => chooseImage(e, item)}>
                 <img src={changePictureIcon} />
               </div>
-              <div className="deleteProject projectEditOption" onClick={(e) => deleteActivityItem(e, item)}>
+              <div className="deleteProject projectEditOption" onClick={(e) => deleteFunction(e, item)}>
                 <img src={deleteIcon} />
               </div>
             </div>

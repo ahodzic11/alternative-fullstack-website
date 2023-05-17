@@ -12,7 +12,7 @@ import Row from "react-bootstrap/Row";
 import ImageViewer from "react-simple-image-viewer";
 import Modal from "react-bootstrap/Modal";
 import deleteIcon from "./../assets/deleteIconWhite.png";
-import { formatPath } from "../js/namechange";
+import { englishFormatDate, formatDate, formatPath } from "../js/namechange";
 import "./../css/EditProjects.css";
 
 function EditActivities() {
@@ -59,13 +59,15 @@ function EditActivities() {
   };
 
   const updateActivity = async (formDataObj) => {
+    var firstDate = formDataObj.datum.split("-");
+    var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
     try {
       const updatedActivity = {
         id: activity.id,
         naziv: formDataObj.naziv,
         formatiranNaziv: formatPath(formDataObj.naziv),
         mjesto: formDataObj.mjesto,
-        datum: formDataObj.datum,
+        datum: formatDate(firstCorrectDate),
         nazivDonatora: formDataObj.nazivDonatora,
         nazivProjekta: formDataObj.nazivProjekta,
         opisAktivnosti: formDataObj.opisAktivnosti,
@@ -152,7 +154,7 @@ function EditActivities() {
       <div className="addWorkshopContainer">
         <div className="currentLocationHeadline">Izmjena aktivnosti</div>
         <div className="addWorkshopForm">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form className="customFormContainer" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naziv aktivnosti</Form.Label>
@@ -169,7 +171,7 @@ function EditActivities() {
               <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Datum</Form.Label>
-                  <Form.Control name="datum" type="date" placeholder="datum" defaultValue={activity.datum} />
+                  {activity.datum ? <Form.Control required name="datum" type="date" placeholder="datum" defaultValue={englishFormatDate(activity.datum)} /> : <Form.Control required name="datum" type="date" placeholder="datum" />}
                 </Form.Group>
               </div>
             </Row>
@@ -183,13 +185,13 @@ function EditActivities() {
 
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Projekat</Form.Label>
-                <Form.Control name="nazivProjekta" required type="text" placeholder="Naziv projekta" defaultValue={activity.nazivProjekta} />
+                <Form.Control name="nazivProjekta" type="text" placeholder="Naziv projekta" defaultValue={activity.nazivProjekta} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis aktivnosti</Form.Label>
-              <Form.Control name="opisAktivnosti" as="textarea" rows={6} defaultValue={activity.opisAktivnosti} />
+              <Form.Control required name="opisAktivnosti" as="textarea" rows={6} defaultValue={activity.opisAktivnosti} />
             </Form.Group>
             <Row className="mb-3">
               <Form.Label className="itemTitleElement">Dodaj još slika</Form.Label>

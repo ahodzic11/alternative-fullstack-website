@@ -12,8 +12,8 @@ import Row from "react-bootstrap/Row";
 import deleteIcon from "./../assets/deleteIconWhite.png";
 import ImageViewer from "react-simple-image-viewer";
 import Modal from "react-bootstrap/Modal";
+import { englishFormatDate, formatDate, formatPath } from "../js/namechange";
 import "./../css/EditProjects.css";
-import { englishFormatDate, formatPath } from "../js/namechange";
 
 function EditNews() {
   let { name } = useParams();
@@ -59,16 +59,31 @@ function EditNews() {
   };
 
   const updateNews = async (formDataObj) => {
+    var firstDate = formDataObj.datum.split("-");
+    var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
     try {
       const updatedNewsArticle = {
         id: news.id,
         naziv: formDataObj.naziv,
+        formatiranNaziv: formatPath(formDataObj.naziv),
         tema: formDataObj.tema,
-        datum: formDataObj.datum,
+        datum: formatDate(firstCorrectDate),
         tekstVijesti: formDataObj.tekstVijesti,
       };
       const res = await axios.patch(`http://localhost:5000/api/news/`, updatedNewsArticle);
     } catch (err) {}
+    if (formDataObj.naziv != news.naziv) {
+      try {
+        const res = await axios.patch(`http://localhost:5000/updatelocation/`, { type: "vijesti", oldNaziv: news.naziv, naziv: formDataObj.naziv });
+      } catch (err) {}
+      try {
+        const updatedItem = {
+          id: news.id,
+          naslovnaSlika: formatPath(formDataObj.naziv) + news.naslovnaSlika.replace(news.formatiranNaziv, "").replace(".jpg", "") + ".jpg",
+        };
+        const res = await axios.patch(`http://localhost:5000/api/news/updateImage`, updatedItem);
+      } catch (err) {}
+    }
   };
 
   useEffect(() => {
