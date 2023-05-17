@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
@@ -9,13 +9,41 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import { englishFormatDate, formatDate, formatPath } from "../js/namechange";
+import ImageViewer from "react-simple-image-viewer";
+import Modal from "react-bootstrap/Modal";
+import deleteIcon from "./../assets/deleteIconWhite.png";
 import "./../css/EditProjects.css";
-import { formatDate, formatPath } from "../js/namechange";
 
 function EditArticles() {
-  const [article, setArticle] = useState([]);
   let { name } = useParams();
+  const [article, setArticle] = useState([]);
   const [validated, setValidated] = useState(false);
+  const [images, setImages] = useState([]);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [chosenImage, setChosenImage] = useState({});
+  const path = "http://localhost:5000/newUploads/clanci/" + name + "/";
+
+  const openImageViewer = useCallback((index) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
+
+  const getSlike = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/clanci/` + name);
+      setImages(response.data);
+    } catch (err) {}
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -65,8 +93,57 @@ function EditArticles() {
         setArticle(res.data.data);
       } catch (err) {}
     };
+
+    getSlike();
     getArticle();
   }, []);
+
+  async function updateImage(updatedItem) {
+    try {
+      const res = await axios.patch(`http://localhost:5000/api/articles/updateImage`, updatedItem);
+      console.log(res);
+    } catch (err) {}
+  }
+
+  const handleImageDeletion = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.get(`http://localhost:5000/api/articles/selectedImage/` + article.id);
+      if (chosenImage == res.data.data.naslovnaSlika) {
+        for (let i = 0; i < images.length; i++) {
+          if (images[i] != chosenImage) {
+            updateImage({
+              id: article.id,
+              naslovnaSlika: images[i],
+            });
+            break;
+          }
+        }
+      }
+    } catch (err) {}
+    try {
+      const res = await axios.delete(`http://localhost:5000/delete/clanci/` + formatPath(article.naziv) + "/" + chosenImage);
+    } catch (err) {}
+    getSlike();
+    setShow(false);
+  };
+
+  const handleImageAdding = async () => {
+    var uploadForm = document.getElementById("uploadForm");
+    var uploadFormData = new FormData(uploadForm);
+    try {
+      const response = await axios.patch(`http://localhost:5000/upload/clanci/` + article.naziv, uploadFormData);
+    } catch (err) {
+      console.log(err);
+    }
+    getSlike();
+  };
+
+  function deleteFunction(e, item) {
+    e.preventDefault();
+    setChosenImage(item);
+    handleShow(item);
+  }
 
   return (
     <>
@@ -92,14 +169,14 @@ function EditArticles() {
                 <Form.Control name="link" required type="text" placeholder="Link" defaultValue={article.link} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
+            </Row>
+            <Row className="mb-3">
               <div className="col-md-4">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Datum</Form.Label>
-                  <Form.Control name="datum" type="date" placeholder="datum" defaultValue={article.datum} />
+                  {article.datum ? <Form.Control name="datum" type="date" placeholder="datum" defaultValue={englishFormatDate(article.datum)} /> : <Form.Control name="datum" type="date" placeholder="datum" />}
                 </Form.Group>
               </div>
-            </Row>
-            <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Tip medija</Form.Label>
                 <Form.Select name="tipMedija" aria-label="Default select example" value={article.tipMedija}>
@@ -111,22 +188,50 @@ function EditArticles() {
                 </Form.Select>
               </Form.Group>
             </Row>
-            <Row className="mb-3">
-              <Form.Label className="itemTitleElement">Slike</Form.Label>
-              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
-                <input className="uploadImagesInput" type="file" name="image" multiple />
-              </form>
-            </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Tekst</Form.Label>
-              <Form.Control name="tekst" as="textarea" rows={4} defaultValue={article.tekst} />
+              <Form.Control name="tekst" as="textarea" rows={14} defaultValue={article.tekst} />
             </Form.Group>
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Dodaj još slika</Form.Label>
+              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
+                <input id="uploadedFiles" required className="uploadImagesInput" type="file" name="image" multiple onChange={handleImageAdding} />
+              </form>
+            </Row>
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Slike</Form.Label>
+              <div className="workshopSecondImages">
+                {images.map((image, index) => (
+                  <div className="customImageDeletionContainer">
+                    <img key={index} id={image} className="workshopInformationImageElement" src={path + image} alt="slikaSRadionice" onClick={() => openImageViewer(index)} />
+                    <div className="deleteImageContainer" onClick={(e) => deleteFunction(e, image)}>
+                      <img className="deleteImageIcon" src={deleteIcon} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Row>
             <div className="addStuffButton">
               <Button type="submit">Sačuvaj izmjene</Button>
             </div>
           </Form>
         </div>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Brisanje slike</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Sigurno želite obrisati sliku?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Ne
+          </Button>
+          <Button variant="primary" onClick={(e) => handleImageDeletion(e)}>
+            Da
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {isViewerOpen && <ImageViewer src={images.map((image) => "http://localhost:5000/newuploads/clanci/" + name + "/" + image)} currentIndex={currentImage} disableScroll={false} closeOnClickOutside={true} onClose={closeImageViewer} />}
       <AdminLogout />
       <AdminGoBack />
     </>

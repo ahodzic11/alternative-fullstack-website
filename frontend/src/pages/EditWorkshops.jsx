@@ -4,7 +4,7 @@ import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -12,17 +12,23 @@ import Row from "react-bootstrap/Row";
 import deleteIcon from "./../assets/deleteIconWhite.png";
 import { englishFormatDate, formatDate, formatPath } from "../js/namechange";
 import ImageViewer from "react-simple-image-viewer";
+import Modal from "react-bootstrap/Modal";
 import "./../css/ReadWorkshops.css";
 
 function EditWorkshops() {
-  const [workshop, setWorkshop] = useState([]);
   let { name } = useParams();
+  const [workshop, setWorkshop] = useState([]);
   const [oblast, setOblast] = useState({});
   const [images, setImages] = useState([]);
   const [validated, setValidated] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [chosenImage, setChosenImage] = useState({});
   const path = "http://localhost:5000/newUploads/radionice/" + name + "/";
+  const navigate = useNavigate();
 
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
@@ -42,7 +48,6 @@ function EditWorkshops() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
     const formData = new FormData(event.target),
       formDataObj = Object.fromEntries(formData.entries());
     const form = event.currentTarget;
@@ -74,6 +79,18 @@ function EditWorkshops() {
       };
       const res = await axios.patch(`http://localhost:5000/api/workshops/`, updatedWorkshop);
     } catch (err) {}
+    if (formDataObj.naslov != workshop.naslov) {
+      try {
+        const res = await axios.patch(`http://localhost:5000/updatelocation/`, { type: "radionice", oldNaziv: workshop.naslov, naziv: formDataObj.naslov });
+      } catch (err) {}
+      try {
+        const updatedItem = {
+          id: workshop.id,
+          naslovnaSlika: formatPath(formDataObj.naslov) + workshop.naslovnaSlika.replace(workshop.formatiranNaslov, "").replace(".jpg", "") + ".jpg",
+        };
+        const res = await axios.patch(`http://localhost:5000/api/workshops/updateImage`, updatedItem);
+      } catch (err) {}
+    }
   };
 
   useEffect(() => {
@@ -97,13 +114,13 @@ function EditWorkshops() {
     } catch (err) {}
   }
 
-  const handleImageDeletion = async (e, image) => {
+  const handleImageDeletion = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.get(`http://localhost:5000/api/workshops/selectedImage/` + workshop.id);
-      if (image == res.data.data.naslovnaSlika) {
+      if (chosenImage == res.data.data.naslovnaSlika) {
         for (let i = 0; i < images.length; i++) {
-          if (images[i] != image) {
+          if (images[i] != chosenImage) {
             updateImage({
               id: workshop.id,
               naslovnaSlika: images[i],
@@ -114,10 +131,10 @@ function EditWorkshops() {
       }
     } catch (err) {}
     try {
-      const res = await axios.delete(`http://localhost:5000/delete/radionice/` + formatPath(workshop.naslov) + "/" + image);
+      const res = await axios.delete(`http://localhost:5000/delete/radionice/` + formatPath(workshop.naslov) + "/" + chosenImage);
     } catch (err) {}
-
     getSlike();
+    setShow(false);
   };
 
   const handleImageAdding = async () => {
@@ -130,6 +147,12 @@ function EditWorkshops() {
     }
     getSlike();
   };
+
+  function deleteFunction(e, item) {
+    e.preventDefault();
+    setChosenImage(item);
+    handleShow(item);
+  }
 
   return (
     <>
@@ -161,13 +184,13 @@ function EditWorkshops() {
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Donator</Form.Label>
-                <Form.Control name="nazivDonatora" required type="text" placeholder="Naziv donatora" defaultValue={workshop.nazivDonatora} />
+                <Form.Control name="nazivDonatora" type="text" placeholder="Naziv donatora" defaultValue={workshop.nazivDonatora} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Projekat</Form.Label>
-                <Form.Control name="nazivProjekta" required type="text" placeholder="Naziv projekta" defaultValue={workshop.nazivProjekta} />
+                <Form.Control name="nazivProjekta" type="text" placeholder="Naziv projekta" defaultValue={workshop.nazivProjekta} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
@@ -181,13 +204,13 @@ function EditWorkshops() {
 
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Učesnici</Form.Label>
-                <Form.Control name="ucesnici" required type="text" placeholder="Broj ili ime učesnika" defaultValue={workshop.ucesnici} />
+                <Form.Control name="ucesnici" type="text" placeholder="Broj ili ime učesnika" defaultValue={workshop.ucesnici} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Cilj</Form.Label>
-                <Form.Control name="cilj" required type="text" placeholder="Cilj radionice" defaultValue={workshop.cilj} />
+                <Form.Control name="cilj" type="text" placeholder="Cilj radionice" defaultValue={workshop.cilj} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
@@ -225,7 +248,7 @@ function EditWorkshops() {
                 {images.map((image, index) => (
                   <div className="customImageDeletionContainer">
                     <img key={index} id={image} className="workshopInformationImageElement" src={path + image} alt="slikaSRadionice" onClick={() => openImageViewer(index)} />
-                    <div className="deleteImageContainer" onClick={(e) => handleImageDeletion(e, image)}>
+                    <div className="deleteImageContainer" onClick={(e) => deleteFunction(e, image)}>
                       <img className="deleteImageIcon" src={deleteIcon} />
                     </div>
                   </div>
@@ -239,6 +262,20 @@ function EditWorkshops() {
           </Form>
         </div>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Brisanje slike</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Sigurno želite obrisati sliku?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Ne
+          </Button>
+          <Button variant="primary" onClick={(e) => handleImageDeletion(e)}>
+            Da
+          </Button>
+        </Modal.Footer>
+      </Modal>
       {isViewerOpen && <ImageViewer src={images.map((image) => "http://localhost:5000/newuploads/radionice/" + name + "/" + image)} currentIndex={currentImage} disableScroll={false} closeOnClickOutside={true} onClose={closeImageViewer} />}
       <AdminLogout />
       <AdminGoBack />

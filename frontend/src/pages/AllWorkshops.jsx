@@ -271,17 +271,21 @@ function AllWorkshops() {
               </div>
             </div>
           </div>
-          <div className="allProjectsContainer" onClick={handleClick}>
+          <div className="allProjectsContainer">
             {years.length == 0 ? (
               <>
                 {currentRecords.map((item) => (
-                  <Workshop item={item} />
+                  <div className="projectClickableDiv" onClick={(e) => handleClick(e)}>
+                    <Workshop item={item} />
+                  </div>
                 ))}
               </>
             ) : (
               <>
                 {currentRecords.map((item) => (
-                  <Workshop item={item} />
+                  <div className="projectClickableDiv" onClick={(e) => handleClick(e)}>
+                    <Workshop item={item} />
+                  </div>
                 ))}
               </>
             )}

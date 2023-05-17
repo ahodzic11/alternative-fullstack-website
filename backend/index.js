@@ -76,6 +76,29 @@ app.patch("/upload/:tipobjave/:naslov", (req, res) => {
   res.sendStatus(200);
 });
 
+app.patch("/updatelocation", (req, res) => {
+  const type = req.body.type;
+  const naziv = req.body.naziv;
+  const oldNaziv = req.body.oldNaziv;
+
+  fs.rename(__dirname + "/newuploads/" + type + "/" + formatPath(oldNaziv), __dirname + "/newuploads/" + type + "/" + formatPath(naziv), (err) => {
+    if (err) {
+      return console.log(err);
+    }
+    const testFolder2 = "./../backend/newuploads/" + type + "/" + formatPath(naziv) + "/";
+    const slike = fs.readdirSync(testFolder2);
+    for (let i = 0; i < slike.length; i++) {
+      let brojSlike = slike[i].replace(formatPath(oldNaziv), "").replace(".jpg", "");
+      fs.rename(__dirname + "/newuploads/" + type + "/" + formatPath(naziv) + "/" + slike[i], __dirname + "/newuploads/" + type + "/" + formatPath(naziv) + "/" + formatPath(naziv) + brojSlike + ".jpg", (err) => {
+        if (err) {
+          return console.log(err);
+        }
+      });
+    }
+  });
+  res.json(200);
+});
+
 app.delete("/delete/:tipobjave/:naslov", (req, res) => {
   const naslov = formatPath(req.params.naslov);
   const tipObjave = req.params.tipobjave;

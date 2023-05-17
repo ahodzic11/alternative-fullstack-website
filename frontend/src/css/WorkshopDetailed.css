@@ -17,6 +17,7 @@
 .firstWrapper {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   row-gap: 40px;
   padding: 20px;
   background-color: #f16165;

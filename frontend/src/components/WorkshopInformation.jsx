@@ -66,18 +66,33 @@ function WorkshopInformation() {
           <div className="workshopInformationTrainer informationalText">
             <span>Trener/i: </span> {workshop.trener}
           </div>
-          <div className="workshopInformationParticipants informationalText">
-            <span>Učesnici: </span>
-            {workshop.ucesnici}
-          </div>
-          <div className="workshopInformationDonator informationalText">
-            <span>Donator: </span>
-            {workshop.nazivDonatora}
-          </div>
-          <div className="workshopInformationProject informationalText">
-            <span>Projekat: </span>
-            {workshop.nazivProjekta}
-          </div>
+          {workshop.ucesnici ? (
+            <div className="workshopInformationParticipants informationalText">
+              <span>Učesnici: </span>
+              {workshop.ucesnici}
+            </div>
+          ) : (
+            <></>
+          )}
+
+          {workshop.nazivDonatora ? (
+            <div className="workshopInformationDonator informationalText">
+              <span>Donator: </span>
+              {workshop.nazivDonatora}
+            </div>
+          ) : (
+            <></>
+          )}
+
+          {workshop.nazivProjekta ? (
+            <div className="workshopInformationProject informationalText">
+              <span>Projekat: </span>
+              {workshop.nazivProjekta}
+            </div>
+          ) : (
+            <></>
+          )}
+
           <div className="workshopImagesHeadline">
             <span>Slike:</span>{" "}
           </div>

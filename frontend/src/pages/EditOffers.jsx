@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
@@ -10,12 +10,40 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { englishFormatDate, formatDate, formatPath } from "../js/namechange";
+import deleteIcon from "./../assets/deleteIconWhite.png";
+import ImageViewer from "react-simple-image-viewer";
+import Modal from "react-bootstrap/Modal";
 import "./../css/ReadWorkshops.css";
 
 function EditOffers() {
-  const [offer, setOffer] = useState([]);
   let { name } = useParams();
+  const [offer, setOffer] = useState([]);
   const [validated, setValidated] = useState(false);
+  const [images, setImages] = useState([]);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [chosenImage, setChosenImage] = useState({});
+  const path = "http://localhost:5000/newUploads/ponude/" + name + "/";
+
+  const openImageViewer = useCallback((index) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
+
+  const getSlike = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/ponude/` + name);
+      setImages(response.data);
+    } catch (err) {}
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -68,8 +96,57 @@ function EditOffers() {
         setOffer(dummyWorkshop);
       } catch (err) {}
     };
+
+    getSlike();
     getOffer();
   }, []);
+
+  async function updateImage(updatedItem) {
+    try {
+      const res = await axios.patch(`http://localhost:5000/api/offers/updateImage`, updatedItem);
+      console.log(res);
+    } catch (err) {}
+  }
+
+  const handleImageDeletion = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.get(`http://localhost:5000/api/offers/selectedImage/` + offer.id);
+      if (chosenImage == res.data.data.naslovnaSlika) {
+        for (let i = 0; i < images.length; i++) {
+          if (images[i] != chosenImage) {
+            updateImage({
+              id: offer.id,
+              naslovnaSlika: images[i],
+            });
+            break;
+          }
+        }
+      }
+    } catch (err) {}
+    try {
+      const res = await axios.delete(`http://localhost:5000/delete/ponude/` + formatPath(offer.naziv) + "/" + chosenImage);
+    } catch (err) {}
+    getSlike();
+    setShow(false);
+  };
+
+  const handleImageAdding = async () => {
+    var uploadForm = document.getElementById("uploadForm");
+    var uploadFormData = new FormData(uploadForm);
+    try {
+      const response = await axios.patch(`http://localhost:5000/upload/ponude/` + offer.naziv, uploadFormData);
+    } catch (err) {
+      console.log(err);
+    }
+    getSlike();
+  };
+
+  function deleteFunction(e, item) {
+    e.preventDefault();
+    setChosenImage(item);
+    handleShow(item);
+  }
 
   return (
     <>
@@ -124,12 +201,6 @@ function EditOffers() {
                 </Form.Select>
               </Form.Group>
             </Row>
-            <Row className="mb-3">
-              <Form.Label className="itemTitleElement">Slike</Form.Label>
-              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
-                <input id="uploadedFiles" className="uploadImagesInput" type="file" name="image" multiple />
-              </form>
-            </Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis ponude</Form.Label>
               <Form.Control required name="opis" as="textarea" rows={2} defaultValue={offer.opis} />
@@ -142,12 +213,46 @@ function EditOffers() {
               <Form.Label className="itemTitleElement">Upute/napomene</Form.Label>
               <Form.Control required name="napomene" as="textarea" rows={4} defaultValue={offer.napomene} />
             </Form.Group>
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Dodaj još slika</Form.Label>
+              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
+                <input id="uploadedFiles" required className="uploadImagesInput" type="file" name="image" multiple onChange={handleImageAdding} />
+              </form>
+            </Row>
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Slike</Form.Label>
+              <div className="workshopSecondImages">
+                {images.map((image, index) => (
+                  <div className="customImageDeletionContainer">
+                    <img key={index} id={image} className="workshopInformationImageElement" src={path + image} alt="slikaSRadionice" onClick={() => openImageViewer(index)} />
+                    <div className="deleteImageContainer" onClick={(e) => deleteFunction(e, image)}>
+                      <img className="deleteImageIcon" src={deleteIcon} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Row>
             <div className="addStuffButton">
               <Button type="submit">Sačuvaj izmjene</Button>
             </div>
           </Form>
         </div>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Brisanje slike</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Sigurno želite obrisati sliku?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Ne
+          </Button>
+          <Button variant="primary" onClick={(e) => handleImageDeletion(e)}>
+            Da
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {isViewerOpen && <ImageViewer src={images.map((image) => "http://localhost:5000/newuploads/ponude/" + name + "/" + image)} currentIndex={currentImage} disableScroll={false} closeOnClickOutside={true} onClose={closeImageViewer} />}
       <AdminLogout />
       <AdminGoBack />
     </>

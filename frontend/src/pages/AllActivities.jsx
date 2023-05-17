@@ -167,23 +167,22 @@ function AllActivities() {
   };
 
   const displayResults = () => {
-    var resultNumber =
-      filteredActivities
-        .filter((item) => {
-          return item.nazivDonatora == selectedDonator || selectedDonator == "allDonators";
-        })
-        .filter((item) => {
-          return item.nazivProjekta == selectedProject || selectedProject == "allProjects";
-        })
-        .filter((item) => {
-          if (nazivFilter) return item.naziv.toUpperCase().includes(nazivFilter.toUpperCase());
-          else return 1;
-        }).length % 10;
+    var resultNumber = filteredActivities.length % 10;
     if (resultNumber == 0) return <>aktivnosti</>;
+    else if (filteredActivities.length % 100 == 11) return <>aktivnosti</>;
     else if (resultNumber == 1) return <>aktivnost</>;
     else return <>aktivnosti</>;
   };
 
+  /*
+  0 aktivnosti
+  1 aktivnost
+  2 aktivnosti
+  3 aktivnosti
+  4 aktivnosti
+  5 aktivnosti
+  6 aktivnosti
+  */
   return (
     <>
       <Navigation />

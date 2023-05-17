@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
@@ -9,12 +9,41 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import ImageViewer from "react-simple-image-viewer";
+import Modal from "react-bootstrap/Modal";
+import deleteIcon from "./../assets/deleteIconWhite.png";
 import "./../css/EditProjects.css";
+import { englishFormatDate, formatPath } from "../js/namechange";
 
 function EditProjects() {
   const [project, setProject] = useState([]);
   let { name } = useParams();
   const [validated, setValidated] = useState(false);
+  const [images, setImages] = useState([]);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [chosenImage, setChosenImage] = useState({});
+  const path = "http://localhost:5000/newUploads/projekti/" + name + "/";
+
+  const openImageViewer = useCallback((index) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
+
+  const getSlike = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/projekti/` + name);
+      setImages(response.data);
+    } catch (err) {}
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -43,7 +72,6 @@ function EditProjects() {
         cilj: formDataObj.cilj,
         opisProjekta: formDataObj.opisProjekta,
       };
-      console.log(updatedProject);
       const res = await axios.patch(`http://localhost:5000/api/projects/`, updatedProject);
     } catch (err) {}
   };
@@ -55,8 +83,57 @@ function EditProjects() {
         setProject(res.data.data);
       } catch (err) {}
     };
+
+    getSlike();
     getProject();
   }, []);
+
+  async function updateImage(updatedItem) {
+    try {
+      const res = await axios.patch(`http://localhost:5000/api/projects/updateImage`, updatedItem);
+      console.log(res);
+    } catch (err) {}
+  }
+
+  const handleImageDeletion = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.get(`http://localhost:5000/api/projects/selectedImage/` + project.id);
+      if (chosenImage == res.data.data.naslovnaSlika) {
+        for (let i = 0; i < images.length; i++) {
+          if (images[i] != chosenImage) {
+            updateImage({
+              id: project.id,
+              naslovnaSlika: images[i],
+            });
+            break;
+          }
+        }
+      }
+    } catch (err) {}
+    try {
+      const res = await axios.delete(`http://localhost:5000/delete/projekti/` + formatPath(project.naziv) + "/" + chosenImage);
+    } catch (err) {}
+    getSlike();
+    setShow(false);
+  };
+
+  const handleImageAdding = async () => {
+    var uploadForm = document.getElementById("uploadForm");
+    var uploadFormData = new FormData(uploadForm);
+    try {
+      const response = await axios.patch(`http://localhost:5000/upload/projekti/` + project.naziv, uploadFormData);
+    } catch (err) {
+      console.log(err);
+    }
+    getSlike();
+  };
+
+  function deleteFunction(e, item) {
+    e.preventDefault();
+    setChosenImage(item);
+    handleShow(item);
+  }
 
   return (
     <>
@@ -64,7 +141,7 @@ function EditProjects() {
       <div className="addWorkshopContainer">
         <div className="currentLocationHeadline">Izmjena projekta</div>
         <div className="addWorkshopForm">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form className="customFormContainer" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naziv projekta</Form.Label>
@@ -81,13 +158,13 @@ function EditProjects() {
               <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Početak implementacije</Form.Label>
-                  <Form.Control name="pocetakImplementacije" type="date" placeholder="datum" defaultValue={project.pocetakImplementacije} />
+                  {project.pocetakImplementacije ? <Form.Control name="pocetakImplementacije" type="date" placeholder="datum" defaultValue={englishFormatDate(project.pocetakImplementacije)} /> : <Form.Control name="pocetakImplementacije" type="date" placeholder="datum" />}
                 </Form.Group>
               </div>
               <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Kraj implementacije</Form.Label>
-                  <Form.Control name="krajImplementacije" type="date" placeholder="datum" defaultValue={project.krajImplementacije} />
+                  {project.krajImplementacije ? <Form.Control name="krajImplementacije" type="date" placeholder="datum" defaultValue={englishFormatDate(project.krajImplementacije)} /> : <Form.Control name="krajImplementacije" type="date" placeholder="datum" />}
                 </Form.Group>
               </div>
             </Row>
@@ -110,22 +187,58 @@ function EditProjects() {
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
             </Row>
-            <Form.Group as={Col} controlId="validationCustom01">
-              <Form.Label className="itemTitleElement">Cilj</Form.Label>
-              <Form.Control name="cilj" required type="text" placeholder="Cilj projekta" defaultValue={project.cilj} />
-              <Form.Control.Feedback>Okej!</Form.Control.Feedback>
-            </Form.Group>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="validationCustom01">
+                <Form.Label className="itemTitleElement">Cilj</Form.Label>
+                <Form.Control name="cilj" required type="text" placeholder="Cilj projekta" defaultValue={project.cilj} />
+                <Form.Control.Feedback>Okej!</Form.Control.Feedback>
+              </Form.Group>
+            </Row>
             <Row className="mb-3"></Row>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis projekta</Form.Label>
-              <Form.Control name="opisProjekta" as="textarea" rows={4} defaultValue={project.opisProjekta} />
+              <Form.Control name="opisProjekta" as="textarea" rows={12} defaultValue={project.opisProjekta} />
             </Form.Group>
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Dodaj još slika</Form.Label>
+              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
+                <input id="uploadedFiles" required className="uploadImagesInput" type="file" name="image" multiple onChange={handleImageAdding} />
+              </form>
+            </Row>
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Slike</Form.Label>
+              <div className="workshopSecondImages">
+                {images.map((image, index) => (
+                  <div className="customImageDeletionContainer">
+                    <img key={index} id={image} className="workshopInformationImageElement" src={path + image} alt="slikaSRadionice" onClick={() => openImageViewer(index)} />
+                    <div className="deleteImageContainer" onClick={(e) => deleteFunction(e, image)}>
+                      <img className="deleteImageIcon" src={deleteIcon} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Row>
             <div className="addStuffButton">
               <Button type="submit">Sačuvaj izmjene</Button>
             </div>
           </Form>
         </div>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Brisanje slike</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Sigurno želite obrisati sliku?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Ne
+          </Button>
+          <Button variant="primary" onClick={(e) => handleImageDeletion(e)}>
+            Da
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {isViewerOpen && <ImageViewer src={images.map((image) => "http://localhost:5000/newuploads/projekti/" + name + "/" + image)} currentIndex={currentImage} disableScroll={false} closeOnClickOutside={true} onClose={closeImageViewer} />}
       <AdminLogout />
       <AdminGoBack />
     </>

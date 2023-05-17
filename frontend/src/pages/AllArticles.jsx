@@ -338,7 +338,9 @@ function AllArticles() {
                             </a>
                           </div>
                         ) : (
-                          <></>
+                          <>
+                            <div></div>
+                          </>
                         )}
                       </div>
                     </div>

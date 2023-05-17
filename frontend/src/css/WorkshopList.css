@@ -40,6 +40,8 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 30px;
+  padding-left: 120px;
+  padding-right: 120px;
 }
 
 .allWorkshops {
