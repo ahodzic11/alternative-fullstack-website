@@ -84,15 +84,18 @@ function AddNewsPage() {
               </div>
             </Row>
             <Row className="mb-3">
+              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <Form.Label className="itemTitleElement">Tekst vijesti</Form.Label>
+                <Form.Control required name="tekstVijesti" as="textarea" rows={4} onChange={handleChange} />
+              </Form.Group>
+            </Row>
+            <Row className="mb-3">
               <Form.Label className="itemTitleElement">Slike</Form.Label>
               <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
                 <input id="uploadedFiles" className="uploadImagesInput" type="file" name="image" multiple />
               </form>
             </Row>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <Form.Label className="itemTitleElement">Tekst vijesti</Form.Label>
-              <Form.Control required name="tekstVijesti" as="textarea" rows={4} onChange={handleChange} />
-            </Form.Group>
+
             <div className="addStuffButton">
               <Button type="submit">Dodaj vijest</Button>
             </div>

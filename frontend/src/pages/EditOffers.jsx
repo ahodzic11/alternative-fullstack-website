@@ -22,6 +22,7 @@ function EditOffers() {
   const [images, setImages] = useState([]);
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [tipPonude, setTipPonude] = useState({});
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -66,10 +67,18 @@ function EditOffers() {
 
   const updateOffer = async (formDataObj) => {
     try {
-      var firstDate = formDataObj.pocetakPonude.split("-");
-      var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
-      var secondDate = formDataObj.krajPonude.split("-");
-      var secondCorrectDate = new Date(secondDate[0], secondDate[1] - 1, secondDate[2]);
+      let pocetakPonude = null,
+        krajPonude = null;
+      if (formDataObj.pocetakPonude) {
+        var firstDate = formDataObj.pocetakPonude.split("-");
+        pocetakPonude = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
+        pocetakPonude = formatDate(pocetakPonude);
+      }
+      if (formDataObj.krajPonude) {
+        var secondDate = formDataObj.krajPonude.split("-");
+        krajPonude = new Date(secondDate[0], secondDate[1] - 1, secondDate[2]);
+        krajPonude = formatDate(krajPonude);
+      }
       const updatedOffer = {
         id: offer.id,
         naziv: formDataObj.naziv,
@@ -77,8 +86,8 @@ function EditOffers() {
         opis: formDataObj.opis,
         sadrzajPonude: formDataObj.sadrzajPonude,
         trener: formDataObj.trener,
-        pocetakPonude: formatDate(firstCorrectDate),
-        krajPonude: formatDate(secondCorrectDate),
+        pocetakPonude: pocetakPonude,
+        krajPonude: krajPonude,
         cijena: formDataObj.cijena,
         uzrast: formDataObj.uzrast,
         napomene: formDataObj.napomene,
@@ -86,6 +95,18 @@ function EditOffers() {
       };
       const res = await axios.patch(`http://localhost:5000/api/offers/`, updatedOffer);
     } catch (err) {}
+    if (formDataObj.naziv != offer.naziv) {
+      try {
+        const res = await axios.patch(`http://localhost:5000/updatelocation/`, { type: "ponude", oldNaziv: offer.naziv, naziv: formDataObj.naziv });
+      } catch (err) {}
+      try {
+        const updatedItem = {
+          id: offer.id,
+          naslovnaSlika: formatPath(formDataObj.naziv) + offer.naslovnaSlika.replace(offer.formatiranNaziv, "").replace(".jpg", "") + ".jpg",
+        };
+        const res = await axios.patch(`http://localhost:5000/api/offers/updateImage`, updatedItem);
+      } catch (err) {}
+    }
   };
 
   useEffect(() => {
@@ -93,6 +114,7 @@ function EditOffers() {
       try {
         const res = await axios.get(`http://localhost:5000/api/offers/` + name);
         const dummyWorkshop = res.data.data;
+        setTipPonude(dummyWorkshop.tipPonude);
         setOffer(dummyWorkshop);
       } catch (err) {}
     };
@@ -194,7 +216,7 @@ function EditOffers() {
               </Form.Group>
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Tip ponude</Form.Label>
-                <Form.Select required name="tipPonude" aria-label="Default select example" value={offer.tipPonude}>
+                <Form.Select required name="tipPonude" aria-label="Default select example" value={tipPonude} onChange={(e) => setTipPonude(e.target.value)}>
                   <option>Tip ponude</option>
                   <option value="Jednodnevna">Jednodnevna</option>
                   <option value="Višednevna">Višednevna</option>

@@ -5,11 +5,11 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { useState } from "react";
 import { addOffer } from "../redux/apiCalls";
+import { formatDate, formatPath } from "../js/namechange";
 import AdminNavigation from "../components/AdminNavigation";
 import AdminLogout from "../components/AdminLogout";
 import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
-import { formatDate, formatPath } from "../js/namechange";
 import "./../css/AddWorkshopPage.css";
 
 function AddOfferPage() {
@@ -45,19 +45,28 @@ function AddOfferPage() {
     try {
       const response = await axios.post(`http://localhost:5000/upload/ponude/` + inputs.naziv, uploadFormData);
     } catch (err) {}
-    var firstDate = inputs.pocetakPonude.split("-");
-    var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
-    var secondDate = inputs.krajPonude.split("-");
-    var secondCorrectDate = new Date(secondDate[0], secondDate[1] - 1, secondDate[2]);
-
+    let pocetakPonude = null,
+      krajPonude = null;
+    if (inputs.pocetakPonude) {
+      var firstDate = inputs.pocetakPonude.split("-");
+      pocetakPonude = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
+      pocetakPonude = formatDate(pocetakPonude);
+    }
+    if (inputs.krajPonude) {
+      var secondDate = inputs.krajPonude.split("-");
+      krajPonude = new Date(secondDate[0], secondDate[1] - 1, secondDate[2]);
+      krajPonude = formatDate(krajPonude);
+    }
+    console.log(pocetakPonude);
+    console.log(krajPonude);
     addOffer({
       naziv: inputs.naziv,
       formatiranNaziv: formatPath(inputs.naziv),
       opis: inputs.opis,
       sadrzajPonude: inputs.sadrzajPonude,
       trener: inputs.trener,
-      pocetakPonude: formatDate(firstCorrectDate),
-      krajPonude: formatDate(secondCorrectDate),
+      pocetakPonude: pocetakPonude,
+      krajPonude: krajPonude,
       cijena: inputs.cijena,
       uzrast: inputs.uzrast,
       napomene: inputs.napomene,
@@ -120,12 +129,7 @@ function AddOfferPage() {
                 </Form.Select>
               </Form.Group>
             </Row>
-            <Row className="mb-3">
-              <Form.Label className="itemTitleElement">Slike</Form.Label>
-              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
-                <input id="uploadedFiles" className="uploadImagesInput" type="file" name="image" multiple />
-              </form>
-            </Row>
+
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label className="itemTitleElement">Opis ponude</Form.Label>
               <Form.Control required name="opis" as="textarea" rows={2} onChange={handleChange} />
@@ -138,6 +142,12 @@ function AddOfferPage() {
               <Form.Label className="itemTitleElement">Upute/napomene</Form.Label>
               <Form.Control required name="napomene" as="textarea" rows={4} onChange={handleChange} />
             </Form.Group>
+            <Row className="mb-3">
+              <Form.Label className="itemTitleElement">Slike</Form.Label>
+              <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
+                <input id="uploadedFiles" className="uploadImagesInput" type="file" name="image" multiple />
+              </form>
+            </Row>
             <div className="addStuffButton">
               <Button type="submit">Dodaj ponudu</Button>
             </div>

@@ -23,6 +23,7 @@ function AddArticlePage() {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
     if (inputs.tipMedija == null) {
       alert("Morate odabrati tip medija!");
@@ -66,7 +67,7 @@ function AddArticlePage() {
       <div className="addWorkshopContainer">
         <div className="currentLocationHeadline">Dodavanje članka</div>
         <div className="addWorkshopForm">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form className="customFormContainer" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naziv</Form.Label>
@@ -84,6 +85,8 @@ function AddArticlePage() {
                 <Form.Control name="link" type="text" placeholder="Link" onChange={handleChange} />
                 <Form.Control.Feedback>Okej!</Form.Control.Feedback>
               </Form.Group>
+            </Row>
+            <Row className="mb-3">
               <div className="col">
                 <Form.Group controlId="dob">
                   <Form.Label className="itemTitleElement">Datum</Form.Label>
@@ -102,15 +105,17 @@ function AddArticlePage() {
               </Form.Group>
             </Row>
             <Row className="mb-3">
+              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <Form.Label className="itemTitleElement">Tekst</Form.Label>
+                <Form.Control required name="tekst" as="textarea" rows={4} onChange={handleChange} />
+              </Form.Group>
+            </Row>
+            <Row className="mb-3">
               <Form.Label className="itemTitleElement">Slike</Form.Label>
               <form id="uploadForm" className="imageUploadForm" enctype="multipart/form-data">
                 <input id="uploadedFiles" className="uploadImagesInput" type="file" name="image" multiple />
               </form>
             </Row>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <Form.Label className="itemTitleElement">Tekst</Form.Label>
-              <Form.Control required name="tekst" as="textarea" rows={4} onChange={handleChange} />
-            </Form.Group>
             <div className="addStuffButton">
               <Button type="submit">Dodaj članak</Button>
             </div>

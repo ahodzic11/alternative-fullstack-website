@@ -57,7 +57,7 @@ function ChooseImage() {
         } else if (type == "donator") {
           res = await axios.get(`http://localhost:5000/api/donators/` + name);
         } else if (type == "ponuda") {
-          res = await axios.get(`http://localhost:5000/api/ponude/` + name);
+          res = await axios.get(`http://localhost:5000/api/offers/` + name);
         } else if (type == "clanak") {
           res = await axios.get(`http://localhost:5000/api/articles/` + name);
         }
@@ -98,7 +98,7 @@ function ChooseImage() {
       else if (type == "activity") res = await axios.patch(`http://localhost:5000/api/activities/updateImage`, updatedItem);
       else if (type == "news") res = await axios.patch(`http://localhost:5000/api/news/updateImage`, updatedItem);
       else if (type == "donator") res = await axios.patch(`http://localhost:5000/api/donators/updateImage`, updatedItem);
-      else if (type == "ponuda") res = await axios.patch(`http://localhost:5000/api/ponude/updateImage`, updatedItem);
+      else if (type == "ponuda") res = await axios.patch(`http://localhost:5000/api/offers/updateImage`, updatedItem);
       else if (type == "clanak") res = await axios.patch(`http://localhost:5000/api/articles/updateImage`, updatedItem);
     } catch (err) {}
   };

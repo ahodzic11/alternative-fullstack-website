@@ -111,7 +111,7 @@ function AddDonatorPage() {
                 {Array(donatorRangePeriods)
                   .fill(null)
                   .map((period) => (
-                    <Row>
+                    <Row className="mb-3">
                       <Form.Group as={Col} controlId="validationCustom01">
                         <Form.Label className="itemTitleElement">Početak podrške</Form.Label>
                         <Form.Control className="pocetakPodrske" name="pocetakPodrske" required type="text" placeholder="npr. 2016" onChange={handleChange} />

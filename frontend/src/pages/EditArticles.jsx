@@ -26,6 +26,7 @@ function EditArticles() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [chosenImage, setChosenImage] = useState({});
+  const [tipMedija, setTipMedija] = useState({});
   const path = "http://localhost:5000/newUploads/clanci/" + name + "/";
 
   const openImageViewer = useCallback((index) => {
@@ -54,17 +55,6 @@ function EditArticles() {
       event.preventDefault();
       event.stopPropagation();
     }
-    /*var datum = "24.01.2023";
-    var date = datum.split(".");
-    console.log(date[0]);
-    console.log(date[1]);
-    console.log(date[2]);
-    var fullDate = new Date(date[2], date[1] - 1, date[0]);
-    console.log(fullDate);
-    let year = fullDate.getFullYear();
-    //console.log(fullDate);
-    return;
-    */
     setValidated(true);
     updateArticle(formDataObj);
   };
@@ -80,10 +70,23 @@ function EditArticles() {
         nazivMedija: formDataObj.nazivMedija,
         tipMedija: formDataObj.tipMedija,
         tekst: formDataObj.tekst,
+        link: formDataObj.link,
         datum: formatDate(firstCorrectDate),
       };
       const res = await axios.patch(`http://localhost:5000/api/articles/`, updatedArticle);
     } catch (err) {}
+    if (formDataObj.naziv != article.naziv) {
+      try {
+        const res = await axios.patch(`http://localhost:5000/updatelocation/`, { type: "clanci", oldNaziv: article.naziv, naziv: formDataObj.naziv });
+      } catch (err) {}
+      try {
+        const updatedItem = {
+          id: article.id,
+          naslovnaSlika: formatPath(formDataObj.naziv) + article.naslovnaSlika.replace(article.formatiranNaziv, "").replace(".jpg", "") + ".jpg",
+        };
+        const res = await axios.patch(`http://localhost:5000/api/articles/updateImage`, updatedItem);
+      } catch (err) {}
+    }
   };
 
   useEffect(() => {
@@ -91,6 +94,7 @@ function EditArticles() {
       try {
         const res = await axios.get(`http://localhost:5000/api/articles/` + name);
         setArticle(res.data.data);
+        setTipMedija(res.data.data.tipMedija);
       } catch (err) {}
     };
 
@@ -151,7 +155,7 @@ function EditArticles() {
       <div className="addWorkshopContainer">
         <div className="currentLocationHeadline">Izmjena članka</div>
         <div className="addWorkshopForm">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form className="customFormContainer" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Naziv</Form.Label>
@@ -179,7 +183,7 @@ function EditArticles() {
               </div>
               <Form.Group as={Col} controlId="validationCustom01">
                 <Form.Label className="itemTitleElement">Tip medija</Form.Label>
-                <Form.Select name="tipMedija" aria-label="Default select example" value={article.tipMedija}>
+                <Form.Select name="tipMedija" aria-label="Default select example" value={tipMedija} onChange={(e) => setTipMedija(e.target.value)}>
                   <option>Tip medija</option>
                   <option value="Web portal">Web portal</option>
                   <option value="Društvene mreže">Društvene mreže</option>
