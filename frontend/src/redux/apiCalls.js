@@ -62,6 +62,30 @@ export const addDonator = async (donator) => {
   }
 };
 
+export const addReservation = async (reservation) => {
+  try {
+    const res = await publicRequest.post(`/reservations`, reservation);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addQuestion = async (question) => {
+  try {
+    const res = await publicRequest.post(`/questions`, question);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addApplication = async (application) => {
+  try {
+    const res = await publicRequest.post(`/applications`, application);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getWorkshops = async () => {
   try {
     const res = await publicRequest.get(`/workshops`);

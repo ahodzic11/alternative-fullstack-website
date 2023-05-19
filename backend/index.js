@@ -11,6 +11,9 @@ const projectsRouter = require("./api/projects/projectRouter");
 const donatorsRouter = require("./api/donators/donatorsRouter");
 const offersRouter = require("./api/offers/offerRouter");
 const articleRouter = require("./api/articles/articleRouter");
+const reservationRouter = require("./api/reservations/reservationRouter");
+const questionRouter = require("./api/questions/questionRouter");
+const applicationRouter = require("./api/applications/applicationRouter");
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
 const path = require("path");
@@ -26,6 +29,9 @@ app.use("/api/projects", projectsRouter);
 app.use("/api/donators", donatorsRouter);
 app.use("/api/offers", offersRouter);
 app.use("/api/articles", articleRouter);
+app.use("/api/reservations", reservationRouter);
+app.use("/api/questions", questionRouter);
+app.use("/api/applications", applicationRouter);
 
 function formatPath(str) {
   var newString = str.toLowerCase();

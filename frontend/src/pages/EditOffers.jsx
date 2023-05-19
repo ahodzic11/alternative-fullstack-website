@@ -23,6 +23,7 @@ function EditOffers() {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [tipPonude, setTipPonude] = useState({});
+  const [tipPrijave, setTipPrijave] = useState({});
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -91,7 +92,8 @@ function EditOffers() {
         cijena: formDataObj.cijena,
         uzrast: formDataObj.uzrast,
         napomene: formDataObj.napomene,
-        tipPonude: formDataObj.tipPonude,
+        tipPonude: tipPonude,
+        tipPrijave: tipPrijave,
       };
       const res = await axios.patch(`http://localhost:5000/api/offers/`, updatedOffer);
     } catch (err) {}
@@ -115,6 +117,7 @@ function EditOffers() {
         const res = await axios.get(`http://localhost:5000/api/offers/` + name);
         const dummyWorkshop = res.data.data;
         setTipPonude(dummyWorkshop.tipPonude);
+        setTipPrijave(dummyWorkshop.tipPrijave);
         setOffer(dummyWorkshop);
       } catch (err) {}
     };
@@ -220,6 +223,14 @@ function EditOffers() {
                   <option>Tip ponude</option>
                   <option value="Jednodnevna">Jednodnevna</option>
                   <option value="Višednevna">Višednevna</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group as={Col} controlId="validationCustom01">
+                <Form.Label className="itemTitleElement">Tip prijave</Form.Label>
+                <Form.Select required name="tipPrijave" aria-label="Default select example" value={tipPrijave} onChange={(e) => setTipPrijave(e.target.value)}>
+                  <option>Tip prijave</option>
+                  <option value="Rezervacija">Rezervacija</option>
+                  <option value="Prijava">Prijava</option>
                 </Form.Select>
               </Form.Group>
             </Row>

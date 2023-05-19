@@ -1,10 +1,13 @@
 .offerMainTitle {
+  padding-left: 100px;
   font-family: "Fjalla One", sans-serif;
   font-weight: 500;
   font-size: 45px;
   color: black;
   width: 100%;
   letter-spacing: 3px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .offerContainer {
@@ -44,7 +47,6 @@
 }
 
 .offerContainerText {
-  padding: 20px;
   color: black;
   display: flex;
   flex-direction: column;

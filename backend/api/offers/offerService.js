@@ -3,9 +3,9 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callBack) => {
     pool.query(
-      `INSERT INTO offers(naziv, formatiranNaziv, opis, sadrzajPonude, trener, pocetakPonude, krajPonude, cijena, uzrast, napomene, tipPonude, naslovnaSlika) 
-        values(?,?,?,?,?,?,?,?,?,?,?,?)`,
-      [data.naziv, data.formatiranNaziv, data.opis, data.sadrzajPonude, data.trener, data.pocetakPonude, data.krajPonude, data.cijena, data.uzrast, data.napomene, data.tipPonude, data.naslovnaSlika],
+      `INSERT INTO offers(naziv, formatiranNaziv, opis, sadrzajPonude, trener, pocetakPonude, krajPonude, cijena, uzrast, napomene, tipPonude, tipPrijade, naslovnaSlika) 
+        values(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      [data.naziv, data.formatiranNaziv, data.opis, data.sadrzajPonude, data.trener, data.pocetakPonude, data.krajPonude, data.cijena, data.uzrast, data.napomene, data.tipPonude, data.tipPrijave, data.naslovnaSlika],
       (error, results, fields) => {
         if (error) {
           return callBack(error);
@@ -34,12 +34,16 @@ module.exports = {
   },
 
   updateOffer: (data, callBack) => {
-    pool.query(`UPDATE offers SET naziv=?, formatiranNaziv=?, opis=?, sadrzajPonude=?, trener=?, pocetakPonude=?, krajPonude=?, cijena=?, uzrast=?, napomene=?, tipPonude=? WHERE id=?`, [data.naziv, data.formatiranNaziv, data.opis, data.sadrzajPonude, data.trener, data.pocetakPonude, data.krajPonude, data.cijena, data.uzrast, data.napomene, data.tipPonude, data.id], (error, results, fields) => {
-      if (error) {
-        callBack(error);
+    pool.query(
+      `UPDATE offers SET naziv=?, formatiranNaziv=?, opis=?, sadrzajPonude=?, trener=?, pocetakPonude=?, krajPonude=?, cijena=?, uzrast=?, napomene=?, tipPonude=?, tipPrijave=? WHERE id=?`,
+      [data.naziv, data.formatiranNaziv, data.opis, data.sadrzajPonude, data.trener, data.pocetakPonude, data.krajPonude, data.cijena, data.uzrast, data.napomene, data.tipPonude, data.tipPrijave, data.id],
+      (error, results, fields) => {
+        if (error) {
+          callBack(error);
+        }
+        return callBack(null, results[0]);
       }
-      return callBack(null, results[0]);
-    });
+    );
   },
 
   updateNaslovnuSliku: (data, callBack) => {

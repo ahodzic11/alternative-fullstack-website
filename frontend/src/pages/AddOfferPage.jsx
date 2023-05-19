@@ -71,6 +71,7 @@ function AddOfferPage() {
       uzrast: inputs.uzrast,
       napomene: inputs.napomene,
       tipPonude: inputs.tipPonude,
+      tipPrijave: inputs.tipPrijave,
       naslovnaSlika: formatPath(inputs.naziv) + "0.jpg",
     });
     alert("Ponuda uspješno dodana!");
@@ -126,6 +127,14 @@ function AddOfferPage() {
                   <option>Tip ponude</option>
                   <option value="Jednodnevna">Jednodnevna</option>
                   <option value="Višednevna">Višednevna</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group as={Col} controlId="validationCustom01">
+                <Form.Label className="itemTitleElement">Tip prijave</Form.Label>
+                <Form.Select required name="tipPrijave" aria-label="Default select example" onClick={handleChange}>
+                  <option>Tip prijave</option>
+                  <option value="Rezervacija">Rezervacija</option>
+                  <option value="Prijava">Prijava</option>
                 </Form.Select>
               </Form.Group>
             </Row>
