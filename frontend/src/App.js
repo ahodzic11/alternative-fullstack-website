@@ -49,6 +49,11 @@ import ReadArticles from "./pages/ReadArticles";
 import EditArticles from "./pages/EditArticles";
 import AllArticles from "./pages/AllArticles";
 import "./App.css";
+import ReadApplications from "./pages/ReadApplications";
+import ReadReservations from "./pages/ReadReservations";
+import ReadQuestions from "./pages/ReadQuestions";
+import Galerija from "./pages/Galerija";
+import EditGallery from "./pages/EditGallery";
 
 function App() {
   return (
@@ -81,6 +86,9 @@ function App() {
           <Route path="/readdonators" element={<ReadDonators />} />
           <Route path="/readoffers" element={<ReadOffers />} />
           <Route path="/readarticles" element={<ReadArticles />} />
+          <Route path="/readapplications" element={<ReadApplications />} />
+          <Route path="/readreservations" element={<ReadReservations />} />
+          <Route path="/readquestions" element={<ReadQuestions />} />
           <Route path="/editworkshop/:name" element={<EditWorkshops />} />
           <Route path="/editproject/:name" element={<EditProjects />} />
           <Route path="/editactivity/:name" element={<EditActivities />} />
@@ -88,6 +96,7 @@ function App() {
           <Route path="/editdonator/:name" element={<EditDonators />} />
           <Route path="/editoffer/:name" element={<EditOffers />} />
           <Route path="/editarticle/:name" element={<EditArticles />} />
+          <Route path="/editgallery" element={<EditGallery />} />
           <Route path="/workshops/:area" element={<WorkshopList />} />
           <Route path="/workshops/details/:name" element={<WorkshopDetailed />} />
           <Route path="/projects/details/:name" element={<ProjectDetailed />} />
@@ -104,6 +113,7 @@ function App() {
           <Route path="/historijat" element={<Historijat />} />
           <Route path="/izjave" element={<Statements />} />
           <Route path="/clanci" element={<AllArticles />} />
+          <Route path="/galerija" element={<Galerija />} />
         </Routes>
       </BrowserRouter>
     </>

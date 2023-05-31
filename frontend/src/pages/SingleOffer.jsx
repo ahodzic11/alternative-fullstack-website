@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,7 @@ import Footer from "../components/Footer";
 import GoToTop from "../components/GoToTop";
 import Row from "react-bootstrap/Row";
 import { addReservation, addQuestion, addApplication } from "../redux/apiCalls";
+import ImageViewer from "react-simple-image-viewer";
 import "./../css/SingleOffer.css";
 
 function SingleOffer() {
@@ -16,9 +17,21 @@ function SingleOffer() {
   const [offer, setOffer] = useState([]);
   const [inputs, setInputs] = useState({});
   const [images, setImages] = useState([]);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState({});
   const [tipKontakta, setTipKontakta] = useState("E-mail");
   const path = "http://localhost:5000/newuploads/ponude/" + name + "/";
+
+  const openImageViewer = useCallback((index) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -44,23 +57,31 @@ function SingleOffer() {
     };
     getOffer();
     getSlike();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const rezervisiTermin = async () => {
-    if (!inputs.imeIPrezime || inputs.imeIPrezime == "") {
+    if (document.getElementById("terminImePrezime").value == "") {
       alert("Morate unijeti ime i prezime!");
     }
-    if (!inputs.datum || inputs.datum == "dd/mm/yyyy") {
+    if (document.getElementById("terminDatum").value == "dd/mm/yyyy") {
       alert("Morate unijeti datum!");
     }
-    var firstDate = inputs.datum.split("-");
+    var firstDate = document.getElementById("terminDatum").value.split("-");
     var firstCorrectDate = new Date(firstDate[0], firstDate[1] - 1, firstDate[2]);
+    console.log({
+      nazivPonude: offer.naziv,
+      imePrezime: document.getElementById("terminImePrezime").value,
+      datum: formatDate(firstCorrectDate),
+      vrijeme: document.getElementById("terminVrijeme").value,
+      telefon: document.getElementById("terminTelefon").value,
+    });
     addReservation({
       nazivPonude: offer.naziv,
-      imePrezime: inputs.imePrezime,
+      imePrezime: document.getElementById("terminImePrezime").value,
       datum: formatDate(firstCorrectDate),
-      vrijeme: document.getElementById("timeInput").value,
-      telefon: inputs.telefon,
+      vrijeme: document.getElementById("terminVrijeme").value,
+      telefon: document.getElementById("terminTelefon").value,
     });
     alert("Rezervisali ste termin!");
   };
@@ -148,6 +169,11 @@ function SingleOffer() {
               {offer.uzrast}
             </div>
           </div>
+          <div className="workshopImages offersImageContainer">
+            {images.map((image, index) => (
+              <img key={index} id={image} className="workshopInformationImageElement" src={path + image} alt="slikaSRadionice" onClick={() => openImageViewer(index)} />
+            ))}
+          </div>
         </div>
         <div className="offerContainerSecondColumn">
           {offer.tipPrijave == "Rezervacija" ? (
@@ -163,25 +189,25 @@ function SingleOffer() {
                   <Row className="mb-3">
                     <Form.Group controlId="validationCustom03">
                       <Form.Label className="itemTitleElement">Ime i prezime</Form.Label>
-                      <Form.Control name="imePrezime" required type="text" onChange={handleChange} />
+                      <Form.Control id="terminImePrezime" name="imePrezime" required type="text" onChange={handleChange} />
                     </Form.Group>
                   </Row>
                   <Row className="mb-3">
                     <Form.Group controlId="validationCustom03">
                       <Form.Label className="itemTitleElement">Datum</Form.Label>
-                      <Form.Control name="datum" required type="date" placeholder="datum" defaultValue="2023/04/28" onChange={handleChange} />
+                      <Form.Control id="terminDatum" name="datum" required type="date" placeholder="datum" defaultValue="2023/04/28" onChange={handleChange} />
                     </Form.Group>
                   </Row>
-                  <Row className="mb-3">
-                    <Form.Group controlId="validationCustom03">
+                  <Row className="mb-3 ">
+                    <Form.Group className="timeInputContainer" controlId="validationCustom03">
                       <Form.Label className="itemTitleElement">Vrijeme</Form.Label>
-                      <input id="timeInput" type="time" defaultValue="19:00" name="appt" min="09:00" max="18:00" required onChange={handleChange}></input>
+                      <input id="terminVrijeme" type="time" defaultValue="19:00" name="appt" required onChange={handleChange}></input>
                     </Form.Group>
                   </Row>
                   <Row className="mb-3">
                     <Form.Group controlId="validationCustom03">
                       <Form.Label className="itemTitleElement">Kontakt telefon</Form.Label>
-                      <Form.Control name="telefon" required type="text" onChange={handleChange} />
+                      <Form.Control id="terminTelefon" name="telefon" required type="text" onChange={handleChange} />
                     </Form.Group>
                   </Row>
                 </Form>
@@ -194,9 +220,9 @@ function SingleOffer() {
             <div className="bookingContainer">
               <div className="bookingTitle">
                 <div className="bookingIcon">
-                  <img className="bookingImage" src="http://localhost:5000/newuploads/ikone/booking.png" alt="bookingLogo" />
+                  <img className="applyImage" src="http://localhost:5000/newuploads/ikone/applyIcon.png" alt="bookingLogo" />
                 </div>
-                <div className="bookingMainTitle">Pošalji prijavu</div>
+                <div className="bookingMainTitle applicationTitle">Pošalji prijavu</div>
               </div>
               <div className="bookingFormular">
                 <Form className="customFormContainer">
@@ -225,7 +251,7 @@ function SingleOffer() {
               <div className="bookingIcon">
                 <img className="bookingImage" src="http://localhost:5000/newuploads/ikone/envelope.png" alt="bookingLogo" />
               </div>
-              <div className="bookingMainTitle">Pošalji upit za rezervaciju</div>
+              <div className="bookingMainTitle">Pošalji upit za {offer.tipPrijave == "Prijava" ? <>prijavu</> : <>rezervaciju</>} </div>
             </div>
             <div className="bookingFormular">
               <Form className="customFormContainer">
@@ -271,6 +297,7 @@ function SingleOffer() {
           </div>
         </div>
       </div>
+      {isViewerOpen && <ImageViewer src={images.map((image) => "http://localhost:5000/newuploads/ponude/" + name + "/" + image)} currentIndex={currentImage} disableScroll={false} closeOnClickOutside={true} onClose={closeImageViewer} />}
       <Footer />
     </>
   );

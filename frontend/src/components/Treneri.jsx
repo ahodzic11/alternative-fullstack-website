@@ -1,31 +1,44 @@
 import React from "react";
 import Navigation from "./Navigation";
 import Footer from "./Footer";
-import "./../css/OurTeam.css";
+import "./../css/Treneri.css";
 
 function Treneri() {
   return (
     <>
       <Navigation />
       <div className="outterContainer">
-        <div class="responsive-container-block container">
-          <p class="text-blk team-head-text">Treneri</p>
-          <div class="responsive-container-block">
-            <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
-              <div class="card">
-                <div class="team-image-wrapper">
-                  <img class="team-member-image" src={"http://localhost:5000/newuploads/ponude/"} />
+        <div className="heading text-center">
+          <h2>TRENERI</h2>
+        </div>
+        <div className="trainersContainer">
+          <div className="solidBlockContainer"></div>
+          <div className="personelContainer">
+            <div className="trainerItem">
+              <div className="trainerImage">
+                <img className="trainerImageItem" src="https://assets.nicepagecdn.com/d2cc3eaa/2713395/images/5man1.jpg" />
+              </div>
+              <div className="trainerInformation">
+                <div className="trainerName">Jeffrey Brown</div>
+                <div className="trainerPosition">creative leader</div>
+                <div className="trainerDescription">Sample text. Click to select the text box. Click again or double click to start editing the text.</div>
+                <div className="trainerIcons">
+                  <img className="trainerIcon" src="http://localhost:5000/newuploads/ikone/cv.png" />
+                  <img className="trainerIcon" src="http://localhost:5000/newuploads/ikone/email.png" />
                 </div>
-                <p class="text-blk name">Dalibor Lovrić</p>
-                <p class="text-blk position">Predsjednik Skupštine</p>
-                <p class="text-blk feature-text">Aktivan od 1999.</p>
-                <div class="social-icons">
-                  <a href="https://www.twitter.com" target="_blank">
-                    <img class="twitter-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon.svg" />
-                  </a>
-                  <a href="https://www.facebook.com" target="_blank">
-                    <img class="facebook-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon-1.svg" />
-                  </a>
+              </div>
+            </div>
+            <div className="trainerItem">
+              <div className="trainerImage">
+                <img className="trainerImageItem" src="https://assets.nicepagecdn.com/d2cc3eaa/2713395/images/5man1.jpg" />
+              </div>
+              <div className="trainerInformation">
+                <div className="trainerName">Jeffrey Brown</div>
+                <div className="trainerPosition">creative leader</div>
+                <div className="trainerDescription">Sample text. Click to select the text box. Click again or double click to start editing the text.</div>
+                <div className="trainerIcons">
+                  <img className="trainerIcon" src="http://localhost:5000/newuploads/ikone/cv.png" />
+                  <img className="trainerIcon" src="http://localhost:5000/newuploads/ikone/email.png" />
                 </div>
               </div>
             </div>
@@ -36,6 +49,5 @@ function Treneri() {
     </>
   );
 }
-/**/
 
 export default Treneri;

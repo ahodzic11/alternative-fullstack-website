@@ -1,0 +1,79 @@
+.outterContainer {
+  background-color: #f1f3f4;
+}
+
+.trainersContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.solidBlockContainer {
+  position: absolute;
+  width: 100%;
+  height: 200px;
+  background-color: rgb(255, 25, 25);
+}
+
+.personelContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  z-index: 99;
+}
+
+.trainerItem {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  column-gap: 35px;
+  padding: 20px;
+}
+
+.trainerImageItem {
+  border-radius: 50%;
+  border: 3px solid rgb(163, 2, 2);
+  object-fit: cover;
+  height: 250px;
+  width: 250px;
+}
+
+.trainerInformation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.trainerName {
+  font-family: "Oswald", sans-serif;
+  font-size: 30px;
+}
+
+.trainerDescription {
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.trainerPosition {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 20px;
+  color: rgb(255, 95, 95);
+}
+
+.trainerIcon {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  filter: brightness(100%);
+}
+
+.trainerIcons {
+  display: flex;
+  flex-direction: row;
+  column-gap: 15px;
+}

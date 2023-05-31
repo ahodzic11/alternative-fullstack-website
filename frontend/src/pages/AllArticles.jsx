@@ -224,6 +224,10 @@ function AllArticles() {
     trenerInput.value = "";
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
+
   return (
     <>
       <Navigation />
@@ -317,31 +321,33 @@ function AllArticles() {
             ) : (
               <>
                 {currentRecords.map((article) => (
-                  <div className="articleItem">
-                    <div className="articleTopBar">
-                      <div className="articleTopBarTextContainer">
-                        {article.datum} | {article.nazivMedija}
+                  <div className="articleItemWithPadding">
+                    <div className="articleItem">
+                      <div className="articleTopBar">
+                        <div className="articleTopBarTextContainer">
+                          {article.datum} | {article.nazivMedija}
+                        </div>
                       </div>
-                    </div>
-                    <div className="articleImageTextContainer">
-                      <div className="articleImage">
-                        <img className="articleImageElement" src={path + formatPath(article.naziv) + "/" + article.naslovnaSlika} alt="Article element" />
-                      </div>
-                      <div className="articleTextContainer">
-                        <div className="articleMainTitle">{article.naziv}</div>
-                        <div className="articleText">{ellipsify(article.tekst)}</div>
-                        {article.link ? (
-                          <div className="readMoreArticle">
-                            Pročitaj više na:
-                            <a className="readMoreLink" href={article.link}>
-                              {article.link}
-                            </a>
-                          </div>
-                        ) : (
-                          <>
-                            <div></div>
-                          </>
-                        )}
+                      <div className="articleImageTextContainer">
+                        <div className="articleImage">
+                          <img className="articleImageElement" src={path + formatPath(article.naziv) + "/" + article.naslovnaSlika} alt="Article element" />
+                        </div>
+                        <div className="articleTextContainer">
+                          <div className="articleMainTitle">{article.naziv}</div>
+                          <div className="articleText">{ellipsify(article.tekst)}</div>
+                          {article.link ? (
+                            <div className="readMoreArticle">
+                              Pročitaj više na:
+                              <a className="readMoreLink" href={article.link}>
+                                {article.link}
+                              </a>
+                            </div>
+                          ) : (
+                            <>
+                              <div></div>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>

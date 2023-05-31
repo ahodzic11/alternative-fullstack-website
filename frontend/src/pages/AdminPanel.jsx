@@ -77,6 +77,26 @@ function AdminPanel() {
     navigate("/readarticles");
   };
 
+  const readApplications = (e) => {
+    e.preventDefault();
+    navigate("/readapplications");
+  };
+
+  const readReservations = (e) => {
+    e.preventDefault();
+    navigate("/readreservations");
+  };
+
+  const readQuestions = (e) => {
+    e.preventDefault();
+    navigate("/readquestions");
+  };
+
+  const editGallery = (e) => {
+    e.preventDefault();
+    navigate("/editgallery");
+  };
+
   return (
     <>
       <AdminNavigation />
@@ -123,6 +143,18 @@ function AdminPanel() {
           </div>
           <div className="viewActivitiesContainer addingItem" onClick={readArticles}>
             POGLEDAJ ČLANKE
+          </div>
+          <div className="viewActivitiesContainer addingItem" onClick={readApplications}>
+            POGLEDAJ PRIJAVE
+          </div>
+          <div className="viewActivitiesContainer addingItem" onClick={readReservations}>
+            POGLEDAJ REZERVACIJE
+          </div>
+          <div className="viewActivitiesContainer addingItem" onClick={readQuestions}>
+            POGLEDAJ UPITE
+          </div>
+          <div className="viewActivitiesContainer addingItem" onClick={editGallery}>
+            POGLEDAJ GALERIJU
           </div>
         </div>
       </div>

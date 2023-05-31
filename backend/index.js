@@ -17,6 +17,7 @@ const applicationRouter = require("./api/applications/applicationRouter");
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
 const path = require("path");
+const e = require("cors");
 
 app.use(express.static(__dirname));
 app.use(express.json());
@@ -82,6 +83,24 @@ app.patch("/upload/:tipobjave/:naslov", (req, res) => {
   res.sendStatus(200);
 });
 
+app.patch("/upload/galerija", (req, res) => {
+  const { image } = req.files;
+
+  const testFolder2 = "./../backend/newuploads/galerija/";
+  const slike = fs.readdirSync(testFolder2);
+  let imageNumber = slike.map((slika) => Number(slika.replace("slika", "").replace(".jpg", "")));
+  imageNumber = imageNumber[imageNumber.length - 1] + 1;
+  if (image.length > 1) {
+    image.forEach((slika) => {
+      let slikaName = "slika" + imageNumber + ".jpg";
+      slika.mv(__dirname + "/newuploads/galerija/" + slikaName);
+      imageNumber++;
+    });
+  } else image.mv(__dirname + "/newuploads/galerija/slika" + imageNumber + ".jpg");
+
+  res.sendStatus(200);
+});
+
 app.patch("/updatelocation", (req, res) => {
   const type = req.body.type;
   const naziv = req.body.naziv;
@@ -138,6 +157,14 @@ app.get("/:nazivFoldera/:naslov", async (req, res) => {
   const naslov = req.params.naslov;
   const nazivFoldera = req.params.nazivFoldera;
   const testFolder2 = "./../backend/newuploads/" + nazivFoldera + "/" + naslov + "/";
+  try {
+    const slike = fs.readdirSync(testFolder2);
+    res.json(slike);
+  } catch (err) {}
+});
+
+app.get("/galerija/", async (req, res) => {
+  const testFolder2 = "./../backend/newuploads/galerija/";
   try {
     const slike = fs.readdirSync(testFolder2);
     res.json(slike);
