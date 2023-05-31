@@ -143,8 +143,23 @@ app.delete("/delete/:tipobjave/:naslov/:nazivSlike", (req, res) => {
   console.log(naslov);
   console.log(tipObjave);
   console.log(nazivSlike);
-
   fs.rm(path.join(__dirname + "/newuploads/" + tipObjave + "/" + naslov, nazivSlike), { recursive: true }, (err) => {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("Slika uspješno obrisana");
+  });
+  res.sendStatus(200);
+});
+
+app.delete("/deleteimage/galerija/:nazivSlike", (req, res) => {
+  const naslov = req.params.naslov;
+  const tipObjave = req.params.tipobjave;
+  const nazivSlike = req.params.nazivSlike;
+  console.log(naslov);
+  console.log(tipObjave);
+  console.log(nazivSlike);
+  fs.rm(path.join(__dirname + "/newuploads/galerija/", nazivSlike), { recursive: true }, (err) => {
     if (err) {
       return console.log(err);
     }

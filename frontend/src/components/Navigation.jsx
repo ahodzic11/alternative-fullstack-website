@@ -89,6 +89,9 @@ function Navigation() {
         <LinkContainer to="/treneri">
           <Nav.Item>TRENERI</Nav.Item>
         </LinkContainer>
+        <LinkContainer to="/galerija">
+          <Nav.Item>GALERIJA</Nav.Item>
+        </LinkContainer>
         <Nav.Item onClick={contactUs}>KONTAKT</Nav.Item>
       </Nav>
       <div className="yearsBanner">

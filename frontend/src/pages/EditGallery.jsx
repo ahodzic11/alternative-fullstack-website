@@ -8,6 +8,8 @@ import AdminGoBack from "../components/AdminGoBack";
 import axios from "axios";
 import ImageViewer from "react-simple-image-viewer";
 import deleteIcon from "./../assets/deleteIconWhite.png";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 import "./../css/EditGallery.css";
 
 function EditGallery() {
@@ -37,6 +39,15 @@ function EditGallery() {
     setChosenImage(item);
     handleShow(item);
   }
+
+  const handleImageDeletion = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.delete(`http://localhost:5000/deleteimage/galerija/` + chosenImage);
+    } catch (err) {}
+    getSlike();
+    setShow(false);
+  };
 
   const getSlike = async () => {
     try {
@@ -86,7 +97,20 @@ function EditGallery() {
           </Form>
         </div>
       </div>
-
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Brisanje slike</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Sigurno želite obrisati sliku?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Ne
+          </Button>
+          <Button variant="primary" onClick={(e) => handleImageDeletion(e)}>
+            Da
+          </Button>
+        </Modal.Footer>
+      </Modal>
       {isViewerOpen && <ImageViewer src={images.map((image) => "http://localhost:5000/newuploads/galerija/" + image)} currentIndex={currentImage} disableScroll={false} closeOnClickOutside={true} onClose={closeImageViewer} />}
       <AdminLogout />
       <AdminGoBack />
